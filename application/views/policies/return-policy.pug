@@ -1,0 +1,35 @@
+extends ../new/layout_tailwind
+block css
+block js
+block content
+    div(class="max-w-7xl mx-auto p-4")
+        div(id="return-policy" class="bg-white shadow-md rounded-lg mb-8")
+            h2(class="text-center text-2xl md:text-3xl font-bold text-[#332D56] bg-gray-200 py-4 rounded-t-lg")
+                | Return Policy
+            div(class="p-6")
+                h3(class="text-lg md:text-xl font-semibold text-[#4E6688] mb-4") Return Policy
+                ol(class="list-inside list-decimal mt-2 text-sm md:text-base text-gray-600 leading-relaxed")
+                    li
+                        strong Free Trial Period:
+                        |  We don't offer any trial period service. The application is considered valid only after a successful payment is completed.
+                    li
+                        strong Subscription Cancellation:
+                        |  We don't offer any subscription cancellation or returns as there is no subscription service.
+                    li
+                        strong Return Eligibility:
+                        |  There is no return eligibility under any circumstances apart from payment refunds as per the guidelines specified in the Refund/Cancelation Policy.
+                    li
+                        strong Proactive Customer Support:
+                        |  Our customer support team is available to assist you with any issues you may encounter. Feel free to contact us as mentioned in the webpage header section (TOP) for prompt assistance.
+                    li
+                        strong Transaction Failures:
+                        |  If an applicant's transaction fails due to unexpected errors on the payment gateway page, they are responsible for promptly informing the technical support team of Agricultural Produce Market Committee, APMC Amalner.
+                    li
+                        | Transaction fee charges would not be refunded/ reversed under any circumstances for any refund/ reversal /chargeback and any other reasons. (If applicable)
+                    li
+                        | Transaction fees charged would be borne by cardholder for any payment. (If applicable)
+                    li
+                        strong
+                            | Email ::
+                            span(class="text-[#4E6688] font-medium")
+                                |  #{p.help_email_id}
