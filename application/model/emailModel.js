@@ -3,10 +3,10 @@ let { google } = require("googleapis");
 
 let CLIENT_ID =
 	"";
-let CLIENT_SECRET = "";
-let REDIRECT_URI = "";
-let REFRESH_TOKEN =
-	"";
+let CLIENT_SECRET = process.env.CLIENT_SECRET;
+let REDIRECT_URI = process.env.REDIRECT_URI;
+let REFRESH_TOKEN = process.env.REFRESH_TOKEN
+	
 
 const oAuth2Client = new google.auth.OAuth2(
 	CLIENT_ID,
