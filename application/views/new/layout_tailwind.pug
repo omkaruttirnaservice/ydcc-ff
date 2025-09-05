@@ -11,6 +11,7 @@ html(lang="en")
         script(src='/plugins/jquery/jquery.min.js')
         script(src='/plugins/jquery_validation/jquery.validate.min.js')
         script(src='/plugins/jquery_validation/additional-methods.js')
+        script(src='/assets/js/common.js' type="module" )
         script(src="https://cdn.tailwindcss.com")
 
         block css
@@ -21,8 +22,8 @@ html(lang="en")
         - const isProcessLive = p.p_is_live == 1
         //- - const processNameEnglish = 'Krushi Utpana Bajar Samiti Amalner'
         //- - const processNameMarathi = 'कृषी उत्पन्न बाजार समिती अमळनेर'
-        - const processNameMarathi = 'Krushi Utpana Bajar Samiti Amalner'
-        - const processNameEnglish = 'कृषी उत्पन्न बाजार समिती अमळनेर'
+        - const processNameMarathi = 'Yavatmal District Central Co-Op. Bank Limited'
+        - const processNameEnglish = 'यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या.  यवतमाळ'
 
         //- top bar
 
@@ -68,12 +69,13 @@ html(lang="en")
                             i.fa-solid.fa-bullhorn
                             |  Important Notices
 
-                        each impDate in dates
-                            if impDate._column === 'p_registration_end_date'
-                                if !impDate.isExpired
-                                    a(href="/new-registration" class="bg-[#4E6688] hover:bg-[#332D56] text-gray-50 px-4 py-2 rounded-md transition duration-300 ease-in-out flex items-center shadow-md gap-2")
-                                        i.fa-solid.fa-arrow-right
-                                        |  New Registration
+                        if dates
+                            each impDate in dates
+                                if impDate._column === 'p_registration_end_date'
+                                    if !impDate.isExpired
+                                        a(href="/new-registration" class="bg-[#4E6688] hover:bg-[#332D56] text-gray-50 px-4 py-2 rounded-md transition duration-300 ease-in-out flex items-center shadow-md gap-2")
+                                            i.fa-solid.fa-arrow-right
+                                            |  New Registration
 
 
         block content

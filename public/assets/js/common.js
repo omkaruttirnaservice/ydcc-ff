@@ -173,6 +173,7 @@ export function compareDate(start, end) {
 // show hide password
 $(document).on("click", "#show-password", function (e) {
 	// $(this).toggleClass('fa-lock fa-unlock');
+	console.log('1');
 	let passwordEl = $("#password");
 	if (passwordEl.attr("type") === "password") {
 		passwordEl.attr("type", "text");

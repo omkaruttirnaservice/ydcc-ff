@@ -7,6 +7,11 @@ let compareDateAgeString = "";
 let maxAge = 0;
 let minAge = 0;
 var candidateAge = 0;
+let _candidateAgeFull = {
+	year: 0,
+	month: 0,
+	day: 0,
+};
 
 var generalDetails = {
 	detailsbday: "",
@@ -375,6 +380,11 @@ function calculateAge() {
 				compareDateTo = compareDate;
 				compareDateAgeString = `${data.year} year, ${data.month} month, ${data.day} day`;
 				candidateAge = Number(data.year);
+				_candidateAgeFull = {
+					year: data.year,
+					month: data.month,
+					day: data.day,
+				};
 				$(".setAgeText").html(compareDateAgeString);
 			})
 
@@ -553,6 +563,9 @@ function verify(callback) {
 }
 function check2(callback) {
 	var age = candidateAge;
+	var _month = _candidateAgeFull.month;
+	var _day = _candidateAgeFull.day;
+
 	if (age == 0) {
 		alertjs.warning(
 			{
@@ -567,7 +580,8 @@ function check2(callback) {
 		return false;
 	}
 	let max = maxAge;
-	if (age >= max) {
+	// if (age >= max) {
+	if (age > max || (age == max && (_month > 0 || _day > 0))) {
 		alertjs.warning(
 			{
 				t: "Your age is not applicable for this post.",
