@@ -155,6 +155,10 @@ var month = [
 	"December",
 ];
 
+function checkPopupDeclerationChecked() {
+	return $("#reg-decleration-confirm-popup").prop("checked");
+}
+
 $("#detailsbday").html("<option value='-1'>Day</option>");
 
 $("#detailsmonth").html("<option value='-1'>Month</option>");
@@ -714,80 +718,87 @@ $("#submitPersonalDetails").click(function () {
 			}
 		}
 
-		$this.prop("disabled", true).html(`Saving Details...`);
-		$.ajax({
-			method: "post",
-			url: "/save-eligible-details",
-			data: {
-				...generalDetails,
-				compareDateFrom,
-				compareDateTo,
-				compareDateAgeString,
-			},
-		})
-			.done(function (data) {
-				_hideLoader();
-				$this.prop("disabled", false).html(`Submit`);
-				var json_data = data;
-				if (json_data._call == 1) {
-					generalDetails.cfi = json_data.form_id;
-					alertjs.success(
-						{
-							t: "Eligibiliy Details saved successfully",
-							m: "",
-						},
-						function () {
-							window.location.assign(
-								"/user-details/" + generalDetails.regString,
-							);
-						},
-					);
-					// switch (json_data.type) {
-					// 	case 'add':
-					// 		generalDetails.cfi = json_data.form_id
-					// 		alertjs.success(
-					// 			{
-					// 				t: 'Details Saved Successfully',
-					// 				m: '',
-					// 			},
-					// 			function () {
-					// 				window.location.assign(
-					// 					'/user-details/' + generalDetails.regString
-					// 				)
-					// 			}
-					// 		)
-					// 		break
-					// 	default:
-					// 		alertjs.success(
-					// 			{
-					// 				t: 'Details Add Successfully',
-					// 				m: '',
-					// 			},
-					// 			function () {
-					// 				window.location.assign(
-					// 					'/user-details/' + generalDetails.regString
-					// 				)
-					// 			}
-					// 		)
-					// 		break
-					// }
-				}
-			})
-
-			.fail(function (error) {
-				_hideLoader();
-				$this.prop("disabled", false).html(`Submit`);
-
-				alertjs.error(function () {
-					console.log(error);
-				});
-			})
-
-			.always(function () {
-				_hideLoader();
-			});
+		showPreviewModal();
 	});
 });
+function showPreviewModal() {
+	$("#previewPostName").text(generalDetails.detailsPostName);
+	$("#previewCasteName").text(generalDetails?.detailsCategory?.toUpperCase());
+	$("#previewBirthDate").text(
+		generalDetails.detailsbday +
+			"-" +
+			generalDetails.detailsmonth +
+			"-" +
+			generalDetails.detailsYear,
+	);
+
+	$("#previewAge").text(
+		_candidateAgeFull.day +
+			"-" +
+			_candidateAgeFull.month +
+			"-" +
+			_candidateAgeFull.year,
+	);
+
+	$("#elg-details-preview-modal").modal("show");
+}
+
+$(document).on("click", "#confirmElgDetails", function () {
+	if (!checkPopupDeclerationChecked()) {
+		alertjs.warning(
+			{ t: "Warning!", m: "confirm the decleration" },
+			() => {},
+		);
+		return;
+	}
+	saveEligibility();
+});
+
+function saveEligibility() {
+	let $this = $("#confirmElgDetails");
+	$.ajax({
+		method: "post",
+		url: "/save-eligible-details",
+		data: {
+			...generalDetails,
+			compareDateFrom,
+			compareDateTo,
+			compareDateAgeString,
+		},
+	})
+		.done(function (data) {
+			_hideLoader();
+			$this.prop("disabled", false).html(`Submit`);
+			var json_data = data;
+			if (json_data._call == 1) {
+				generalDetails.cfi = json_data.form_id;
+				alertjs.success(
+					{
+						t: "Eligibiliy Details saved successfully",
+						m: "",
+					},
+					function () {
+						window.location.assign(
+							"/user-details/" + generalDetails.regString,
+						);
+					},
+				);
+			}
+		})
+
+		.fail(function (error) {
+			_hideLoader();
+			$this.prop("disabled", false).html(`Submit`);
+
+			alertjs.error(function () {
+				console.log(error);
+			});
+		})
+
+		.always(function () {
+			_hideLoader();
+		});
+}
 
 function setExamFees(casteDetails) {
 	console.log(casteDetails, "==casteDetails setExamFees==");

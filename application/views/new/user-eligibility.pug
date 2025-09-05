@@ -203,3 +203,40 @@ block content
                     button(class="c-button c-btn-primary" id="verifyPersonalDetails") Verify Details
                     button#submitPersonalDetails.c-button.c-btn-success.d-none Submit
 
+                //- eigibility details preview modal
+                .modal.fade#elg-details-preview-modal(data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true")
+                    div(class="modal-dialog modal-lg")
+                        div.modal-content(style="border: none")
+                            div.modal-header.input-card-heading
+                                h6.modal-title(style="background-color: transparent") Confirm Elegibility Details
+                                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                            div.modal-body
+                                ul.list-group
+                                    li.list-group-item
+                                        strong Post Name: 
+                                        span#previewPostName
+                                    li.list-group-item
+                                        strong Caste Name: 
+                                        span#previewCasteName
+                                    li.list-group-item
+                                        strong Birth Date: 
+                                        span#previewBirthDate
+
+                                    li.list-group-item
+                                        strong Age as on
+                                        | (
+                                        span.input-label.setAgeOfAsOn
+                                        | ) :
+                                        span#previewAge
+
+                                    //- Declaration checkbox
+                                    div.form-check.mt-3
+                                        input.form-check-input#reg-decleration-confirm-popup(type="checkbox")
+                                        label.form-check-label(for="reg-decleration-confirm-popup")
+                                            | I verify that all the details I’ve provided are accurate to the best of my knowledge and acknowledge that no modifications can be made.
+                                            br
+                                            | मी खात्री देतो की माझी दिलेली सर्व माहिती माझ्या माहितीनुसार अचूक आहे आणि मला समजते की कोणतेही बदल केले जाऊ शकत नाहीत.
+
+                            .modal-footer
+                                button.c-button#confirmElgDetails.c-button.c-btn-success(type="button" ) Confirm & Continue
+
