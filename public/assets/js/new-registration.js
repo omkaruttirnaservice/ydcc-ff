@@ -184,6 +184,10 @@ $(function () {
 		return $("#reg-decleration-confirm").prop("checked");
 	}
 
+	function checkPopupDeclerationChecked() {
+		return $("#reg-decleration-confirm-popup").prop("checked");
+	}
+
 	$("#verifyNewRegistration").click(function (e) {
 		e.preventDefault();
 
@@ -254,8 +258,22 @@ $(function () {
 			return false;
 		}
 
-		$this.prop("disabled", true).html("Saving....");
+		showPreviewModal();
+	});
 
+	$(document).on("click", "#confirmRegDetails", function (e) {
+		if (!checkPopupDeclerationChecked()) {
+			alertjs.warning(
+				{ t: "Warning!", m: "confirm the decleration" },
+				() => {},
+			);
+			return false;
+		}
+		saveRegistration();
+	});
+
+	function saveRegistration() {
+		let $this = $("#confirmRegDetails");
 		$.ajax({
 			method: "POST",
 			url: "registerd-new-user",
@@ -301,7 +319,7 @@ $(function () {
 			.always(function () {
 				$this.prop("disabled", false).html(`Submit`);
 			});
-	});
+	}
 });
 
 function checkForValidation() {
@@ -339,3 +357,16 @@ var newRegArray = {
 	newMailPartTwo: "",
 };
 // newPanCard: '',
+
+function showPreviewModal() {
+	$("#previewAadhar").text(newRegArray.newAadharNumber);
+	$("#previewFname").text(newRegArray.newFname);
+	$("#previewMname").text(newRegArray.newMname);
+	$("#previewLname").text(newRegArray.newLname);
+	$("#previewMobile").text(newRegArray.newMobileNumber);
+	$("#previewAltMobile").text(newRegArray.newAlternativeMobileNumber);
+	$("#previewEmail").text(newRegArray.newMailPartOne);
+
+	// Show modal using Bootstrap 5 + jQuery
+	$("#reg-details-preview-modal").modal("show");
+}

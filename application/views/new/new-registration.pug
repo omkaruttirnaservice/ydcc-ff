@@ -211,6 +211,51 @@ block content
 						| नोट&nbsp;:&nbsp;कृपया सुनिश्चित करा की तुमचे ऑनलाइन अर्जावर दिलेले नाव तुमच्या ओळखपत्रावरील नावाशी (उदाहरणार्थ, फोटो आयडी) पूर्णपणे जुळते. कोणताही तफावत निवड प्रक्रियेतून वगळल्या जाईल, आणि नावातील बदलांसाठी कोणतेही विनंती स्वीकारले जाणार नाही. त्याचप्रमाणे, तुम्ही दिलेली मोबाइल नंबर आणि ईमेल आयडी वैध आणि सक्रिय असावी, कारण ती निवड प्रक्रियेतील महत्त्वाच्या अद्यतनांसाठी वापरली जातील.
 
 
+				//- registraion details preview modal
+				.modal.fade#reg-details-preview-modal(data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true")
+					div(class="modal-dialog modal-lg")
+						div.modal-content(style="border: none")
+							div.modal-header.input-card-heading
+								h6.modal-title(style="background-color: transparent") Confirm Registraion Details
+								button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+							div.modal-body
+								ul.list-group
+									li.list-group-item
+										strong First Name: 
+										span#previewFname
+									li.list-group-item
+										strong Middle Name: 
+										span#previewMname
+									li.list-group-item
+										strong Last Name: 
+										span#previewLname
+									li.list-group-item
+										strong Aadhaar Number: 
+										span#previewAadhar
+									li.list-group-item
+										strong Mobile Number: 
+										span#previewMobile
+									li.list-group-item
+										strong Alternative Mobile: 
+										span#previewAltMobile
+									li.list-group-item
+										strong Email: 
+										span#previewEmail
+
+									//- Declaration checkbox
+									div.form-check.mt-3
+										input.form-check-input#reg-decleration-confirm-popup(type="checkbox")
+										label.form-check-label(for="reg-decleration-confirm-popup")
+											| I verify that all the details I’ve provided are accurate to the best of my knowledge and acknowledge that no modifications can be made.
+											br
+											| मी खात्री देतो की माझी दिलेली सर्व माहिती माझ्या माहितीनुसार अचूक आहे आणि मला समजते की कोणतेही बदल केले जाऊ शकत नाहीत.
+							
+							.modal-footer
+								button.c-button#confirmRegDetails.c-button.c-btn-success(type="button" ) Confirm & Continue
+
+				
+
+
 				.d-flex.justify-content-center.gap-1.mb-2
 					button#verifyNewRegistration.c-button.c-btn-primary.fw-bold Validate Details 
 					button#saveNewRegistration.c-button.c-btn-success.fw-bold Save
