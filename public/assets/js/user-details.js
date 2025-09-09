@@ -624,7 +624,9 @@ $(document).ready(() => {
 		$("#detailsFather").val(generalDetails.detailsFather);
 		$("#detailsMother").val(generalDetails.detailsMother);
 
-		$("#detailsCategory").val(generalDetails.detailsCategoryName.toUpperCase());
+		$("#detailsCategory").val(
+			generalDetails.detailsCategoryName.toUpperCase(),
+		);
 		$("#detailsSubCategory").val(generalDetails.detailsSubCategory);
 		$("#detailsReligion").val(generalDetails.detailsReligion);
 
@@ -979,8 +981,8 @@ $(document).ready(() => {
 		if (!$("#generalDetailsForm").valid()) {
 			alertjs.warning(
 				{
-					t: "Some Fields Are Invalid !!!",
-					m: "Kindly check if all details/fields are filled correctly.",
+					t: "Warning",
+					m: "Some fields are invalid. Please check and fill all details correctly. <br /> काही माहिती चुकीची आहे. कृपया सर्व तपशील नीट भरा.",
 				},
 
 				function () {
@@ -993,7 +995,7 @@ $(document).ready(() => {
 			alertjs.success(
 				{
 					t: "Verified!!!",
-					m: "You can Submit Personal Details form.",
+					m: "You may now submit the Personal Details form. <br/>  आपण आता वैयक्तिक माहिती फॉर्म सबमिट करू शकता",
 				},
 
 				function () {
@@ -1009,8 +1011,8 @@ $(document).ready(() => {
 		if (!$("#generalDetailsForm").valid()) {
 			alertjs.warning(
 				{
-					t: "Some Fields Are Invalid !!!",
-					m: "Kindly check if all details/fields are filled correctly.",
+					t: "Warning",
+					m: "Some fields are invalid. Please check and fill all details correctly. <br/>  काही माहिती चुकीची आहे. कृपया सर्व तपशील नीट भरा.",
 				},
 				function () {},
 			);
@@ -1035,8 +1037,8 @@ $(document).ready(() => {
 					if (saveResponse.call === 1) {
 						alertjs.success(
 							{
-								t: "General Details Saved Successfully",
-								m: "",
+								t: "Success",
+								m: "General details saved successfully. <br/>  सामान्य माहिती यशस्वीरीत्या जतन झाली.",
 							},
 							() => {
 								window.location.assign(
@@ -1049,7 +1051,7 @@ $(document).ready(() => {
 						alertjs.warning(
 							{
 								t: "Error",
-								m: "Cannot save user details now, try again later.",
+								m: "Cannot save user details at the moment. Please try again later. <br />  आपली माहिती जतन करता येत नाही. काही वेळानंतर पुन्हा प्रयत्न करा.",
 							},
 							() => {},
 						);
@@ -1063,7 +1065,7 @@ $(document).ready(() => {
 					alertjs.warning(
 						{
 							t: "Error",
-							m: "Something went wrong while saving general details.",
+							m: "Cannot save user details at the moment. Please try again later. <br />  आपली माहिती जतन करता येत नाही. काही वेळानंतर पुन्हा प्रयत्न करा.",
 						},
 						() => {},
 					);

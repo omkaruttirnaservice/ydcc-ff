@@ -75,7 +75,7 @@ export const alertjs = {
 	success: function (data, callback) {
 		swal.fire({
 			title: data.t,
-			text: data.m,
+			html: data.m,
 			icon: "success",
 		}).then(function () {
 			callback();
@@ -84,7 +84,7 @@ export const alertjs = {
 	warning: function (data, callback) {
 		swal.fire({
 			title: data.t,
-			text: data.m,
+			html: data.m,
 			icon: "warning",
 		}).then(function () {
 			callback();
@@ -93,7 +93,7 @@ export const alertjs = {
 	error: function (callback) {
 		swal.fire({
 			title: "Application System Error",
-			text: "Kindly Contact To Admin,Or Retry Again",
+			html: "Kindly Contact To Admin,Or Retry Again",
 			icon: "error",
 		}).then(function () {
 			callback();

@@ -42,16 +42,14 @@ async function readURL(input, id, _this, img_of) {
 	const uploadedFile = input.files[0];
 	if (!uploadedFile) return;
 
-	console.log(uploadedFile.type, "==uploadedFile.type==");
-
 	if (
 		uploadedFile.type !== "image/jpg" &&
 		uploadedFile.type !== "image/jpeg"
 	) {
 		alertjs.warning(
 			{
-				t: img_of + " must Be jpg/jpeg only",
-				m: "",
+				t: "Warning",
+				m: img_of + " must be jpg/jpeg only",
 			},
 			function () {
 				$(_this).val("");
@@ -87,8 +85,8 @@ async function readURL(input, id, _this, img_of) {
 	} else {
 		alertjs.warning(
 			{
-				t: img_of.toUpperCase() + " MUST BE JPG / JPEG ONLY only",
-				m: "",
+				t: "Warning",
+				m: img_of.toUpperCase() + " must be jpg/jpeg only",
 			},
 			function () {
 				$(_this).val("");
@@ -132,7 +130,7 @@ $(document).ready(function () {
 			alertjs.warning(
 				{
 					t: "Warning",
-					m: "Upload all documents",
+					m: "Please upload all required documents. <br />  कृपया सर्व आवश्यक दस्तऐवज अपलोड करा.",
 				},
 				() => {
 					return false;
@@ -162,7 +160,10 @@ $(document).ready(function () {
 			});
 			const _jsonData = await _resp.json();
 			alertjs.success(
-				{ t: "Documents saved successfully", m: "" },
+				{
+					t: "Success",
+					m: "Documents have been saved successfully. <br />  दस्तऐवज यशस्वीरीत्या जतन झाले आहेत.",
+				},
 				() => {
 					window.location.href = "/application-preview/" + regString;
 				},
@@ -182,7 +183,6 @@ $(document).ready(function () {
 				body: formData,
 			});
 			const _jsonRep = await _uploadResp.json();
-			console.log(JSON.parse(_jsonRep.data), "_jsonRep");
 
 			const sendData = {
 				fileName: JSON.parse(_jsonRep.data).imageName,
@@ -208,9 +208,15 @@ $(document).ready(function () {
 				body: JSON.stringify(data),
 			});
 			const _jsonResp = await _updateResp.json();
-			alertjs.success({ t: "Successful", m: _jsonResp.usrMsg }, () => {
-				window.location.reload();
-			});
+			alertjs.success(
+				{
+					t: "Success",
+					m: _jsonResp.usrMsg,
+				},
+				() => {
+					window.location.reload();
+				},
+			);
 		} catch (error) {
 			alert("Error in file upload.");
 		}
@@ -223,9 +229,15 @@ $(document).ready(function () {
 
 		let file = mediaItems.filter(media => media.type == imgType)?.[0]?.file;
 		if (!file) {
-			alertjs.warning({ t: "Warning", m: `Select ${imgType}.` }, () => {
-				return false;
-			});
+			alertjs.warning(
+				{
+					t: "Warning",
+					m: `Select ${getDocumentMessage("upload", imgType)}`,
+				},
+				() => {
+					return false;
+				},
+			);
 		}
 
 		let formData = new FormData();
@@ -271,16 +283,31 @@ $(document).ready(function () {
 			});
 			const _jsonResp = await _updateResp.json();
 			alertjs.success(
-				{ t: "Successful", m: _jsonResp.usrMsg.toUpperCase() },
+				{
+					t: "Success",
+					m: _jsonResp.usrMsg.toUpperCase(),
+				},
 				() => {
 					window.location.reload();
 				},
 			);
 		} catch (error) {
 			alert("Error in delete file.");
-			console.log(error, "==error==");
 		} finally {
 			thisBtn.attr("disabled", false).html("Delete");
 		}
 	}
 });
+
+function getDocumentMessage(type, doc) {
+	switch (type) {
+		case "upload":
+			if (doc == "photo") {
+				return `Select Photo`;
+			} else if (doc == "sign") {
+				return `Select Signature`;
+			} else if (doc == "aadharCard") {
+				return `Select Aadhaar card`;
+			}
+	}
+}

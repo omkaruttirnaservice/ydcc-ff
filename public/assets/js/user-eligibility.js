@@ -13,7 +13,7 @@ let _candidateAgeFull = {
 	day: 0,
 };
 
-	// $("#elg-details-preview-modal").modal("show");
+// $("#elg-details-preview-modal").modal("show");
 
 var generalDetails = {
 	detailsbday: "",
@@ -419,8 +419,8 @@ function verify(callback) {
 	if (subList.length === 0) {
 		alertjs.warning(
 			{
-				t: "Select Post.",
-				m: "",
+				t: "Warning",
+				m: "Please select a post.<br/>कृपया पद निवडा",
 			},
 
 			function () {},
@@ -429,7 +429,13 @@ function verify(callback) {
 	}
 
 	if ($("#detailsCategory").val() == "") {
-		alertjs.warning({ t: "Warning", m: "select caste." }, () => {});
+		alertjs.warning(
+			{
+				t: "Warning",
+				m: "Please select your caste.<br/>कृपया जात निवडा.",
+			},
+			() => {},
+		);
 		return false;
 	}
 
@@ -444,8 +450,8 @@ function verify(callback) {
 		if (candidateAge > maxAge) {
 			alertjs.warning(
 				{
-					t: "Your age is not applicable for this post.",
-					m: `Age must be less than or equal to ${maxAge}. Your age is ${candidateAge} plus`,
+					t: "Age not eligible for this post. या पदासाठी वय पात्र नाही.",
+					m: `Age must be less than or equal to ${maxAge}, your age is ${candidateAge} plus.`,
 				},
 				function () {},
 			);
@@ -470,8 +476,8 @@ function verify(callback) {
 			if ($("#checkTenth").prop("checked") === false) {
 				alertjs.warning(
 					{
-						t: "SSC/10th is compulsory for this post.",
-						m: "",
+						t: "Warning",
+						m: "SSC/10th qualification is compulsory for this post.  <br /> या पदासाठी SSC/१० वी पास असणे आवश्यक आहे. ",
 					},
 
 					function () {},
@@ -484,8 +490,8 @@ function verify(callback) {
 			if ($("#checkGraduation").prop("checked") === false) {
 				alertjs.warning(
 					{
-						t: "Graduation is compulsory for this post.",
-						m: "",
+						t: "Warning",
+						m: "Graduation is compulsory for this post. <br /> या पदासाठी पदवी (Graduation) असणे आवश्यक आहे.",
 					},
 
 					function () {},
@@ -496,34 +502,22 @@ function verify(callback) {
 			if ($("#checkGraduation-2").prop("checked") === false) {
 				alertjs.warning(
 					{
-						t: "Minimum 50% are mandatory in Graduation",
-						m: "",
+						t: "Warning",
+						m: "A minimum of 50% in Graduation is required to apply. <br /> पदवीत कमीतकमी ५०% गुण असणे आवश्यक आहे.",
 					},
 
 					function () {},
 				);
 				return false;
 			}
-
-			// if ($('#checkGraduation-3').prop('checked') === false) {
-			// 	alertjs.warning(
-			// 		{
-			// 			t: 'It is mandatory to complete the Graduation in First Attempt.',
-			// 			m: '',
-			// 		},
-
-			// 		function () {}
-			// 	)
-			// 	return false
-			// }
 		}
 
 		if (subList[0].post_com_citification === 1) {
 			if ($("#checkCitification").prop("checked") === false) {
 				alertjs.warning(
 					{
-						t: "A computer certification course is compulsory for this post.",
-						m: "",
+						t: "Warning",
+						m: "A computer certification course is mandatory for this post. <br /> या पदासाठी संगणक प्रमाणपत्र कोर्स पूर्ण असणे आवश्यक आहे.",
 					},
 
 					function () {},
@@ -535,12 +529,11 @@ function verify(callback) {
 		if (subList[0].post_eligibility_checkboxes.length >= 1) {
 			let allChecked = true;
 			$(".extra-decleration").each((i, el) => {
-				console.log($(el).prop("checked"), "==el==");
 				if ($(el).prop("checked") === false) {
 					alertjs.warning(
 						{
-							t: "Warning!!!",
-							m: "confirm all of the declarations.",
+							t: "Warning",
+							m: "Please confirm the declaration before proceeding. <br /> पुढे जाण्यापूर्वी कृपया घोषणापत्राची पुष्टी करा.",
 						},
 
 						function () {},
@@ -556,9 +549,9 @@ function verify(callback) {
 
 		alertjs.success(
 			{
-				t: "Verified!!!",
+				t: "Verification Complete",
 
-				m: "Now, you can save the form.",
+				m: "The application form can now be saved. <br /> आपण आता अर्ज फॉर्म जतन करू शकता.",
 			},
 
 			function () {
@@ -575,9 +568,8 @@ function check2(callback) {
 	if (age == 0) {
 		alertjs.warning(
 			{
-				t: "Your age is not applicable for this post.",
-
-				m: `Age Must Not Be Zero i.e 0`,
+				t: "Warning",
+				m: "Age Must Not Be Zero i.e 0",
 			},
 
 			function () {},
@@ -590,8 +582,8 @@ function check2(callback) {
 	if (age > max || (age == max && (_month > 0 || _day > 0))) {
 		alertjs.warning(
 			{
-				t: "Your age is not applicable for this post.",
-				m: `Age must be less than or equal to ${max}. Your age is ${age} plus`,
+				t: "Age not eligible for this post. या पदासाठी वय पात्र नाही.",
+				m: `Age must be less than or equal to ${max}, your age is ${age} plus.`,
 			},
 			function () {},
 		);
@@ -602,8 +594,8 @@ function check2(callback) {
 	if (age < min) {
 		alertjs.warning(
 			{
-				t: "Your age is not applicable for this post.",
-				m: `Age must be greater than or equal to ${min}. Your age is ${age}`,
+				t: "Age not eligible for this post. या पदासाठी वय पात्र नाही.",
+				m: `Age must be greater than or equal to ${min}, your age is ${age}.`,
 			},
 			function () {},
 		);
@@ -637,8 +629,8 @@ $("#submitPersonalDetails").click(function () {
 	if (subList.length === 0) {
 		alertjs.warning(
 			{
-				t: "Select Post",
-				m: "",
+				t: "Warning",
+				m: "Please select a post. <br/>  कृपया पद निवडा.",
 			},
 
 			function () {},
@@ -656,8 +648,8 @@ $("#submitPersonalDetails").click(function () {
 			if ($("#checkTenth").prop("checked") === false) {
 				alertjs.warning(
 					{
-						t: "10th is compulsory for this post",
-						m: "",
+						t: "Warning",
+						m: "SSC/10th qualification is compulsory for this post.  <br /> या पदासाठी SSC/१० वी पास असणे आवश्यक आहे. ",
 					},
 
 					function () {},
@@ -671,8 +663,8 @@ $("#submitPersonalDetails").click(function () {
 			if ($("#checkGraduation").prop("checked") === false) {
 				alertjs.warning(
 					{
-						t: "Graduation is compulsory for this post",
-						m: "",
+						t: "Warning",
+						m: "Graduation is compulsory for this post. <br /> या पदासाठी पदवी (Graduation) असणे आवश्यक आहे.",
 					},
 
 					function () {},
@@ -686,8 +678,8 @@ $("#submitPersonalDetails").click(function () {
 			if ($("#checkCitification").prop("checked") === false) {
 				alertjs.warning(
 					{
-						t: "Computer certification course is compulsory  for this post",
-						m: "",
+						t: "Warning",
+						m: "A computer certification course is mandatory for this post. <br /> या पदासाठी संगणक प्रमाणपत्र कोर्स पूर्ण असणे आवश्यक आहे.",
 					},
 
 					function () {},
@@ -704,8 +696,8 @@ $("#submitPersonalDetails").click(function () {
 				if ($(el).prop("checked") === false) {
 					alertjs.warning(
 						{
-							t: "Warning!!!",
-							m: "Confirm all of the declarations.",
+							t: "Warning",
+							m: "Please confirm the declaration before proceeding. <br /> पुढे जाण्यापूर्वी कृपया घोषणापत्राची पुष्टी करा.",
 						},
 
 						function () {},
@@ -720,7 +712,8 @@ $("#submitPersonalDetails").click(function () {
 			}
 		}
 
-		showPreviewModal();
+		// showPreviewModal();
+		saveEligibility();
 	});
 });
 function showPreviewModal() {
@@ -750,16 +743,19 @@ const getDaySinglePlural = number => (number > 1 ? "Days" : "Day");
 $(document).on("click", "#confirmElgDetails", function () {
 	if (!checkPopupDeclerationChecked()) {
 		alertjs.warning(
-			{ t: "Warning!", m: "confirm the decleration" },
+			{
+				t: "Warning",
+				m: "Please confirm the declaration before proceeding. <br /> पुढे जाण्यापूर्वी कृपया घोषणापत्राची पुष्टी करा.",
+			},
 			() => {},
 		);
 		return;
 	}
-	saveEligibility();
+	// saveEligibility();
 });
 
 function saveEligibility() {
-	let $this = $("#confirmElgDetails");
+	let $this = $("#submitPersonalDetails");
 	$.ajax({
 		method: "post",
 		url: "/save-eligible-details",
@@ -778,8 +774,8 @@ function saveEligibility() {
 				generalDetails.cfi = json_data.form_id;
 				alertjs.success(
 					{
-						t: "Eligibiliy Details saved successfully",
-						m: "",
+						t: "Success",
+						m: "Eligibility details saved successfully. <br /> पात्रतेची माहिती यशस्वीरीत्या जतन झाली.",
 					},
 					function () {
 						window.location.assign(
@@ -919,9 +915,8 @@ function checkForPostDetails(_selectedPostDetails) {
 
 					alertjs.warning(
 						{
-							t: "You have already applied for this post",
-
-							m: "",
+							t: "Warning",
+							m: "You have already applied for this post. <br /> आपण या पदासाठी आधीच अर्ज केला आहे.",
 						},
 						function () {
 							$(".select-cast-dropdown").addClass("d-none");
@@ -952,8 +947,8 @@ function checkForPostDetails(_selectedPostDetails) {
 				default:
 					alertjs.warning(
 						{
-							t: "Session expired login again.",
-							m: "",
+							t: "Warning",
+							m: "Your session has expired. Kindly log in again. <br />  आपले सत्र संपले आहे. कृपया पुन्हा लॉगिन करा.",
 						},
 
 						function () {

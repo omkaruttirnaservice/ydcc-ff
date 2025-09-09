@@ -1329,7 +1329,6 @@ var indexController = {
 	savesS3DoumentName: async (req, res, next) => {
 		try {
 			const data = req.body;
-			console.log(data, "==data==");
 			await IndexModel.savesS3DoumentName(res.pool, data);
 			return res
 				.status(201)
@@ -1337,9 +1336,10 @@ var indexController = {
 					new ApiResponse(
 						201,
 						true,
-						`${data.img_type} Upload Successful.`,
+						getDocumentMessage("upload", data.img_type),
 					),
 				);
+			// `${data.img_type} uploaded successfully.`,
 		} catch (error) {
 			next(error);
 		}
@@ -1348,18 +1348,17 @@ var indexController = {
 	delteS3DoumentName: async (req, res, next) => {
 		try {
 			const data = req.body;
-			console.log(data, "==data==");
 			await awsController.deleteFile_2(data.file_name);
 			await IndexModel.deleteS3DoumentName(res.pool, data);
-			return res
-				.status(201)
-				.json(
-					new ApiResponse(
-						201,
-						true,
-						`${data.img_type}  deleted successfully`,
-					),
-				);
+			return res.status(201).json(
+				new ApiResponse(
+					201,
+					true,
+
+					getDocumentMessage("delete", data.img_type),
+				),
+			);
+			// `${data.img_type}  deleted successfully`,
 		} catch (error) {
 			console.log(error, "==error==");
 			next(error);
@@ -2620,5 +2619,27 @@ var indexController = {
 		});
 	},
 };
+
+function getDocumentMessage(type, doc) {
+	switch (type) {
+		case "upload":
+			if (doc == "photo") {
+				return `Photo uploaded successfully. <br />  फोटो यशस्वीरीत्या अपलोड झाला आहे.`;
+			} else if (doc == "sign") {
+				return `Signature uploaded successfully. <br/>  सही यशस्वीरीत्या अपलोड झाली आहे.`;
+			} else if (doc == "aadharCard") {
+				return `Aadhaar card uploaded successfully. <br />  आधार कार्ड यशस्वीरीत्या अपलोड झाला आहे.`;
+			}
+
+		case "delete":
+			if (doc == "photo") {
+				return `Photo deleted successfully. <br />  फोटो यशस्वीरीत्या हटवला गेला आहे.`;
+			} else if (doc == "sign") {
+				return `Signature deleted successfully. <br/>  सही यशस्वीरीत्या हटवली गेली आहे.`;
+			} else if (doc == "aadharCard") {
+				return `Aadhaar card deleted successfully. <br />  आधार कार्ड यशस्वीरीत्या हटवला गेला आहे.`;
+			}
+	}
+}
 
 module.exports = indexController;

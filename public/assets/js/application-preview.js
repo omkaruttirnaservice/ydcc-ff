@@ -27,8 +27,8 @@ $(function () {
 					if (json._call == 1) {
 						alertjs.success(
 							{
-								t: "Application Preview Submitted Successfully",
-								m: "",
+								t: "Success",
+								m: "Application preview submitted successfully. <br />  अर्जाचा पूर्वावलोकन यशस्वीरीत्या सबमिट झाला आहे.",
 							},
 							function () {
 								window.location.assign(
@@ -42,8 +42,8 @@ $(function () {
 					if (json._call == 1) {
 						alertjs.warning(
 							{
-								t: "Session Expires, Login Again",
-								m: "",
+								t: "Warning",
+								m: "Your session has expired. Kindly log in again. <br  /> आपले सत्र संपले आहे. कृपया पुन्हा लॉगिन करा.",
 							},
 							function () {
 								window.location.assign("/home");
@@ -85,8 +85,8 @@ function validatePreview() {
 	if ($("#chkPhoto").prop("checked") == false) {
 		alertjs.warning(
 			{
-				t: "Confirm Your Photo.",
-				m: "",
+				m: "Please confirm your photo. <br />  कृपया आपला फोटो तपासून पुष्टी करा.",
+				t: "Warning",
 			},
 			function () {},
 		);
@@ -97,8 +97,8 @@ function validatePreview() {
 	if ($("#chkSignature").prop("checked") == false) {
 		alertjs.warning(
 			{
-				t: "Confirm Your Signature.",
-				m: "",
+				t: "Warning",
+				m: "Please confirm your signature. <br />  कृपया आपली सही तपासून पुष्टी करा.",
 			},
 			function () {},
 		);
@@ -107,22 +107,12 @@ function validatePreview() {
 	if ($("#chkIagree").prop("checked") == false) {
 		alertjs.warning(
 			{
-				t: "Declaration is Not accepted.",
-				m: "",
+				t: "Warning",
+				m: "You must accept the declaration to proceed. <br />  पुढे जाण्यासाठी आपण घोषणा (declaration) स्वीकारणे आवश्यक आहे.",
 			},
 			function () {},
 		);
 		return false;
 	}
-	// if ($('#chkIagreeTip').prop('checked') == false) {
-	// 	alertjs.warning(
-	// 		{
-	// 			t: 'agree to Important Note.',
-	// 			m: '',
-	// 		},
-	// 		function () {}
-	// 	);
-	// 	return false;
-	// }
 	return true;
 }

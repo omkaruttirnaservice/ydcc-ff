@@ -65,8 +65,7 @@ $(function () {
 			alertjs.success(
 				{
 					t: "Success",
-
-					m: "Achievement added successfully.",
+					m: "Achievement added successfully. <br />  माहिती जतन झाली आहे.",
 				},
 
 				function () {
@@ -94,8 +93,8 @@ $(function () {
 		let tr = "";
 		if (list.length === 0) {
 			tr = `<tr>
-              <td colspan="8" class="text-center text-danger fw-bold input-label"> No Achievement Details Are Added</td>
-              </tr>`;
+				<td colspan="8" class="text-center text-danger fw-bold input-label"> No Achievement Details Are Added</td>
+				</tr>`;
 		} else {
 			tr = list
 				.map(function (li, index) {
@@ -139,8 +138,8 @@ $(function () {
 				if (json_data._call == 1) {
 					alertjs.success(
 						{
-							t: "Achievement Details Saved Successfully",
-							m: "",
+							t: "Success",
+							m: "Achievement details have been saved successfully. <br/>  माहिती यशस्वीरीत्या जतन झाली आहे.",
 						},
 						function () {
 							window.location.assign(
@@ -173,25 +172,4 @@ $(function () {
 			$(".achieve-skip-btn").removeClass("d-none");
 		}
 	}
-
-	// skip achievements details
-
-	// $('#skipAchievementDetails').on('click', function (e) {
-	// 	e.preventDefault()
-
-	// 	let is_experience_added = saveQualificationList.length > 0
-
-	// 	console.log(is_experience_added)
-
-	// 	if (!is_experience_added && post_experience_required === 1) {
-	// 		alertjs.warning(
-	// 			{
-	// 				t: 'add experience',
-	// 			},
-	// 			() => {}
-	// 		)
-	// 	} else {
-	// 		window.open('/document-upload/' + regString, '_self')
-	// 	}
-	// })
 });

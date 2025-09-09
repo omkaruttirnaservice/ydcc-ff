@@ -45,15 +45,11 @@ $(function () {
 			// await checkProcessDates(impDatesConstants.pPaymentEndDate);
 			await makePayment();
 		} catch (error) {
-			console.log(error, "=erroe when payment");
 			alertjs.warning(
 				{
 					t: "Warning",
-					m:
-						error?.message ||
-						"Unable to process payments try again later",
+					m: "Unable to process payment. Please try again later. <br />  पेमेंट प्रक्रिया करता येत नाही. कृपया नंतर पुन्हा प्रयत्न करा.",
 				},
-
 				function () {},
 			);
 		} finally {
@@ -77,12 +73,9 @@ $(function () {
 
 			if (!_tokenRes.ok) {
 				throw new Error(
-					_data?.usrMsg ||
-						"Unable to process payments try again later1",
+					"Unable to process payment. Please try again later. <br />  पेमेंट प्रक्रिया करता येत नाही. कृपया नंतर पुन्हा प्रयत्न करा.",
 				);
 			}
-
-			console.log(_data, "==_data==");
 
 			addPaymentScript();
 			openPay(_data.data, userDetails);
@@ -116,12 +109,6 @@ $(function () {
 		let paymentDetails = $(this).attr("data-details");
 
 		paymentDetails = JSON.parse(paymentDetails);
-
-		// const userTxnDetails = {
-		// 	merch_trans_id: 'Invoicelzxwzbz0',
-		// 	merchTxnDate: '2024-08-17',
-		// 	amount: '1.00',
-		// };
 
 		recheckPayment(paymentDetails);
 	});
@@ -194,7 +181,6 @@ $(function () {
 		try {
 			let _res = await fetch(URL);
 			let _data = await _res.json();
-			console.log(_data, "-data");
 
 			if (_data.call == 0) {
 				currentPaymentStatusDiv.html(
@@ -247,10 +233,10 @@ $(function () {
 				} else {
 					alertjs.warning(
 						{
-							t: `${img_of} must be less than ${Math.round(
+							t: "Warning",
+							m: `${img_of} must be less than ${Math.round(
 								(max_size / 1024).toFixed(2),
-							)} mb and greater than 50 kb`,
-							m: `Current File Size is: ${(
+							)} mb and greater than 50 kb <br/> Current File Size is: ${(
 								fileSize / 1024
 							).toFixed(2)} mb i.e. ${fileSize} kb`,
 						},
@@ -262,8 +248,8 @@ $(function () {
 			} else {
 				alertjs.warning(
 					{
-						t: img_of + " must be in JPEG or JPG format",
-						m: "",
+						m: img_of + " must be in jpg/jpeg format",
+						t: "Warning",
 					},
 					function () {
 						$(_this).val("");
@@ -295,7 +281,6 @@ $(function () {
 
 	$("#paymentAgreement").click(function (e) {
 		var checked = $(this).prop("checked");
-		console.log(1);
 		if (checked == true) {
 			$(this).prop("disabled", true);
 			$("#makePayment").removeClass("d-none");
@@ -396,7 +381,7 @@ $(function () {
 			date.getMonth() + 1
 		}-${date.getFullYear()}`;
 		let formData = new FormData();
-		(formData.append("r", regID),
+		formData.append("r", regID),
 			formData.append("f", form_id),
 			formData.append("amount", 944),
 			formData.append("razorpay_order_id", date_1),
@@ -409,7 +394,7 @@ $(function () {
 			formData.append("post", userDetails.post),
 			formData.append("transection_no", transactionID),
 			// Attach file
-			formData.append("doc", $("input[type=file]")[0].files[0]));
+			formData.append("doc", $("input[type=file]")[0].files[0]);
 		date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
 		$("#makePaymentDemo").prop("disabled", true).html("Saving Details...");

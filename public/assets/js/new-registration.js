@@ -198,8 +198,8 @@ $(function () {
 		if (!$("#newRegDetails").valid()) {
 			alertjs.warning(
 				{
-					t: "Warning(चेतावणी)!!!",
-					m: "fill all details. (कृपया सर्व माहिती भरा)",
+					t: "Warning",
+					m: "Please fill in all the required details. <br/> (कृपया सर्व आवश्यक तपशील भरा.)",
 				},
 				function () {
 					$("label[class='error']").addClass(
@@ -210,7 +210,10 @@ $(function () {
 		} else {
 			if (!checkDeclerationChecked()) {
 				alertjs.warning(
-					{ t: "Warning!", m: "confirm the declaration" },
+					{
+						t: "Warning",
+						m: "Please confirm the declaration before proceeding. <br/> पुढे जाण्यापूर्वी कृपया घोषणापत्राची पुष्टी करा.",
+					},
 					() => {},
 				);
 				return false;
@@ -218,8 +221,8 @@ $(function () {
 
 			alertjs.success(
 				{
-					t: "Verified!!!",
-					m: "Now, you Can Now Submit Registration Form.",
+					t: "Verified",
+					m: "You can now submit the registration. <br/> आपण आता नोंदणी सादर करू शकता.",
 				},
 				function () {
 					$("#saveNewRegistration").show();
@@ -237,8 +240,8 @@ $(function () {
 		if (!$("#newRegDetails").valid()) {
 			alertjs.warning(
 				{
-					t: "Some Fields Are Invalid !!!",
-					m: "Kindly check if all details/fields are filled correctly.",
+					t: "Warning",
+					m: "Some fields are invalid. Please check and fill all details correctly. <br/> काही माहिती चुकीची आहे. कृपया सर्व तपशील नीट भरा. ",
 				},
 				function () {
 					$("label[class='error']").addClass(
@@ -252,28 +255,35 @@ $(function () {
 
 		if (!checkDeclerationChecked()) {
 			alertjs.warning(
-				{ t: "Warning!", m: "confirm the decleration" },
+				{
+					t: "Warning",
+					m: "Please confirm the declaration before proceeding. <br/> पुढे जाण्यापूर्वी कृपया घोषणापत्राची पुष्टी करा.",
+				},
 				() => {},
 			);
 			return false;
 		}
 
-		showPreviewModal();
+		saveRegistration();
+		// showPreviewModal();
 	});
 
 	$(document).on("click", "#confirmRegDetails", function (e) {
 		if (!checkPopupDeclerationChecked()) {
 			alertjs.warning(
-				{ t: "Warning!", m: "confirm the decleration" },
+				{
+					t: "Warning",
+					m: "Please confirm the declaration before proceeding. <br/> पुढे जाण्यापूर्वी कृपया घोषणापत्राची पुष्टी करा.",
+				},
 				() => {},
 			);
 			return false;
 		}
-		saveRegistration();
+		// saveRegistration();
 	});
 
 	function saveRegistration() {
-		let $this = $("#confirmRegDetails");
+		let $this = $("#saveNewRegistration");
 		$.ajax({
 			method: "POST",
 			url: "registerd-new-user",
@@ -288,8 +298,8 @@ $(function () {
 
 					alertjs.success(
 						{
-							t: "Congratulations (अभिनंदन) !!! ",
-							m: "Registration successful. (नुतनीकरण यशस्वी रित्या झाले आहे.)",
+							t: "Congratulations (अभिनंदन) ",
+							m: "Registration completed successfully. <br/> नोंदणी यशस्वीरीत्या पूर्ण झाली आहे.",
 						},
 						function () {
 							window.location.replace(
@@ -303,8 +313,8 @@ $(function () {
 
 					alertjs.warning(
 						{
-							t: "Duplicate !!!",
-							m: "Aadhaar number is already registered.",
+							t: "Already Registered",
+							m: "This Aadhaar number is already registered.<br /> हा आधार क्रमांक आधीच नोंदणीकृत आहे.",
 						},
 						function () {},
 					);

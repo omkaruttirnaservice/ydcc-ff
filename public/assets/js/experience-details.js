@@ -135,9 +135,7 @@ $(function () {
 
 	$("#addNewDetails").on("click", function () {
 		$("#experienceModal").modal("show");
-		$("#experienceModal .modal").html(
-			"Experience Details(अनुभव तपशील)",
-		);
+		$("#experienceModal .modal").html("Experience Details(अनुभव तपशील)");
 		$(".form-select-input,.form-control-input").val("");
 	});
 
@@ -205,7 +203,7 @@ $(function () {
 			alertjs.success(
 				{
 					t: "Success",
-					m: "Experience added successfully.",
+					m: "Experience added successfully. <br/>  अनुभवाची माहिती जतन झाली आहे.",
 				},
 				function () {
 					$("#experienceForm")[0].reset();
@@ -247,9 +245,7 @@ $(function () {
 					return `<tr class='text-center'>
                     <td class='input-label'>${li.organization}</td>
                     <td class='input-label'>${li.location}</td>
-                    <td class='input-label' class="word">${
-						li.designation
-					}</td>
+                    <td class='input-label' class="word">${li.designation}</td>
                     <td class='input-label' class="word">${
 						li?.experience_description || "-"
 					}</td>
@@ -331,7 +327,7 @@ $(function () {
 					alertjs.success(
 						{
 							t: "Experience Details Saved Successfully.",
-							m: "",
+							m: "Experience details have been saved successfully. <br/>  अनुभवाची माहिती यशस्वीरीत्या जतन झाली आहे.",
 						},
 						function () {
 							window.location.assign(

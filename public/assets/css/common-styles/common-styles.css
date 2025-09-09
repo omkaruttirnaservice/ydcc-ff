@@ -69,24 +69,6 @@ svg {
 	background: transparent !important;
 }
 
-/* DELETE CONFIRM MODAL */
-.swal2-cancel,
-.swal2-confirm {
-	font-size: 1rem !important;
-	padding: 0.4rem 0.8rem !important;
-}
-
-/* sweet alert check mark override */
-.swal2-success-line-long,
-.swal2-success-line-tip {
-	z-index: 99999 !important;
-}
-
-.swal2-title,
-.swal2-content {
-	text-transform: capitalize !important;
-}
-
 /* JQUERY VALIDATION ERROR MESSAGE STYLES OVERRIDE */
 [id$="-error"],
 .error.text-danger {
@@ -101,11 +83,6 @@ svg {
 	width: 100%;
 	max-width: 20rem;
 	text-transform: capitalize !important;
-}
-
-.swal2-popup,
-.swal2-modal {
-	width: 50rem !important;
 }
 
 /* FORM CONTAINER TOP BOX & BREADCRUMB */
@@ -247,15 +224,38 @@ input:focus {
 
 /* SWEET ALERT STYLING */
 .swal2-title {
-	/* font-size: 1.5rem !important; */
+	font-size: 1.2rem !important;
 }
 
 .swal2-content {
-	/* font-size: 2rem !important; */
+	font-size: 0.9rem !important;
 }
 
 .swal2-confirm.swal2-styled {
-	/* font-size: 1.6rem !important; */
+	font-size: 0.6rem !important;
+}
+
+/* DELETE CONFIRM MODAL */
+.swal2-cancel,
+.swal2-confirm {
+	font-size: 1rem !important;
+	padding: 0.4rem 0.8rem !important;
+}
+
+/* sweet alert check mark override */
+.swal2-success-line-long,
+.swal2-success-line-tip {
+	z-index: 99999 !important;
+}
+
+.swal2-title,
+.swal2-content {
+	/* text-transform: capitalize !important; */
+}
+
+.swal2-popup,
+.swal2-modal {
+	/* width: 50rem !important; */
 }
 
 .header-container {

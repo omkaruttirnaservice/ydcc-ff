@@ -292,7 +292,7 @@ $(function () {
 			if (_jsonRep.statusCode == 201) {
 				alertjs.success(
 					{
-						t: "Successful",
+						t: "Success",
 						m: _jsonRep.usrMsg,
 					},
 					() => {},

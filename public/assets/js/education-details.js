@@ -417,7 +417,7 @@ $("#qualificationList").on("change", function () {
 		alertjs.warning(
 			{
 				t: "Warning",
-				m: "Already Added",
+				m: "You have already entered this education detail. <br />  आपण ही शैक्षणिक माहिती आधीच नोंदवली आहे.",
 			},
 			function () {
 				$("#qualificationList").val("");
@@ -478,7 +478,7 @@ function check_selected_qualification_is_empty(
 		alertjs.warning(
 			{
 				t: "Warning",
-				m: "Select Qualification.",
+				m: "Please select your qualification. <br/>  कृपया आपली शैक्षणिक पात्रता निवडा.",
 			},
 
 			function () {},
@@ -705,7 +705,7 @@ $("#newEducation").on("submit", function (e) {
 				{
 					t: "Success",
 
-					m: "Education details saved successfully",
+					m: "Education details saved successfully. <br/>  शैक्षणिक माहिती यशस्वीरीत्या जतन झाली.",
 				},
 				function () {
 					$("#newEducation")[0].reset();
@@ -746,7 +746,7 @@ function validateMinPercentageCgpaRequired(_details) {
 		alertjs.warning(
 			{
 				t: "Warning",
-				m: `Minimum ${_details.min_passing_percentage}% are mandatory in ${_details.edu_type_name}.`,
+				m: `A Minimum ${_details.min_passing_percentage}% marks are required ${_details.edu_type_name}.`,
 			},
 			function () {},
 		);
@@ -764,7 +764,7 @@ function validateMinPercentageCgpaRequired(_details) {
 		alertjs.warning(
 			{
 				t: "Warning",
-				m: `Minimum ${_details.min_passing_cgpa} CGPA is mandatory in ${_details.edu_type_name}.`,
+				m: `A Minimum ${_details.min_passing_cgpa} CGPA is mandatory in ${_details.edu_type_name}.`,
 			},
 			function () {},
 		);
@@ -794,8 +794,7 @@ $("#newOtherEducation").on("submit", function (e) {
 			alertjs.success(
 				{
 					t: "Success",
-
-					m: "Education details added successfully.",
+					m: "Education details saved successfully. <br/>  शैक्षणिक माहिती यशस्वीरीत्या जतन झाली.",
 				},
 
 				function () {
@@ -880,12 +879,14 @@ function isEducationFilled(eduType) {
 }
 
 function showEducationNotFilledMessage(eduType) {
-	const SSC_10TH_MESSAGE = "SSC/10th is compulsory for this post.";
-	const GRADUATION_MESSAGE = "Graduation is compulsory for this post.";
+	const SSC_10TH_MESSAGE =
+		"SSC/10th qualification is compulsory for this post.  <br /> या पदासाठी SSC/१० वी पास असणे आवश्यक आहे. ";
+	const GRADUATION_MESSAGE =
+		"Graduation is compulsory for this post. <br /> या पदासाठी पदवी (Graduation) असणे आवश्यक आहे.";
 	// prettier-ignore
-	const DIPLOMA_OR_12TH_MESSAGE = "HSC/12th or Diploma is compulsory for this post.";
+	const DIPLOMA_OR_12TH_MESSAGE = "HSC/12th or Diploma is compulsory for this post. <br /> या पदासाठी HSC/१२ वी किंवा डिप्लोमा आवश्यक आहे.";
 	// prettier-ignore
-	const COMPUTER_CERTIFICATION_MESSAGE = "Computer certification course is compulsory for this post.";
+	const COMPUTER_CERTIFICATION_MESSAGE = "A computer certification course is mandatory for this post. <br /> या पदासाठी संगणक प्रमाणपत्र कोर्स पूर्ण असणे आवश्यक आहे.";
 
 	let MESSAGE = "";
 	switch (eduType) {
@@ -908,7 +909,7 @@ function showEducationNotFilledMessage(eduType) {
 
 	alertjs.warning(
 		{
-			t: "Warning!!!",
+			t: "Warning",
 			m: MESSAGE,
 		},
 		function () {},
@@ -920,7 +921,7 @@ $("#saveEducationDetails").on("click", function () {
 		alertjs.warning(
 			{
 				t: "Warning",
-				m: "No List Found To Save",
+				m: "There is no data available to save. <br/>  जतन करण्यासाठी कोणतीही माहिती उपलब्ध नाही.",
 			},
 			function () {},
 		);
@@ -977,8 +978,8 @@ function upload_candiate_education_data() {
 			if (data._call == 1) {
 				alertjs.success(
 					{
-						t: "Education details added successfully.",
-						m: "",
+						t: "Success",
+						m: "Education details saved successfully. <br/>  शैक्षणिक माहिती यशस्वीरीत्या जतन झाली.",
 					},
 					function () {
 						window.location.assign(
