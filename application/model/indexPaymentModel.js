@@ -16,7 +16,7 @@ const indexPaymentModel = {
                                 pi.pi_tax_per,
                                 pi.pi_tax_payment,
 								pi_convenience_charge,
-								SUM(pi.pi_payment + pi.pi_tax_payment + pi_convenience_charge) AS total_payment,
+								SUM(pi.pi_payment + pi.pi_tax_payment) AS total_payment,
 
                                 ca_payment_done as payment_status,
                                 ca_detailsMainPost,
