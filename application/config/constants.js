@@ -29,3 +29,10 @@ exports.PROCESS_DATES = Object.freeze({
 	P_INTERVIEW_CALL_LETTER_EXPIRY_DATE: "p_interview_call_letter_expiry_date",
 	P_ANSWER_KEY_EXPIRY_DATE: "p_answer_key_expiry_date",
 });
+
+// AWS directories names
+exports.AWS_DIR = {
+	userImages: "/users/",
+	importantNotices: "/important-notices/",
+	headerImages: "/headers/",
+};

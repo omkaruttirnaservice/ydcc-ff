@@ -7,6 +7,7 @@ $(document).ready(() => {
 		detailsNonCreamyLayer: "",
 		detailsMarital: "",
 		detailsCategory: "",
+		detailsCategoryName: "",
 		detailsSubCategory: "",
 		detailsFather: "",
 		detailsMother: "",
@@ -623,7 +624,7 @@ $(document).ready(() => {
 		$("#detailsFather").val(generalDetails.detailsFather);
 		$("#detailsMother").val(generalDetails.detailsMother);
 
-		$("#detailsCategory").val(generalDetails.detailsCategory.toUpperCase());
+		$("#detailsCategory").val(generalDetails.detailsCategoryName.toUpperCase());
 		$("#detailsSubCategory").val(generalDetails.detailsSubCategory);
 		$("#detailsReligion").val(generalDetails.detailsReligion);
 
@@ -660,6 +661,7 @@ $(document).ready(() => {
 		);
 	}
 
+	console.log({ updateData });
 	function setPreviousDetails() {
 		if (updateData.length !== 0) {
 			generalDetails.detailsPostId = updateData[0].post_id;
@@ -682,6 +684,7 @@ $(document).ready(() => {
 			generalDetails.detailsMother = updateData[0].mother_name;
 
 			generalDetails.detailsCategory = updateData[0].catagory;
+			generalDetails.detailsCategoryName = updateData[0].catagory_name;
 
 			generalDetails.detailsSubCategory =
 				updateData[0].detailsSubCategory;

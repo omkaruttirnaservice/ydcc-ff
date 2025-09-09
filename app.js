@@ -102,6 +102,7 @@ async function startExpressServer() {
 	infoLog("Starting Express Server");
 	app.listen(process.env.PORT, () => {
 		infoLog(`Server started on ${PORT}`);
+		infoLog(`http://localhost:${PORT}`);
 		if (!isDevEnv()) {
 			console.log(
 				"\x1b[43m\x1b[37m INFO : Running production build \x1b[0m",

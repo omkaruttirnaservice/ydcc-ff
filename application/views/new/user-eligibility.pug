@@ -204,7 +204,7 @@ block content
                     button#submitPersonalDetails.c-button.c-btn-success.d-none Submit
 
                 //- eigibility details preview modal
-                .modal.fade#elg-details-preview-modal(data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true")
+                //- .modal.fade#elg-details-preview-modal(data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true")
                     div(class="modal-dialog modal-lg")
                         div.modal-content(style="border: none")
                             div.modal-header.input-card-heading
@@ -240,3 +240,47 @@ block content
                             .modal-footer
                                 button.c-button#confirmElgDetails.c-button.c-btn-success(type="button" ) Confirm & Continue
 
+
+                //- Eligibility details preview modal
+                .modal.fade#elg-details-preview-modal(data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true")
+                    .modal-dialog.modal-lg
+                        .modal-content.rounded-3.shadow-lg.border-0
+                            .modal-header.bg-primary.text-white.rounded-top-3
+                                h5.modal-title.fw-bold.mb-0 Confirm Eligibility Details
+                                button.btn-close.btn-close-white(type="button" data-bs-dismiss="modal" aria-label="Close")
+
+                            .modal-body.bg-light
+                                .card.shadow-sm.mb-3
+                                    .card-body.p-4
+                                        .row.g-3
+                                            .col-md-6
+                                                .d-flex.justify-content-between.border-bottom.pb-2
+                                                    strong Post Name
+                                                    span#previewPostName.text-primary.fw-semibold
+                                            .col-md-6
+                                                .d-flex.justify-content-between.border-bottom.pb-2
+                                                    strong Caste Name
+                                                    span#previewCasteName.text-primary.fw-semibold
+                                            .col-md-6
+                                                .d-flex.justify-content-between.border-bottom.pb-2
+                                                    strong Birth Date
+                                                    span#previewBirthDate.text-primary.fw-semibold
+                                            .col-md-12
+                                                .d-flex.justify-content-between.border-bottom.pb-2
+                                                    strong Age as on
+                                                        |(
+                                                        span.input-label.setAgeOfAsOn.text-muted.ms-1
+                                                        |)
+                                                    span#previewAge.text-primary.fw-semibold
+
+                                //- Declaration checkbox
+                                .form-check.mt-4.p-3
+                                    input#elg-decleration-confirm-popup(type="checkbox")
+                                    label(for="elg-decleration-confirm-popup")
+                                        | I verify that all the details I’ve provided are accurate to the best of my knowledge and acknowledge that no modifications can be made.
+                                        br
+                                        | मी खात्री देतो की माझी दिलेली सर्व माहिती माझ्या माहितीनुसार अचूक आहे आणि मला समजते की कोणतेही बदल केले जाऊ शकत नाहीत.
+
+                            .modal-footer.bg-light
+                                button.c-button#confirmElgDetails.c-button.c-btn-success.w-100(type="button")
+                                    | Confirm & Continue

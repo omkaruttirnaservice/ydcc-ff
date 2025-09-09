@@ -1,5 +1,4 @@
 const {
-	myDate,
 	getMerchTxnId,
 	momentDates,
 	getFromGlobalCache,

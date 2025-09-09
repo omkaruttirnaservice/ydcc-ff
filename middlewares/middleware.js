@@ -50,11 +50,20 @@ const middleware = {
 			!(await getFromGlobalCache(IMP_DATES_CACHE_KEY))
 		) {
 			let _processData = await IndexModel.getProcessData(res.pool);
+
+			// append the S3 base url here to all base urls
+			const s3URL = process.env.S3_BUCKET_URL;
+			_processData[0].imgBaseURL = `${s3URL}${_processData[0].imgBaseURL}`;
+			_processData[0].impNoticeBaseURL = `${s3URL}${_processData[0].impNoticeBaseURL}`;
+			_processData[0].headerImgBaseURL = `${s3URL}${_processData[0].headerImgBaseURL}`;
+
 			await setToGlobalCache(
 				PROCESS_DETAILS_CACHE_KEY,
 				_processData[0],
 				6000,
 			);
+			// https://formfillingbucket3.s3.ap-south-1.amazonaws.com/APMC_Amalner/important-notices/2025_07_28_12_17_50.pdf
+			// https://formfillingbucket3.s3.ap-south-1.amazonaws.com/APMC_Amalner/important-notices/2025_07_28_10_22_21.pdf
 
 			await initExpiryDateSchedule();
 		}
@@ -74,9 +83,7 @@ const middleware = {
 	},
 
 	checkForPoolConnectionWithSession: (req, res, next) => {
-		console.log(process.pid, "-process_id");
 		middleware.setSessionData(req);
-		console.log(req.session, "in middleware");
 		if (typeof req.session.User == "undefined") return res.redirect("/");
 
 		req.getConnection(function (err, connection) {

@@ -16,7 +16,7 @@ block inline_js
             email: "#{payment_data.email_id}",
             contact: "#{payment_data.mobile_name}",
             post:'#{payment_data.post_name}',
-            totalPayment: '#{payment_data.post_fee + payment_data.post_fee_tax}'
+            totalPayment: '#{payment_data.pi_payment + payment_data.pi_tax_payment}'
         };
         userDetails.transId = p.p_trans_id // adding dynamic transaction id
     script.
@@ -158,27 +158,33 @@ block content
                             tbody
                                 tr
                                     td(colspan='6') Fee Charges (फी तपशील)
+
+                                - const _payment  = payment_data.pi_payment 
+                                - const _gstCharges = payment_data.pi_tax_payment
+                                - const _transactionCarges = payment_data.pi_convenience_charge
+                                - const _totalCharges = payment_data.total_payment 
+
                                 tr
                                     td(width='45%') Fee (फी)
                                     td(colspan='2') 
                                         i.fa-solid.fa-indian-rupee.me-2(aria-hidden='true')
-                                        | #{payment_data.post_fee} /-
+                                        | #{_payment} /-
 
                                 tr
-                                    td(width='15%') GST 18% (जी.एस.टी. १८%)
+                                    td(width='15%') GST #{payment_data.pi_tax_per}% (जी.एस.टी. #{payment_data.pi_tax_per}%)
                                     td(colspan='2') 
                                         i.fa-solid.fa-indian-rupee.me-2(aria-hidden='true')
-                                        | #{payment_data.post_fee_tax} /-
-                                tr.d-none
+                                        | #{_gstCharges} /-
+                                tr
                                     td(width='15%') Transaction charges (ट्रान्झॅक्शन शुल्क)
                                     td(colspan='2') 
                                         i.fa-solid.fa-indian-rupee.me-2(aria-hidden='true')
-                                        | 2.36 /-
+                                        | #{_transactionCarges} /-
                                 tr
                                     td(width='15%') Total Amount (एकूण रक्कम )
                                     td(colspan='2')
                                         i.fa-solid.fa-indian-rupee.me-2(aria-hidden='true')
-                                        | #{payment_data.post_fee + payment_data.post_fee_tax} /-
+                                        | #{_totalCharges} /-
 
                     .col-md-12
                         p.mb-0.fw-bold.text-danger Please complete payment in 
@@ -226,7 +232,7 @@ block content
                             div.d-flex.justify-content-center
                                 button#makePayment.btn.btn-danger.pl-5.pr-5.fw-bold.d-none.my-2
                                     i.fa-solid.fa-indian-rupee.mx-2(aria-hidden='true')
-                                    | #{payment_data.post_fee + payment_data.post_fee_tax + 10} /- Process Online
+                                    | #{_totalCharges} /- Process Online
 
                         div#processing-container.d-none 
                             div.d-flex.align-items-center.gap-2
@@ -243,4 +249,3 @@ block content
     script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
     script.
         const previous_pay_list = !{JSON.stringify(previous_pay_list)}
-        console.log(previous_pay_list,'-previous_pay_list')

@@ -41,6 +41,26 @@ $(document).on("click", "#logout", function () {
 	window.location.assign("/logout");
 });
 
+$(document).on("click", ".open-new-window", function () {
+	let url = $(this).attr("data-url");
+	if (!url) {
+		alert("Invalid URL");
+		return;
+	}
+	openCustomSizeWindow(url);
+});
+
+export function openCustomSizeWindow(url, width = 1366, height = 768) {
+	const features = `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=${width},height=${height},initial-scale=1.0,maximum-scale=1.0,user-scalable=no`;
+
+	const printWindow = window.open(url, "_blank", features);
+	if (printWindow) {
+		printWindow.focus();
+	} else {
+		alert("Pop-up blocked. Please allow pop-ups for this site.");
+	}
+}
+
 export function _hideLoader() {
 	$("#loader").addClass("d-none");
 	$("#loader-backdrop").addClass("d-none");
@@ -173,7 +193,6 @@ export function compareDate(start, end) {
 // show hide password
 $(document).on("click", "#show-password", function (e) {
 	// $(this).toggleClass('fa-lock fa-unlock');
-	console.log('1');
 	let passwordEl = $("#password");
 	if (passwordEl.attr("type") === "password") {
 		passwordEl.attr("type", "text");
@@ -228,7 +247,7 @@ export const checkProcessDates = async type => {
 		const url = `/check-process-dates?check_for=${type}`;
 		const _resp = await fetch(url);
 		const jsonData = await _resp.json();
-		console.log({jsonData});
+		console.log({ jsonData });
 		if (!_resp.ok) {
 			throw new Error(jsonData?.usrMsg || "Please try again later");
 		}

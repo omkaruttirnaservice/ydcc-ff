@@ -1,4 +1,5 @@
 var responderSet = require("../config/_responderSet");
+const { AWS_DIR } = require("../config/constants.js");
 const runQuery = require("../config/runQuery.js");
 var myDates = responderSet.myDate;
 
@@ -57,10 +58,11 @@ module.exports = {
                                 pi_tax_per,
                                 pi_tax_payment,
 								post_age_from,
-								post_age_limit
-                         FROM utr_payment_info pi
-                                  INNER JOIN utr_category cat
-                                             ON pi.pi_category_id = cat.id`;
+								post_age_limit,
+								pi_convenience_charge
+						FROM utr_payment_info pi
+								INNER JOIN utr_category cat
+											ON pi.pi_category_id = cat.id`;
 			pool.query(query, function (err, result) {
 				if (err) {
 					reject(err);
@@ -130,11 +132,11 @@ module.exports = {
 			pool.query(query, function (err, result) {
 				if (err) {
 					console.log(err);
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					console.log(result, "==result postData==");
 					resolve(result);
@@ -156,11 +158,11 @@ module.exports = {
 			pool.query(query, [id], function (err, result) {
 				if (err) {
 					console.log(err);
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -239,7 +241,10 @@ module.exports = {
 						p_under_construction,
 						p_anwser_key,
 						p_result_decleared,
-						p_interview_schedule_decleared
+						p_interview_schedule_decleared,
+						CONCAT("/",p_desc, "${AWS_DIR.userImages}") AS imgBaseURL,
+						CONCAT("/",p_desc, "${AWS_DIR.importantNotices}") AS impNoticeBaseURL,
+						CONCAT("/",p_desc, "${AWS_DIR.headerImages}") AS headerImgBaseURL 
 
                 FROM utr_process AS p
 
@@ -443,9 +448,9 @@ module.exports = {
 		console.log(data.detailsPostId, "-details postid");
 		return new Promise((resolve, reject) => {
 			let query = `SELECT *
-                         FROM utr_payment_info
-                         WHERE pi_category_id = ?
-                           AND pi_post_id = ? LIMIT 1`;
+							FROM utr_payment_info
+							WHERE pi_category_id = ?
+							AND pi_post_id = ? LIMIT 1`;
 			pool.query(
 				query,
 				[Number(data.detailsCategoryId), Number(data.detailsPostId)],
@@ -469,13 +474,12 @@ module.exports = {
 															ca_dob,
 															ca_gender,
 															ca_catagory,
-															ca_payment,
-															ca_tax_per,
-															ca_tax_payment,
 															ca_detailsMainPost,
 															compareDateFrom,
 															compareDateTo,
-															compareDateAgeString
+															compareDateAgeString,
+															ca_is_existing_emp,
+															ca_detailsExistingEmployeeDept
 															)
 														VALUES ?`;
 
@@ -487,14 +491,13 @@ module.exports = {
 					value.detailsPostName,
 					value.detailsYear + "-" + value.detailsmonth + "-" + value.detailsbday,
 					value.gender,
-					value.detailsCategory,
-					value.payment,
-					value.tax_per,
-					value.tax_payment,
+					value.detailsCategoryId,
 					value.detailsMainPost,
 					value.compareDateFrom,
 					value.compareDateTo,
 					value.compareDateAgeString,
+					value.detailsExServiceman,
+					value.detailsHandicap
 				];
 				insert_array.push($data);
 			});
@@ -574,11 +577,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -603,11 +606,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -631,11 +634,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -659,11 +662,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -721,11 +724,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -792,11 +795,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -809,6 +812,7 @@ module.exports = {
 									ca_post_name as post_name, 
 									ca_gender as gender, 
 									ca_catagory as catagory, 
+									cat.cat_name as catagory_name,
 									DATE_FORMAT(ca_dob,'%d-%m-%Y') as dob,
 									compareDateAgeString as age,
 									ca_marital_status as detailsMarital, 
@@ -843,16 +847,20 @@ module.exports = {
 
 							INNER JOIN utr_post post
 							ON ca.ca_post_id = post.id
+
+							INNER JOIN utr_category cat
+							ON ca.ca_catagory = cat.id
+
 							WHERE ca.ca_reg_id = ?  
 								AND ca.id = ?
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -957,11 +965,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -984,11 +992,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1016,11 +1024,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1042,11 +1050,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1064,11 +1072,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1080,7 +1088,7 @@ module.exports = {
 		data,
 		t_type = "utr_candidate_appications",
 	) {
-		console.log({t_type});
+		console.log({ t_type });
 		// This is only when taking data from utr_candidate_appications_final table
 		let column = "";
 		if (t_type === "utr_candidate_appications_final") {
@@ -1088,36 +1096,47 @@ module.exports = {
 		}
 
 		return new Promise((resolve, reject) => {
-			let query = `SELECT app.id,
-                                ca_post_name                                 as applied_post,
-                                ca_detailsMainPost,
-                                id                                           as f_id,
+			let query = `SELECT 
+                                ca.id                                        as f_id,
 								ca_reg_id 	                                 as r_id,
+                                ca_post_name                                 as applied_post,
+								cat.cat_name AS catagory,
+                                ca_detailsMainPost,
                                 ca_payment_done                              as payment_is_done,
                                 ca_general_details_done                      as g_done,
                                 ca_education_details_done                    as e_done,
                                 ca_document_details_done                     as d_done,
                                 ca_preview_done                              as p_done,
-                                SUM(ca_payment + ca_tax_payment)             as post_fee,
-                                ca_payment                                   as only_post_fee,
-                                DATE_FORMAT(app.createdAt, '%d-%m-%Y')       as created_date,
+                                DATE_FORMAT(ca.createdAt, '%d-%m-%Y')        as created_date,
                                 ca_inserted_on_time                          as created_time,
-                                ca_sign,
-                                ca_photo,
+
+								pi.pi_payment,
+                                pi.pi_tax_per,
+                                pi.pi_tax_payment,
+								pi_convenience_charge,
+                                ca_payment_type as payment_type,
+								SUM(pi.pi_payment + pi.pi_tax_payment) as total_payment,
+
                                 ca_batch_time
 								${column}
 
-                         FROM ${t_type} as app
+						FROM ${t_type} as ca 
 
-                         WHERE ca_reg_id = ?
-                         GROUP BY id`;
+						INNER JOIN utr_payment_info as pi
+						ON ca.ca_post_id = pi.pi_post_id AND ca.ca_catagory = pi.pi_category_id
+
+						LEFT JOIN utr_category as cat
+						ON ca.ca_catagory = cat.id
+
+						WHERE ca_reg_id = ?
+						GROUP BY ca.id`;
 			pool.query(query, [data.cri], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1136,7 +1155,8 @@ module.exports = {
                                 ub_alternative_number                                                as alternative_number,
                                 DATE_FORMAT(ca.ca_dob, '%d / %m / %Y')                               as date_of_birth,
                                 UPPER(ca.ca_gender)                                                  as gender,
-                                UPPER(ca.ca_catagory)                                                as catagory,
+								UPPER(cat.cat_name)                                                as catagory,
+
                                 UPPER(ca.ca_marital_status)                                          as marital,
                                 UPPER(ca.ca_fathers_name)                                            as father_name,
                                 UPPER(ca.ca_mothers_name)                                            as mother_name,
@@ -1154,14 +1174,18 @@ module.exports = {
                                 ca_education_details_done                                            as e_done,
                                 ca_document_details_done                                             as d_done,
                                 ca_preview_done                                                      as p_done,
-                                ca_payment                                                           as post_fee,
-                                ca_tax_payment                                                       as post_fee_tax,
                                 ca_payment_done                                                      as payment_status,
+
+								pi.pi_payment,
+                                pi.pi_tax_per,
+                                pi.pi_tax_payment,
+								pi_convenience_charge,
+                                ca_payment_type as payment_type,
+
                                 ca_detailsReligion                                                   as detailsReligion,
                                 ca_detailsNationality                                                as detailsNationality,
                                 ca_detailsDomicile                                                   as detailsDomicile,
                                 ub_pan_card                                                          as pan_number,
-                                ca_payment_type                                                      as payment_type,
                                 ca_detailsExistingEmployeeDept,
                                 ca_detailsExistingEmployeeDeptPost,
                                 ca_detailsExistingEmployeeYear,
@@ -1184,9 +1208,12 @@ module.exports = {
                                 ca_detailsTaluka                                                     as taluka,
                                 ca_mscit_done_check                                                  as mscit_done,
                                 ca_graduation_done_check                                             as graduation_done,
-								DATE_FORMAT(post_date_from,'%d-%m-%Y')  as age_as_on,
+								DATE_FORMAT(post.post_date_from,'%d-%m-%Y')  as age_as_on,
 								post.post_name as post_name,
-								ca_language_details as languageDetails
+								ca_language_details as languageDetails,
+								IFNULL(ca_is_existing_emp, 'n') AS ex_service_man,
+								IFNULL(ca_detailsExistingEmployeeDept, 'n') AS handicap
+
 
 							FROM utr_candidate_appications as ca
 
@@ -1195,6 +1222,12 @@ module.exports = {
 
 							INNER JOIN utr_post post
 							ON ca.ca_post_id = post.id
+
+							INNER JOIN utr_payment_info as pi
+							ON ca.ca_post_id = pi.pi_post_id AND ca.ca_catagory = pi.pi_category_id
+
+							INNER JOIN utr_category as cat
+							ON ca.ca_catagory = cat.id
 
 							WHERE ca_reg_id = ?
 							AND ca.id = ?
@@ -1227,7 +1260,7 @@ module.exports = {
                                 ub_alternative_number                                                as alternative_number,
                                 DATE_FORMAT(ca.ca_dob, '%d / %m / %Y')                               as date_of_birth,
                                 UPPER(ca.ca_gender)                                                  as gender,
-                                UPPER(ca.ca_catagory)                                                as catagory,
+                                UPPER(cat.cat_name)                                                as catagory,
                                 UPPER(ca.ca_marital_status)                                          as marital,
                                 UPPER(ca.ca_fathers_name)                                            as father_name,
                                 UPPER(ca.ca_mothers_name)                                            as mother_name,
@@ -1245,14 +1278,16 @@ module.exports = {
                                 ca_education_details_done                                            as e_done,
                                 ca_document_details_done                                             as d_done,
                                 ca_preview_done                                                      as p_done,
-                                ca_payment                                                           as post_fee,
-                                ca_tax_payment                                                       as post_fee_tax,
                                 ca_payment_done                                                      as payment_status,
+                                pi.pi_payment,
+                                pi.pi_tax_per,
+                                pi.pi_tax_payment,
+								pi_convenience_charge,
+                                ca_payment_type                                                      as payment_type,
                                 ca_detailsReligion                                                   as detailsReligion,
                                 ca_detailsNationality                                                as detailsNationality,
                                 ca_detailsDomicile                                                   as detailsDomicile,
                                 ub_pan_card                                                          as pan_number,
-                                ca_payment_type                                                      as payment_type,
                                 ca_detailsExistingEmployeeDept,
                                 ca_detailsExistingEmployeeDeptPost,
                                 ca_detailsExistingEmployeeYear,
@@ -1275,14 +1310,17 @@ module.exports = {
                                 ca_detailsTaluka                                                     as taluka,
                                 ca_mscit_done_check                                                  as mscit_done,
                                 ca_graduation_done_check                                             as graduation_done,
-								DATE_FORMAT(post_date_from,'%d-%m-%Y')  as age_as_on,
+								DATE_FORMAT(post.post_date_from,'%d-%m-%Y')  as age_as_on,
 								post.post_name as post_name,
 								ca_language_details as languageDetails,
 								ph.pay_amount as payment_amount,
 								ph.pay_merch_txn_id as merch_transaction_id,
 								DATE_FORMAT(ph.pay_done_date ,'%d-%m-%Y') as payment_done_date,
 								ph.pay_message as payment_message,
-								ph.pay_type as payment_mode
+								ph.pay_type as payment_mode,
+								IFNULL(ca_is_existing_emp, 'n') AS ex_service_man,
+								IFNULL(ca_detailsExistingEmployeeDept, 'n') AS handicap
+
 
 						FROM utr_candidate_appications as ca
 
@@ -1295,10 +1333,16 @@ module.exports = {
 						INNER JOIN payment_history as ph
 						ON ph.r_id = ca.ca_reg_id AND ph.f_id = ca.id
 
+						INNER JOIN utr_payment_info as pi
+						ON ca.ca_post_id = pi.pi_post_id AND ca.ca_catagory = pi.pi_category_id
+
+						INNER JOIN utr_category as cat
+						ON ca.ca_catagory = cat.id
+
 						WHERE ca_reg_id = ?
-                           AND ca.id = ?
-                           AND ca_payment_done = 1
-						   AND ph.pay_message = 'PAYMENT_SUCCESSFUL'
+						AND ca.id = ?
+						AND ca_payment_done = 1
+						AND ph.pay_message = 'PAYMENT_SUCCESSFUL'
 						GROUP BY ca.id LIMIT 1;
 			`;
 			pool.query(
@@ -1306,11 +1350,11 @@ module.exports = {
 				[Number(data.r_id), Number(data.f_id)],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -1340,11 +1384,11 @@ module.exports = {
                            AND ca_valid_user = ? LIMIT 1`;
 			pool.query(query, [data.id, type], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1435,11 +1479,11 @@ module.exports = {
 				[Number(data.f), Number(data.r)],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						console.log(result);
 						resolve(result);
@@ -1487,11 +1531,11 @@ module.exports = {
                          WHERE f_id = ?`;
 			pool.query(query, [Number(data)], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					console.log(result);
 					resolve(result);
@@ -1522,11 +1566,11 @@ module.exports = {
 
 			pool.query(q, [Number(fid)], function (err, result) {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					console.log(result);
 					resolve(result);
@@ -1567,11 +1611,11 @@ module.exports = {
                            AND sub_post = ? LIMIT 1`;
 			pool.query(query, [slot.post, slot.sub_post], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1668,11 +1712,11 @@ module.exports = {
                            AND ca_is_alloted = 1 LIMIT 1`;
 			pool.query(query, [data.f_id, data.r_id], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1780,11 +1824,11 @@ module.exports = {
 			console.log(query, "==query==");
 			pool.query(query, roll_no, (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1823,11 +1867,11 @@ module.exports = {
 			console.log(query, "==query==");
 			pool.query(query, (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1842,11 +1886,11 @@ module.exports = {
                          WHERE ub_aadhar_number = ? LIMIT 1`;
 			pool.query(query, [data.newAadharNumber], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1862,11 +1906,11 @@ module.exports = {
                            AND ca_post_id = ? LIMIT 1`;
 			pool.query(query, [cri, data._postId], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -1889,11 +1933,11 @@ module.exports = {
 				],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -1912,11 +1956,11 @@ module.exports = {
 				[data.aadharNumber, Number(data.userId)],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -1935,11 +1979,11 @@ module.exports = {
 				[Number(otp), data.aadharNumber, Number(data.userId)],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -1959,11 +2003,11 @@ module.exports = {
 				[data.aadharNumber, data.mobileNumber],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -1984,11 +2028,11 @@ module.exports = {
 				[Number(data.cri), Number(data.cfi)],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -2009,11 +2053,11 @@ module.exports = {
 				[Number(data.r), Number(data.f)],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -2034,11 +2078,11 @@ module.exports = {
 				[Number(data.r), Number(data.f)],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -2204,11 +2248,11 @@ module.exports = {
 				[Number(data.r), Number(data.f), data.t],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -2228,11 +2272,11 @@ module.exports = {
 				[Number(data.r), Number(data.f), "OTS0000"],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -2262,11 +2306,11 @@ module.exports = {
 				[Number(data.r), Number(data.f)],
 				(err, result) => {
 					if (err) {
-						(responderSet.sendData._call = -1),
+						((responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData);
+							reject(responderSet.sendData));
 					} else {
 						resolve(result);
 					}
@@ -2309,11 +2353,11 @@ module.exports = {
 
 			pool.query(query, [insertData], (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}
@@ -2349,11 +2393,11 @@ module.exports = {
 
 			pool.query(query, updateData, (err, result) => {
 				if (err) {
-					(responderSet.sendData._call = -1),
+					((responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData);
+						reject(responderSet.sendData));
 				} else {
 					resolve(result);
 				}

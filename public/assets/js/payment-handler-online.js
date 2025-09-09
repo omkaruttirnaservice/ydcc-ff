@@ -1,9 +1,8 @@
-import { impDatesConstants } from "./client_constants.js";
 import {
 	_hideLoader,
 	_showLoader,
 	alertjs,
-	checkProcessDates,
+	openCustomSizeWindow,
 } from "./common.js";
 
 $(function () {
@@ -43,9 +42,10 @@ $(function () {
 		$("#makePayment").attr("disabled", true);
 		_showLoader();
 		try {
-			await checkProcessDates(impDatesConstants.pPaymentEndDate);
+			// await checkProcessDates(impDatesConstants.pPaymentEndDate);
 			await makePayment();
 		} catch (error) {
+			console.log(error, "=erroe when payment");
 			alertjs.warning(
 				{
 					t: "Warning",
@@ -78,7 +78,7 @@ $(function () {
 			if (!_tokenRes.ok) {
 				throw new Error(
 					_data?.usrMsg ||
-						"Unable to process payments try again later",
+						"Unable to process payments try again later1",
 				);
 			}
 
@@ -166,8 +166,8 @@ $(function () {
 				let interval = setInterval(() => {
 					if (timeOut === 0) {
 						const url = `/application?r=${regID}&f=${form_id}`;
-						// $("#view-application-btn").attr("href", url);
-						// window.location.assign(url);
+						window.location.assign("/");
+						openCustomSizeWindow(url);
 						clearInterval(interval);
 					}
 					$("#opening-in").html(` : ${timeOut}`);
@@ -396,7 +396,7 @@ $(function () {
 			date.getMonth() + 1
 		}-${date.getFullYear()}`;
 		let formData = new FormData();
-		formData.append("r", regID),
+		(formData.append("r", regID),
 			formData.append("f", form_id),
 			formData.append("amount", 944),
 			formData.append("razorpay_order_id", date_1),
@@ -409,7 +409,7 @@ $(function () {
 			formData.append("post", userDetails.post),
 			formData.append("transection_no", transactionID),
 			// Attach file
-			formData.append("doc", $("input[type=file]")[0].files[0]);
+			formData.append("doc", $("input[type=file]")[0].files[0]));
 		date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
 		$("#makePaymentDemo").prop("disabled", true).html("Saving Details...");

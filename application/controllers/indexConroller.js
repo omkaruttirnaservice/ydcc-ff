@@ -21,12 +21,12 @@ const {
 	REGISTRATION_SMS_TYPE,
 	IMP_DATES_CACHE_KEY,
 	PROCESS_DATES,
-	PROCESS_DETAILS_CACHE_KEY,
 } = require("../config/constants.js");
 const { redisClient } = require("../config/redisConnect.js");
 const { infoLog } = require("../config/logger.js");
 const ApiResponseV2 = require("../config/ApiResponseV2.js");
 const ApiError = require("../config/ApiError.js");
+const { sendRegistrationEmailZeptomail } = require("./emailController.js");
 
 const __processDb = process.env.DB_DATABASE;
 
@@ -202,8 +202,6 @@ var indexController = {
 				`p_${__processDb}`,
 			);
 
-			console.log(_process, "==_process");
-
 			const impDates = await responderSet.getFromGlobalCache(
 				`impDates_${__processDb}`,
 			);
@@ -249,8 +247,9 @@ var indexController = {
 				table,
 			);
 
+			console.log({ _applicationsList }, "==");
+
 			applicationList = _applicationsList;
-			console.log({ applicationList });
 
 			if (IS_RESULT_GENGERATED) {
 				resultDetails = await IndexModel.getResultDetails_2(
@@ -504,8 +503,9 @@ var indexController = {
 				return res.redirect("/home");
 			}
 
-			if (generalDetails.length > 0 && generalDetails[0].p_done == 1)
+			if (generalDetails.length > 0 && generalDetails[0].p_done == 1) {
 				return res.redirect("/home");
+			}
 
 			// Fetch category list
 			const categoryList = await IndexModel.getCategoryList(res.pool);
@@ -826,19 +826,15 @@ var indexController = {
 			});
 	},
 
-	forgetPasswordView: async (req, res, next) => {
-		res.render("new/forget-password", {
+	forgetPasswordView: (req, res, next) => {
+		res.render("forget-password", {
 			title: "Forget Password",
-			p: await responderSet.getFromGlobalCache(PROCESS_DETAILS_CACHE_KEY),
-			dates: await responderSet.getFromGlobalCache(IMP_DATES_CACHE_KEY),
 		});
 	},
 
-	forgetUsernameView: async (req, res, next) => {
-		res.render("new/forget-username", {
+	forgetUsernameView: (req, res, next) => {
+		res.render("forget-username", {
 			title: "Forget UserName",
-			p: await responderSet.getFromGlobalCache(PROCESS_DETAILS_CACHE_KEY),
-			dates: await responderSet.getFromGlobalCache(IMP_DATES_CACHE_KEY),
 		});
 	},
 
@@ -982,6 +978,8 @@ var indexController = {
 	},
 	makeUserLogedIn: async (req, res, next) => {
 		var data = req.body;
+		console.log(req.body, "=--");
+
 		const _loginResp = await IndexModel.checkForLogin(res.pool, data);
 
 		if (_loginResp.length === 0) {
@@ -1131,6 +1129,18 @@ var indexController = {
 						},
 					);
 
+					let emailData = {
+						email: data.newMailPartOne,
+						first_name: data.newFname,
+						middle_name: data.newMname,
+						last_name: data.newLname,
+						username: result.insertId,
+						password: randomstring,
+					};
+
+					// send mail
+					// sendRegistrationEmailZeptomail(emailData);
+
 					// let context = registrationDone(details);
 					// emailModel.sendEmailGmailPromise(details.email, context);
 					// emailController.sendRegistrationEmail(details);
@@ -1159,15 +1169,16 @@ var indexController = {
 	},
 	saveEligibleDetails: (req, res, next) => {
 		var data = req.body;
-		console.log(data, "==data saveEligibileDetaisl==");
+		// console.log(data, "==data saveEligibileDetaisl==");
 
 		IndexModel.getPaymantDetails(res.pool, data)
 			.then(function (result) {
 				if (result.length == 0)
 					throw new Error("No payment found for selected caste.");
-				data["payment"] = result[0].pi_payment;
-				data["tax_per"] = result[0].pi_tax_per;
-				data["tax_payment"] = result[0].pi_tax_payment;
+				// data["payment"] = result[0].pi_payment;
+				// data["tax_per"] = result[0].pi_tax_per;
+				// data["tax_payment"] = result[0].pi_tax_payment;
+				// data["ca_convenience_charge"] = result[0].pi_convenience_charge;
 				return IndexModel.createNewAppication(res.pool, [data]);
 			})
 			.then(function (result) {
@@ -2525,21 +2536,44 @@ var indexController = {
 	// save header file
 	saveHeaderFile: (req, res, next) => {
 		try {
-			let headerFilePath = path.join(
-				"public",
-				"assets",
-				"images",
-				"brand-name.jpg",
-			);
-			const headerFile = req.files.headerFile;
-			console.log(headerFile, "==headerFile==");
-			headerFile.mv(headerFilePath, err => {
-				if (err) {
-					console.error("Error moving file:", err);
-					return res.status(500).send({ error: "File save failed" });
-				}
-				res.send({ message: "File saved successfully" });
-			});
+			const { type } = req.query;
+			if (type == "form_filling_header") {
+				let headerFilePath = path.join(
+					"public",
+					"assets",
+					"images",
+					"brand-name.jpg",
+				);
+				const headerFile = req.files.headerFile;
+				headerFile.mv(headerFilePath, err => {
+					if (err) {
+						console.error("Error moving file:", err);
+						return res
+							.status(500)
+							.send({ error: "File save failed" });
+					}
+					res.send({ message: "File saved successfully" });
+				});
+			}
+
+			if (type == "exam_header") {
+				let examHeaderFilePath = path.join(
+					"public",
+					"assets",
+					"images",
+					"exam-panel-brand-name.jpg",
+				);
+				const examHeaderFile = req.files.examHeaderFile;
+				examHeaderFile.mv(examHeaderFilePath, err => {
+					if (err) {
+						console.error("Error moving file:", err);
+						return res
+							.status(500)
+							.send({ error: "File save failed" });
+					}
+					res.send({ message: "File saved successfully" });
+				});
+			}
 		} catch (error) {
 			console.error("Error in file upload:", error.message);
 			res.status(500).send({ error: "Server error in saving file" });

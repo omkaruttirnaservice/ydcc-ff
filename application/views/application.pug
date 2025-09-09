@@ -130,7 +130,7 @@ block content
 
     div.container
         div.print-hide.my-3
-            a.btn.btn-primary.btn-sm.ml-2.mt-2.mx-3(href="/") HOME
+            //- a.btn.btn-primary.btn-sm.ml-2.mt-2.mx-3(href="/") HOME
             button.btn.btn-success.ml-2.mt-2.btn-sm(onclick="window.print();") Print Application
 
     div.print-full-width
@@ -142,8 +142,8 @@ block content
                 p.text-right.input-label Printed On&nbsp;::&nbsp;#{todaysDate}
 
                 div.candidate-photo-sign-container
-                    img#imageUploadPreview(src=s3BucketUrl + '/' + preview_data.photo, alt='candidate-photo' style='border: 1px solid gray; width:100px;height:100px;')
-                    img#signUploadPreview.img-fluid(src=s3BucketUrl+ '/' +preview_data.sign , alt='candidate-sign' style='border: 1px solid gray; width:100px;height:80px;')
+                    img#imageUploadPreview(src=p.imgBaseURL + preview_data.photo, alt='candidate-photo' style='border: 1px solid gray; width:100px;height:100px;')
+                    img#signUploadPreview.img-fluid(src=p.imgBaseURL + preview_data.sign , alt='candidate-sign' style='border: 1px solid gray; width:100px;height:80px;')
 
                 .card
                     .card-body
@@ -165,29 +165,33 @@ block content
                                     td(width='15%') Full Name (संपूर्ण नाव)
                                     td  #{preview_data.full_name}
                                 tr
-                                    td(width='15%') Bank Name (बँक नाव)
+                                    td(width='15%') Department Name (विभाग नाव)
                                     td #{preview_data.ca_detailsMainPost}
                                 tr
                                     td(width='15%') Post (पोस्ट नाव)
                                     td #{preview_data.post_name}
                                 tr
                                     td.section-heading(colspan='2') Fee Details (शुल्क तपशील)
+
+                                - const _payment  = preview_data.pi_payment 
+                                - const _gstCharges = preview_data.pi_tax_payment
+
                                 tr
                                     td(width='15%') Application Charges (अर्ज शुल्क)
                                     td(colspan='2') 
                                         i.fa-solid.fa-indian-rupee-sign.me-2(aria-hidden='true')
-                                        | #{preview_data.post_fee}
+                                        | #{_payment}
 
                                 tr
-                                    td(width='15%') GST 18% (कर शुल्क १८%)
+                                    td(width='15%') GST #{preview_data.pi_tax_per}% (कर शुल्क #{preview_data.pi_tax_per}%)
                                         td(colspan='2') 
                                             i.fa-solid.fa-indian-rupee-sign.me-2(aria-hidden='true')
-                                            | #{preview_data.post_fee_tax}
+                                            | #{_gstCharges}
                                 tr
                                     td(width='15%') Total Amount
                                         td(colspan='2') 
                                             i.fa-solid.fa-indian-rupee-sign.me-2(aria-hidden='true')
-                                            | #{preview_data.post_fee + preview_data.post_fee_tax}
+                                            | #{_payment + _gstCharges}
                                 tr
                                     td.section-heading(colspan='3') Personal Details (वैयक्तिक तपशील)
                                 tr
@@ -253,6 +257,13 @@ block content
                                 tr
                                     td(width='15%') Pin Code (पिन कोड)
                                     td(colspan='2') #{preview_data.pin_number ? preview_data.pin_number : '-'  }
+                                //- tr
+                                    td(width='15%') Ex-serviceman (माजी सैनिक)
+                                    td(colspan='2') #{preview_data.ex_service_man == 'y' ? 'Yes' :'No'  }
+                                //- tr
+                                    td(width='15%') Handicap (अपंग)
+                                    td(colspan='2') #{preview_data.handicap == 'y' ? 'Yes' :'No'  }
+
                                 tr
                                     td.section-heading(colspan='3') Contact Details (संपर्क तपशील)
                                 tr

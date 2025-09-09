@@ -13,6 +13,8 @@ let _candidateAgeFull = {
 	day: 0,
 };
 
+	// $("#elg-details-preview-modal").modal("show");
+
 var generalDetails = {
 	detailsbday: "",
 
@@ -156,7 +158,7 @@ var month = [
 ];
 
 function checkPopupDeclerationChecked() {
-	return $("#reg-decleration-confirm-popup").prop("checked");
+	return $("#elg-decleration-confirm-popup").prop("checked");
 }
 
 $("#detailsbday").html("<option value='-1'>Day</option>");
@@ -733,15 +735,17 @@ function showPreviewModal() {
 	);
 
 	$("#previewAge").text(
-		_candidateAgeFull.day +
-			"-" +
-			_candidateAgeFull.month +
-			"-" +
-			_candidateAgeFull.year,
+		`${_candidateAgeFull.year} Years, 
+		${_candidateAgeFull.month} ${getMonthSinglePlural(_candidateAgeFull.month)},
+		${_candidateAgeFull.day} ${getDaySinglePlural(_candidateAgeFull.day)} 
+		`,
 	);
 
 	$("#elg-details-preview-modal").modal("show");
 }
+
+const getMonthSinglePlural = number => (number > 1 ? "Months" : "Month");
+const getDaySinglePlural = number => (number > 1 ? "Days" : "Day");
 
 $(document).on("click", "#confirmElgDetails", function () {
 	if (!checkPopupDeclerationChecked()) {

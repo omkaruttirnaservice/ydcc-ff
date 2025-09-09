@@ -11,17 +11,24 @@ const indexPaymentModel = {
                                 ca.ca_catagory as catagory,
                                 DATE_FORMAT(ca.ca_dob,'%d / %m / %Y') as date_of_birth,
                                 ca.ca_preview_done as p_done,
-                                ca_payment  as post_fee,
-                                ca_tax_payment as post_fee_tax,
-                                ca_convenience_charge as convenience_charge,
+
+								pi.pi_payment,
+                                pi.pi_tax_per,
+                                pi.pi_tax_payment,
+								pi_convenience_charge,
+								SUM(pi.pi_payment + pi.pi_tax_payment + pi_convenience_charge) AS total_payment,
+
                                 ca_payment_done as payment_status,
                                 ca_detailsMainPost,
                                 ca_challanBranchCode as challanBranchCode
                             FROM 
                                 utr_candidate_appications as ca
-							INNER JOIN 
-                                utr_user_basic as ub ON
-                                ub.id = ca.ca_reg_id 
+							INNER JOIN utr_user_basic as ub 
+							ON ub.id = ca.ca_reg_id 
+
+							INNER JOIN utr_payment_info as pi
+							ON ca.ca_post_id = pi.pi_post_id AND ca.ca_catagory = pi.pi_category_id
+
                             WHERE 
                                 ca_reg_id = ? AND  ca.id = ? AND ca.ca_preview_done = 1
                                 GROUP BY ca.id
