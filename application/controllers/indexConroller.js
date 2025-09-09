@@ -826,15 +826,17 @@ var indexController = {
 			});
 	},
 
-	forgetPasswordView: (req, res, next) => {
-		res.render("forget-password", {
+	forgetPasswordView: async (req, res, next) => {
+		res.render("new/forget-password", {
 			title: "Forget Password",
+			p: await responderSet.getFromGlobalCache(`p_${__processDb}`),
 		});
 	},
 
-	forgetUsernameView: (req, res, next) => {
-		res.render("forget-username", {
+	forgetUsernameView: async (req, res, next) => {
+		res.render("new/forget-username", {
 			title: "Forget UserName",
+			p: await responderSet.getFromGlobalCache(`p_${__processDb}`),
 		});
 	},
 
