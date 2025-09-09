@@ -182,13 +182,13 @@ $(document).ready(() => {
 			required: true,
 		},
 
-		candidateOtherLanguage: {
-			required: true,
-		},
+		// candidateOtherLanguage: {
+		// 	required: true,
+		// },
 
-		candidateEnglishLanguage: {
-			required: true,
-		},
+		// candidateEnglishLanguage: {
+		// 	required: true,
+		// },
 
 		candidateSammnater: {
 			required: true,
@@ -356,13 +356,13 @@ $(document).ready(() => {
 			required: "&nbsp; Marathi Language Required",
 		},
 
-		candidateOtherLanguage: {
-			required: "&nbsp; Hindi Language Required",
-		},
+		// candidateOtherLanguage: {
+		// 	required: "&nbsp; Hindi Language Required",
+		// },
 
-		candidateEnglishLanguage: {
-			required: "&nbsp; English Language Required",
-		},
+		// candidateEnglishLanguage: {
+		// 	required: "&nbsp; English Language Required",
+		// },
 
 		candidateSammnater: {
 			required: "&nbspकृपया समान्तर आरक्षण निवडा",
@@ -549,7 +549,8 @@ $(document).ready(() => {
 
 	function generateLanguageValidationRules(languages) {
 		let rules = {};
-		languages.forEach(language => {
+		let lng = languages.slice(0, 1);
+		lng.forEach(language => {
 			rules[`candidate${language.languageName}Language`] = {
 				required: function () {
 					return language.read || language.write || language.speak;
@@ -564,7 +565,8 @@ $(document).ready(() => {
 
 	function generateLanguageValidationMessages(languages) {
 		let messages = {};
-		languages.forEach(language => {
+		let lng = languages.slice(0, 1);
+		lng.forEach(language => {
 			messages[`candidate${language.languageName}Language`] = {
 				required: `Select at least one option for ${language.languageName}.`,
 			};

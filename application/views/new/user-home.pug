@@ -26,6 +26,11 @@ block inline_css
             padding: 0.2rem !important;
         }
 
+        @keyframes blinkButton {
+            0%   { background-color: oklch(67.3% 0.182 276.935); color: white; }
+            100% { background-color: oklch(71.5% 0.143 215.221); color: white; }
+        }
+
 block inline_js
     script.
         let regID = Number(#{regIDInt});
@@ -69,8 +74,6 @@ block content
                 div.side-menu
                     include ./includes/profile-icon.pug
 
-                    if !checkIfDateExpired(PROCESS_DATES.P_REGISTRATION_END_DATE)
-                        button#idApplyForNewPost.c-button.c-btn-primary Apply For New Post
 
                 div.main-content
 
@@ -95,6 +98,7 @@ block content
                             //-     tr
                             //-         td(colspan="10")
                             //-             h5.text-danger No Application Found
+
                         
                             - function isPostForPracticalExam(post) 
                                 - const postList = ["वाहन चालक", "वीजतंत्री", "भुईकाटा ऑपरेटर", ];
@@ -184,6 +188,14 @@ block content
                                                         data-type="RESUME"
                                                         data-index=`${idx}`
                                                         data-f-id=`${f_id}`) Resume
+
+
+                        if !checkIfDateExpired(PROCESS_DATES.P_REGISTRATION_END_DATE)
+                            .d-flex.justify-content-center.mt-4
+                                button#idApplyForNewPost.c-button.c-btn-primary.w-25(
+                                    style="background-color:red; font-weight: bold !important; font-size: 1.1rem !important; color:white; animation: blinkButton 1s infinite;"
+                                ) Apply For New Post
+
 
 
                     //- result

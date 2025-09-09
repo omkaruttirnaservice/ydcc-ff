@@ -1,11 +1,31 @@
-
-div.profileIcon
+//- div.profileIcon
     div
         label.input-label UserId&nbsp;:&nbsp; #{regIDInt}  
-        label.input-label Username&nbsp;:&nbsp; #{userName}
+        label.input-label #{userName}
+
         if regPostName
             label.input-label.profileName Post : #{regPostName}
 
-    div
-        a.c-button.c-btn-primary(href='/home') Home
-        button#logout.fw-bold.c-button.c-btn-success Logout
+    div.d-flex.justify-content-end
+        a.c-button.c-btn-primary.w-25(href='/home') Home
+        button#logout.fw-bold.c-button.c-btn-success.w-25 Logout
+
+div.profileHeader
+    div.profileLeft
+        div.avatar
+            i.fa-solid.fa-user 
+        div.profileInfo
+            div.username #{userName}
+            div.meta
+                span User ID: #{regIDInt}
+                if regPostName
+                    span.metaDot •
+                    span Post: #{regPostName}
+
+    div.profileActions
+        a.action(href="/home")
+            i.fa-solid.fa-house
+            span Home
+        button#logout.action(type="button")
+            i.fa-solid.fa-right-from-bracket
+            span Logout

@@ -20,10 +20,8 @@ html(lang="en")
 
     body
         - const isProcessLive = p.p_is_live == 1
-        //- - const processNameEnglish = 'Krushi Utpana Bajar Samiti Amalner'
-        //- - const processNameMarathi = 'कृषी उत्पन्न बाजार समिती अमळनेर'
-        - const processNameMarathi = 'Yavatmal District Central Co-Op. Bank Limited'
-        - const processNameEnglish = 'यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या.  यवतमाळ'
+        - const processNameMarathi = 'Yavatmal District Central Co-Op. Bank Ltd., Yavatmal'
+        - const processNameEnglish = 'यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या., यवतमाळ'
 
         //- top bar
 
@@ -115,4 +113,5 @@ html(lang="en")
 
                 // Bottom
                 div(class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-sm")
-                    p © #{new Date().getFullYear()} #{processNameEnglish} All rights reserved.
+                    p © #{new Date().getFullYear()} #{processNameEnglish} 
+                    p All rights reserved.
