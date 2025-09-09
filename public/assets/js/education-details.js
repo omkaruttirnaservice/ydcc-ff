@@ -362,11 +362,13 @@ function renderPassingMonth() {
 function renderPassingYear(year = 1980) {
 	let date = new Date();
 	date = date.getFullYear();
+	let _passingYearHtml = `<option value="">--- Select ---</option>`;
+
 	for (let index = year; index <= date; index++) {
-		$("#newYear,#newOtherYear").append(
-			`<option value="${index}">${index}</option>`,
-		);
+		_passingYearHtml += `<option value="${index}">${index}</option>`;
 	}
+
+	$("#newYear,#newOtherYear").html(_passingYearHtml);
 }
 
 function getPassingStartYear(eduTypeId) {
