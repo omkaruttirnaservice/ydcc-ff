@@ -124,9 +124,23 @@ $("#newOtherEducation").validate({
 	},
 });
 
+function renderResultTypeDropdown(eduType) {
+	if (eduType == GRADUATION) {
+		$("#result-type").html(`
+			<option value="PERCENTAGE"> Percentage </option>
+			<option value="CGPA"> CGPA </option
+		`);
+	}
+
+	if (eduType != GRADUATION) {
+		$("#result-type").html(`
+			<option value="PERCENTAGE"> Percentage </option>
+		`);
+	}
+}
+
 // result type (percentage/cgpa)
 $(document).on("change", "#result-type", function () {
-	console.log(2, "==2==");
 	let value = $(this).val();
 	if (!value) {
 		$(".percentage-type-result-container").addClass("d-none");
@@ -501,10 +515,12 @@ $("#addNewDetails").on("click", function () {
 	check_selected_specilzation_type();
 	renderPassingMonth();
 
+	qualification_selected_for_add_details = $("#qualificationList").val();
+	renderResultTypeDropdown(qualification_selected_for_add_details);
+
 	$("#result-type").prop("selectedIndex", 0);
 	$("#result-type").trigger("change");
 
-	qualification_selected_for_add_details = $("#qualificationList").val();
 	if (
 		!check_selected_qualification_is_empty(
 			qualification_selected_for_add_details,
@@ -731,13 +747,6 @@ function validateMinPercentageCgpaRequired(_details) {
 	const minPassingPercent = _details.min_passing_percentage;
 	const enteredPercentage = parseFloat($("#percent").val());
 
-	console.log(
-		resultType,
-		minPassingPercent,
-		enteredPercentage,
-		"==resultType, minPassingPercent, enteredPercentage==",
-	);
-
 	if (
 		resultType == "PERCENTAGE" &&
 		minPassingPercent !== 0 &&
@@ -746,7 +755,7 @@ function validateMinPercentageCgpaRequired(_details) {
 		alertjs.warning(
 			{
 				t: "Warning",
-				m: `A Minimum ${_details.min_passing_percentage}% marks are required ${_details.edu_type_name}.`,
+				m: `A Minimum ${_details.min_passing_percentage}% marks are required in ${_details.edu_type_name}.`,
 			},
 			function () {},
 		);
