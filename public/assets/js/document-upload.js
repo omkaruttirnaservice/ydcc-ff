@@ -232,7 +232,7 @@ $(document).ready(function () {
 			alertjs.warning(
 				{
 					t: "Warning",
-					m: `Select ${getDocumentMessage("upload", imgType)}`,
+					m: `${getDocumentMessage("upload", imgType)}`,
 				},
 				() => {
 					return false;
