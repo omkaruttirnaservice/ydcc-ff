@@ -231,6 +231,7 @@ input:focus {
 	font-size: 0.9rem !important;
 }
 
+.swal2-cancel.swal2-styled ,
 .swal2-confirm.swal2-styled {
 	font-size: 0.6rem !important;
 }
