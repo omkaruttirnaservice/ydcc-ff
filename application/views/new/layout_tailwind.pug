@@ -15,13 +15,15 @@ html(lang="en")
         script(src="https://cdn.tailwindcss.com")
 
         block css
+        
+
         block js
 
 
     body
         - const isProcessLive = p.p_is_live == 1
-        - const processNameMarathi = 'Yavatmal District Central Co-Op. Bank Ltd., Yavatmal'
-        - const processNameEnglish = 'यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या., यवतमाळ'
+        - const processNameMarathi = 'The Yavatmal District Central Co-Op. Bank Ltd., Yavatmal'
+        - const processNameEnglish = 'दि यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या., यवतमाळ'
 
         //- top bar
 
@@ -71,9 +73,25 @@ html(lang="en")
                             each impDate in dates
                                 if impDate._column === 'p_registration_end_date'
                                     if !impDate.isExpired
-                                        a(href="/new-registration" class="bg-[#4E6688] hover:bg-[#332D56] text-gray-50 px-4 py-2 rounded-md transition duration-300 ease-in-out flex items-center shadow-md gap-2")
-                                            i.fa-solid.fa-arrow-right
-                                            |  New Registration
+                                        //- a(href="/new-registration" class="bg-[#4E6688] hover:bg-[#332D56] text-gray-50 px-14 py-2 animate-pulse rounded-md transition duration-300 ease-in-out flex items-center shadow-md gap-2")
+                                        //-     i.fa-solid.fa-arrow-right
+                                        //-     |  New Registration
+
+                                        a(
+                                            href="/new-registration"
+                                            class="relative inline-flex items-center gap-2 p-[2px] rounded-md shadow-md overflow-hidden"
+                                        )
+                                            // Gradient border layer
+                                            span(
+                                                class="absolute inset-0 rounded-md animate-borderCycle bg-[conic-gradient(var(--tw-gradient-stops))] from-pink-500 via-purple-500 via-blue-500 via-green-500 via-yellow-500 via-red-500 to-pink-500"
+                                            )
+
+                                            // Actual button
+                                            span(
+                                                class="relative flex items-center gap-2 bg-[#4E6688] hover:bg-[#332D56] text-gray-50 px-14 py-2 rounded-md transition duration-300 ease-in-out"
+                                            )
+                                                i(class="fa-solid fa-arrow-right")
+                                                |  New Registration
 
 
         block content
