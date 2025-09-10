@@ -13,6 +13,20 @@ html(lang="en")
         script(src='/plugins/jquery_validation/additional-methods.js')
         script(src='/assets/js/common.js' type="module" )
         script(src="https://cdn.tailwindcss.com")
+        style.
+            @keyframes borderCycle {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .animate-borderCycle {
+                animation: borderCycle 4s linear infinite;
+            }
+
 
         block css
         
@@ -107,8 +121,8 @@ html(lang="en")
                         div(class="flex flex-col items-end mb-4")
                             //- div(class="bg-gray-50 text-gray-900 w-10 h-10 rounded-full flex items-center justify-center font-semibold mr-3")
                             //- 	| 🏦
-                            h3(class="text-lg font-semibold mb-4") #{processNameEnglish}
-                            h5(class="text-lg font-normal") #{processNameMarathi}
+                            h3(class="text-sm font-semibold mb-4") #{processNameEnglish}
+                            h5(class="text-sm font-normal") #{processNameMarathi}
                         p(class="text-gray-400 text-sm")
                     // Quick Links
                     div(class="col-span-2")
