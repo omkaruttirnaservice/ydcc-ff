@@ -10,7 +10,6 @@ exports.otpController = {
 
 	verifyOtp: async (req, res, next) => {
 		try {
-			console.log(req.body, "req.body");
 			const { otp, reference_id, aadharNumber, mobileNumber } = req.body;
 
 			const otpDetails = await otpModel.checkOtpValid(
@@ -18,11 +17,15 @@ exports.otpController = {
 				otp,
 				reference_id,
 			);
-			console.log(otpDetails, "otpDetails");
 			if (otpDetails.length === 0) {
 				return res
 					.status(410)
-					.json(new ApiResponseV2(410, "Invalid or expired OTP"));
+					.json(
+						new ApiResponseV2(
+							410,
+							`<p class="text-red-500">Invalid or expired OTP. अवैध  OTP.`,
+						),
+					);
 			}
 
 			// get user
@@ -49,7 +52,7 @@ exports.otpController = {
 				.json(
 					new ApiResponseV2(
 						200,
-						"<p class='text-red-500'>Login details sent to registered email. नोंदणीकृत ईमेलवर लॉगिन तपशील पाठवले. </p>",
+						"<p class='text-red-500'>Login details sent to registered email. नोंदणीकृत ईमेलवर लॉगिन तपशील पाठवला आहे. </p>",
 					),
 				);
 		} catch (error) {
