@@ -17,6 +17,7 @@ $("#get-user-id").click(function (event) {
 			data: {
 				aadharNumber: $('input[name="forAadharNumber"]').val(),
 				mobileNumber: $('input[name="forgetMobileNumber"]').val(),
+				type: type == "userid" ? "user ID" : "password",
 			},
 		})
 			.done(function (data) {

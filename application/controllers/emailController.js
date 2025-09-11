@@ -5,12 +5,19 @@ const { SendMailClient } = require("zeptomail");
 const {
 	_registrationEmailTemplate,
 	_forgotUsernameOtpTemplate,
+	_paymentSuccessTemplate,
 } = require("../config/emailTemplates");
 
 const emailController = {
 	sendRegistrationEmailZeptomail: async data => {
 		data.subject = _registrationEmailTemplate.subject;
 		data.mailBody = _registrationEmailTemplate.email(data);
+		sendZeptoMail(data);
+	},
+
+	sendPaymentDoneEmailZeptomail: async data => {
+		data.subject = _paymentSuccessTemplate.subject;
+		data.mailBody = _paymentSuccessTemplate.email(data);
 		sendZeptoMail(data);
 	},
 
@@ -121,7 +128,6 @@ function sendZeptoMail(data) {
 		.then(resp => console.log("success send email to: ", resp))
 		.catch(error => console.log("error send email to: ", error));
 }
-
 
 function sendZeptoMailBulk(data) {
 	const url = "api.zeptomail.in/";

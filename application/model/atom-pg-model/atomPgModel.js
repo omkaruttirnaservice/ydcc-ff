@@ -131,6 +131,45 @@ const atomPgModel = {
 		});
 	},
 
+	getUserDetailsByTransactionIdV2: function (pool, merchTxnId) {
+		return new Promise((resolve, reject) => {
+			var query = `SELECT 
+							ca.id as f_id,
+							ca_reg_id as r_id,
+							ca_post_name,
+							pay_amount,
+							ub_first_name,
+							ub_middle_name,
+							ub_last_name,
+							ub_email_id,
+							DATE_FORMAT(pay_done_date, '%d-%m-%Y') pay_done_date,
+							DATE_FORMAT(pay_done_time,'%h:%i:%s %p') pay_done_time,
+							pay_merch_txn_id
+
+
+						FROM utr_candidate_appications as ca 
+
+						INNER JOIN
+							payment_history as ph
+						ON
+							ca.ca_reg_id = ph.r_id AND
+							ca.id = ph.f_id
+
+						INNER JOIN
+							utr_user_basic as ub
+						ON ub.id = ca.ca_reg_id
+						
+						WHERE ph.pay_merch_txn_id = ?`;
+			pool.query(query, merchTxnId, function (err, result) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			});
+		});
+	},
+
 	updatePaymentDoneStatus: (pool, data) => {
 		return new Promise((resolve, reject) => {
 			let q = `UPDATE 

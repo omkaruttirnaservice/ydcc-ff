@@ -20,16 +20,17 @@ const {
 } = require("../../config/constants.js");
 const ApiResponseV2 = require("../../config/ApiResponseV2.js");
 const ApiError = require("../../config/ApiError.js");
+const { sendPaymentDoneEmailZeptomail } = require("../emailController.js");
 dotenv.config();
 
 // ==================================================================
 // production==production==production==production
-const req_enc_key = "C5380708A3C075AD04485827C0EF5459";
-const req_salt = "C5380708A3C075AD04485827C0EF5459";
-const res_dec_key = "6C4727EACF5A9E511F3A61A4A3F6FB3F";
-const res_salt = "6C4727EACF5A9E511F3A61A4A3F6FB3F";
-const resHashKey = "64f4250bc43276d7c3";
-const reqHashKey = "e1daf4c5ce18d01307";
+const req_enc_key = "42402674C06931044E3F4B159051639F";
+const req_salt = "42402674C06931044E3F4B159051639F";
+const res_dec_key = "81E3746B0CAC0F1F1466090F9EFF48D4";
+const res_salt = "81E3746B0CAC0F1F1466090F9EFF48D4";
+const resHashKey = "ec6ffe4587e436f5af";
+const reqHashKey = "3f23bb14010052e3aa";
 
 // const req_enc_key = "";
 // const req_salt = "";
@@ -38,9 +39,9 @@ const reqHashKey = "e1daf4c5ce18d01307";
 // const resHashKey = "";
 // const reqHashKey = "";
 
-const merchId = "711123";
-const merchPass = "8d82beb8";
-const prodId = "MARKET";
+const merchId = "734239";
+const merchPass = "4f16829e";
+const prodId = "SAMITI";
 const Authurl = "https://payment1.atomtech.in/ots/aipay/auth";
 
 const algorithm = "aes-256-cbc";
@@ -80,7 +81,7 @@ const atomPgController = {
 	getPaymentDetails: async (reqe, resp, next) => {
 		try {
 			const { userDetails } = reqe.body;
-			console.log(userDetails, "==userDetails");
+			// console.log(userDetails, "==userDetails");
 
 			if (!userDetails) {
 				return resp
@@ -142,7 +143,7 @@ const atomPgController = {
 				'","merchTxnId":"' +
 				txnId +
 				'","merchTxnDate":"' +
-				momentDates.getTimestamp() +
+				momentDates._getTimestamp() +
 				'"},"payDetails":{"amount":"' +
 				amount +
 				'","product":"' +
@@ -153,13 +154,13 @@ const atomPgController = {
 				contact +
 				'"},  "extras": {"udf1":"udf1","udf2":"udf2","udf3":"udf3","udf4":"udf4","udf5":"udf5"}}}';
 
-			console.log(jsondata, "==jsondata==");
+			// console.log(jsondata, "==jsondata==");
 
 			const JSONString = jsondata.toString();
 
-			console.log(JSONString, "===JSONString====");
+			// console.log(JSONString, "===JSONString====");
 			let encDataR = encrypt(JSONString);
-			console.log(encDataR, "==encDataR==");
+			// console.log(encDataR, "==encDataR==");
 
 			var req = unirest("POST", Authurl);
 			req.headers({
@@ -173,7 +174,8 @@ const atomPgController = {
 			});
 
 			req.end(async function (res) {
-				console.log(res.body, "==res==");
+				// console.log(res, "==res==");
+				// console.log(res.body, "==res==");
 				if (!res.body) {
 					return resp.status(400).json({
 						call: 0,
@@ -241,6 +243,18 @@ const atomPgController = {
 				}
 			});
 		} catch (err) {
+			console.log(err, "=error in token generation");
+			if (err.code === "ER_DUP_ENTRY") {
+				// ✅ Duplicate entry error
+				return resp
+					.status(400)
+					.json(
+						new ApiResponseV2(
+							400,
+							"Unable to generate token, try again later.",
+						),
+					);
+			}
 			next(err);
 		}
 	},
@@ -302,6 +316,107 @@ const atomPgController = {
 				})
 				.then(_candidateDetails => {
 					let { r_id, f_id } = _candidateDetails[0];
+					res.redirect(`/payment-page?r=${r_id}&f=${f_id}`);
+				})
+				.catch(err => {
+					return res.status(500).json({
+						call: 0,
+						message: err.message,
+					});
+				});
+		} else {
+			return res.status(500).json({
+				call: 2,
+				message: "Payment signature mismatched",
+			});
+		}
+	},
+
+	verifyPaymentV2: (req, res, next) => {
+		var decrypted_data = decrypt(req.body.encData);
+		let jsonData = JSON.parse(decrypted_data);
+		let respArray = Object.keys(jsonData).map(key => jsonData[key]);
+
+		let signature = generateSignature(respArray);
+
+		if (signature === respArray[0]["payDetails"]["signature"]) {
+			const merchTxnId = respArray[0].merchDetails.merchTxnId;
+			const insertData = {
+				pay_status_code:
+					respArray[0].responseDetails.statusCode == "OTS0000" ||
+					"OTS0002"
+						? SUCCESS_PAYMENT_CODE
+						: FAILED_PAYMENT_CODE,
+				pay_message:
+					respArray[0].responseDetails.message == "SUCCESS"
+						? SUCCESS_PAYMENT_MSG
+						: FAILED_PAYMENT_MSG,
+				pg_txn_id: respArray[0].payDetails.atomTxnId,
+				pay_more_details: JSON.stringify(respArray[0].payDetails),
+
+				pay_done_date: momentDates.getDateOnly({
+					dateFormat: "YYYY-MM-DD",
+				}),
+				pay_done_time: momentDates.getTimeOnly(),
+				merch_txn_id: merchTxnId,
+			};
+
+			const payStatusCode = respArray[0]["responseDetails"]["statusCode"];
+
+			atomPgModel
+				.updatePayStatus(res.pool, insertData)
+				.then(result => {
+					if (result.affectedRows != 1) {
+						throw new Error("Not able to update payment status");
+					}
+					if (
+						payStatusCode == "OTS0000" ||
+						payStatusCode == "OTS0002"
+					) {
+						return atomPgModel.updatePaymentDoneStatus(
+							res.pool,
+							insertData,
+						);
+					} else {
+						return true;
+					}
+				})
+				.then(() => {
+					return atomPgModel.getUserDetailsByTransactionIdV2(
+						res.pool,
+						merchTxnId,
+					);
+				})
+				.then(_candidateDetails => {
+					let {
+						r_id,
+						f_id,
+						ca_post_name,
+						pay_amount,
+						ub_first_name,
+						ub_middle_name,
+						ub_last_name,
+						ub_email_id,
+						pay_done_date,
+						pay_done_time,
+						pay_merch_txn_id,
+					} = _candidateDetails[0];
+
+					// send payment success email
+					sendPaymentDoneEmailZeptomail({
+						first_name: ub_first_name,
+						middle_name: ub_middle_name,
+						last_name: ub_last_name,
+						amount: pay_amount,
+						post_name: ca_post_name,
+						f_id,
+						r_id,
+						payment_date: pay_done_date,
+						payment_time: pay_done_time,
+						transaction_id: pay_merch_txn_id,
+						email: ub_email_id,
+					});
+
 					res.redirect(`/payment-page?r=${r_id}&f=${f_id}`);
 				})
 				.catch(err => {
@@ -387,7 +502,7 @@ const atomPgController = {
 					}
 
 					let _response = JSON.parse(decryptedRes);
-					console.log(_response.payInstrument, "-_response");
+					// console.log(_response.payInstrument, "-_response");
 					// return;
 
 					let isSuccessFound = false;
@@ -407,8 +522,8 @@ const atomPgController = {
 						}
 					});
 					isSuccessFound = false;
-					console.log(isSuccessFound, "==isSuccess==");
-					console.log(currentResponse);
+					// console.log(isSuccessFound, "==isSuccess==");
+					// console.log(currentResponse);
 
 					const payStatusCode = currentResponse.statusCode;
 					if (payStatusCode === "OTS0506") {
@@ -626,6 +741,189 @@ const atomPgController = {
 				return res.status(200).json({
 					call: 1,
 					message: "Payment Failed",
+				});
+			} else {
+				return res.status(200).json({
+					call: 0,
+					message: "Payment Failed",
+				});
+			}
+		} catch (error) {
+			return res.status(500).json({
+				call: 0,
+				message: error?.message || "Please try again later",
+			});
+		}
+	},
+
+	transactionStatusV3: async (req, res, next) => {
+		try {
+			const txnVerifycationApi = "TXNVERIFICATION";
+			const userTxnDetails = req.query;
+
+			if (!userTxnDetails) {
+				return res.redirect("/home");
+			}
+
+			// const userTxnDetails = {
+			// 	merch_trans_id: 'Invoicelzxwzbz0',
+			// 	merchTxnDate: '2024-08-17',
+			// 	amount: '1.00',
+			// }; // sample
+
+			const dataToSign = `${merchId}${merchPass}${userTxnDetails.merch_trans_id}${userTxnDetails.amount}INR${txnVerifycationApi}`; //production
+			// console.log(dataToSign, '-data to sign');
+			// const dataToSign = `${merchId}${merchPass}${userTxnDetails.merch_trans_id}1.00INR${txnVerifycationApi}`; //production
+			const signature = generateSignature_2(dataToSign);
+
+			const refetchPayloadData = {
+				payInstrument: {
+					headDetails: {
+						api: txnVerifycationApi,
+						source: "OTS",
+					},
+					merchDetails: {
+						merchId: merchId,
+						password: merchPass,
+						merchTxnId: userTxnDetails.merch_trans_id,
+						merchTxnDate: userTxnDetails.merchTxnDate,
+					},
+					payDetails: {
+						amount: userTxnDetails.amount,
+						txnCurrency: "INR",
+						signature: signature,
+					},
+				},
+			};
+
+			const encryptedData = encrypt(JSON.stringify(refetchPayloadData)); // for production
+
+			const URL_PROD = `https://payment1.atomtech.in/ots/payment/status?merchId=${merchId}&encData=${encryptedData}`; // prod URL
+
+			const result = await axios.get(URL_PROD, {
+				headers: {
+					"cache-control": "no-cache",
+					"content-type": "application/x-www-form-urlencoded",
+				},
+			});
+			if (!result) {
+				res.redirect("/home");
+				return res.status(500).json({
+					call: 0,
+					message: "Unable to refetch transaction details",
+				});
+			}
+			let arr = result.data.split("&")[0].split("=")[1];
+			let decryptedRes = decrypt(arr);
+			if (!decryptedRes) {
+				return res.status(500).json({
+					call: 0,
+					message: "Unable to refetch transaction details",
+				});
+			}
+
+			let _response = JSON.parse(decryptedRes);
+
+			let isSuccessFound = false;
+			let currentResponse = [];
+
+			_response.payInstrument.forEach(_payment => {
+				if (isSuccessFound) return;
+				currentResponse = _payment.responseDetails;
+
+				const payStatusCode = currentResponse.statusCode;
+
+				if (
+					payStatusCode == PG_SUCCESS_PAYMENT_CODE_1 ||
+					payStatusCode == PG_SUCCESS_PAYMENT_CODE_2
+				) {
+					isSuccessFound = true;
+				}
+			});
+			isSuccessFound = false;
+
+			const payStatusCode = currentResponse.statusCode;
+
+			const merchTxnId = userTxnDetails.merch_trans_id;
+			const insertData = {
+				pay_status_code:
+					currentResponse.statusCode == PG_SUCCESS_PAYMENT_CODE_1 ||
+					currentResponse.statusCode === PG_SUCCESS_PAYMENT_CODE_2
+						? SUCCESS_PAYMENT_CODE
+						: FAILED_PAYMENT_CODE,
+				pay_message:
+					currentResponse.message == "SUCCESS"
+						? SUCCESS_PAYMENT_MSG
+						: FAILED_PAYMENT_MSG,
+				pg_txn_id:
+					_response?.payInstrument[0]?.payDetails?.atomTxnId || "-",
+
+				pay_more_details: JSON.stringify(
+					_response?.payInstrument || "-",
+				),
+				pay_done_date: momentDates.getDateOnly({
+					dateFormat: "YYYY-MM-DD",
+				}),
+				pay_done_time: momentDates.getTimeOnly(),
+				merch_txn_id: merchTxnId,
+			};
+
+			// success payment
+			const paymentStatusUpdateResp = await atomPgModel.updatePayStatus_2(
+				res.pool,
+				insertData,
+			);
+
+			if (paymentStatusUpdateResp.affectedRows != 1) {
+				throw new Error("Not able to update payment status");
+			}
+
+			if (
+				payStatusCode == PG_SUCCESS_PAYMENT_CODE_1 ||
+				payStatusCode == PG_SUCCESS_PAYMENT_CODE_2
+			) {
+				await atomPgModel.updatePaymentDoneStatus(res.pool, insertData);
+
+				// get user by merch txn id
+
+				const _candidateDetails =
+					await atomPgModel.getUserDetailsByTransactionIdV2(
+						res.pool,
+						insertData.merch_txn_id,
+					);
+
+				let {
+					r_id,
+					f_id,
+					ca_post_name,
+					pay_amount,
+					ub_first_name,
+					ub_middle_name,
+					ub_last_name,
+					ub_email_id,
+					pay_done_date,
+					pay_done_time,
+					pay_merch_txn_id,
+				} = _candidateDetails[0];
+
+				// send payment success email
+				sendPaymentDoneEmailZeptomail({
+					first_name: ub_first_name,
+					middle_name: ub_middle_name,
+					last_name: ub_last_name,
+					amount: pay_amount,
+					post_name: ca_post_name,
+					f_id,
+					r_id,
+					payment_date: pay_done_date,
+					payment_time: pay_done_time,
+					transaction_id: pay_merch_txn_id,
+					email: ub_email_id,
+				});
+
+				return res.status(200).json({
+					call: 1,
+					message: "Success",
 				});
 			} else {
 				return res.status(200).json({

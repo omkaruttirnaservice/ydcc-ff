@@ -19,13 +19,10 @@ block inline_js
             totalPayment: '#{payment_data.pi_payment + payment_data.pi_tax_payment}'
         };
         userDetails.transId = p.p_trans_id // adding dynamic transaction id
-    script.
-        var cdnScript = document.createElement('script');
-        cdnScript.setAttribute('src', 'https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js');
-        document.head.appendChild(cdnScript);
 
 block js_link
-    script(src="/assets/js/payment-handler-online.js" type="module" defer)
+    script(src="/assets/js/paymentHandlerOnline.js" type="module" defer)
+
 block inline_css 
     style. 
         .section-heading {

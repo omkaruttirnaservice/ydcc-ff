@@ -37,6 +37,12 @@ paymentRouter.post(
 	atomPgController.verifyPayment,
 );
 
+paymentRouter.post(
+	"/v2/verify-payment",
+	middleware.checkForPoolConnection,
+	atomPgController.verifyPaymentV2,
+);
+
 paymentRouter.get(
 	"/v1/transaction-status",
 	middleware.checkForPoolConnection,
@@ -47,6 +53,12 @@ paymentRouter.get(
 	"/v2/transaction-status",
 	middleware.checkForPoolConnection,
 	atomPgController.transactionStatusV2,
+);
+
+paymentRouter.get(
+	"/v3/transaction-status",
+	middleware.checkForPoolConnection,
+	atomPgController.transactionStatusV3,
 );
 
 module.exports = paymentRouter;
