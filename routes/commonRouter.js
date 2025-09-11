@@ -288,10 +288,16 @@ router.get(
 );
 
 router.get(
-	"/forget-password",
+	"/forget",
 	middleware.checkForPoolConnection,
-	indexController.forgetPasswordView,
+	indexController.forgetCredentialsView,
 );
+
+// router.get(
+// 	"/forget-password",
+// 	middleware.checkForPoolConnection,
+// 	indexController.forgetPasswordView,
+// );
 
 router.post(
 	"/getPasswordRecovery",

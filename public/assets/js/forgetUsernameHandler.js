@@ -56,9 +56,8 @@ $("#verify-otp-btn").click(function (event) {
 				messageContainer.html(`
 						<p class="text-sm text-red-500 ">${data?.usrMsg || "Details shared to registered email"}</p>`);
 
-				setTimeout(() => {
-					window.location.href = "/";
-				}, 3000);
+				$("#forget-username")[0].reset();
+				otpInputContainerEl.addClass("hidden");
 			})
 			.fail(function (error) {
 				const er = error?.responseJSON;

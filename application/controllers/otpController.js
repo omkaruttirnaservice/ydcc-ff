@@ -47,7 +47,10 @@ exports.otpController = {
 			return res
 				.status(200)
 				.json(
-					new ApiResponseV2(200, "Login details are send to email"),
+					new ApiResponseV2(
+						200,
+						"Login details are sent to registered email",
+					),
 				);
 		} catch (error) {
 			next(error);

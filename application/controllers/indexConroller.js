@@ -844,6 +844,20 @@ var indexController = {
 		});
 	},
 
+	forgetCredentialsView: async (req, res, next) => {
+		let data = req.query;
+
+		if (data.type !== "userid" && data.type !== "password") {
+			data.type = "userid";
+		}
+
+		res.render("new/forget-credentials", {
+			title: data.type == "userid" ? "Forget User ID" : "Forget Password",
+			type: data.type,
+			p: await responderSet.getFromGlobalCache(`p_${__processDb}`),
+		});
+	},
+
 	getApplicationView: async (req, res, next) => {
 		// final application print
 		var data = req.query;
