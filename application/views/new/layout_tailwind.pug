@@ -13,6 +13,11 @@ html(lang="en")
         script(src='/plugins/jquery_validation/additional-methods.js')
         script(src='/assets/js/common.js' type="module" )
         script(src="https://cdn.tailwindcss.com")
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Playwrite+US+Modern:wght@100..400&display=swap" rel="stylesheet")
+
         style.
             @keyframes borderCycle {
                 0% {
@@ -70,10 +75,13 @@ html(lang="en")
                         //- 		FaUniversity(color="#ffffff" size=20)
                         //- 	div(class="absolute -inset-1 rounded-lg bg-blue-900/30 animate-pulse")
                         div
-                            h1(class="text-2xl font-semibold text-[#332D56]")
-                                | #{processNameEnglish}
-                            p(class="text-gray-500 text-sm")
-                                | #{processNameMarathi}
+                            .flex.items-center
+                                img(src="/assets/images/ydcc-logo.jpeg" alt="Bank Logo" class="w-14 h-14 object-contain mr-3")
+                                div
+                                    h1(class="text-xs md:text-xl font-semibold text-[#332D56]" )
+                                        | #{processNameEnglish}
+                                    p(class="text-xs text-gray-500" style="font-family: 'Playwrite US Modern', sans-serif;")
+                                        | #{processNameMarathi}
                     //-Right Section
                     div(class="flex flex-wrap justify-center gap-2")
                         div(data-target-div="important-dates" class=" scroll-to-btn cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md transition duration-300 ease-in-out flex items-center shadow-sm gap-2")
