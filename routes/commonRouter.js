@@ -2,6 +2,7 @@ const router = require("express").Router();
 const fileUpload = require("express-fileupload");
 const indexController = require("../application/controllers/indexConroller.js");
 const { middleware } = require("../middlewares/middleware.js");
+const otpRouter = require("./otpRouter.js");
 
 router.get(
 	"/",
@@ -287,10 +288,16 @@ router.get(
 );
 
 router.get(
-	"/forget-password",
+	"/forget",
 	middleware.checkForPoolConnection,
-	indexController.forgetPasswordView,
+	indexController.forgetCredentialsView,
 );
+
+// router.get(
+// 	"/forget-password",
+// 	middleware.checkForPoolConnection,
+// 	indexController.forgetPasswordView,
+// );
 
 router.post(
 	"/getPasswordRecovery",
@@ -309,6 +316,15 @@ router.post(
 	middleware.checkForPoolConnection,
 	indexController.getUsernameRecovery,
 );
+
+router.post(
+	"/v2/getUsernameRecovery",
+	middleware.checkForPoolConnection,
+	indexController.getUsernameRecovery_V2,
+);
+
+// OTP ROUTER
+router.use(otpRouter);
 
 // Razor pay pament / challan payments (unused) =======================================================
 router.post(

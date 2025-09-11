@@ -36,3 +36,8 @@ exports.AWS_DIR = {
 	importantNotices: "/important-notices/",
 	headerImages: "/headers/",
 };
+
+exports.OTP_TYPE = {
+	FORGET_USER_ID_OTP: "FORGET_USER_ID_OTP",
+	FORGET_PASSWORD_OTP: "FORGET_PASSWORD_OTP",
+};

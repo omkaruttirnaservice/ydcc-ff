@@ -42,7 +42,8 @@
 		"socket.io-client": "^4.8.1",
 		"unirest": "^0.6.0",
 		"uuid": "^11.1.0",
-		"winston": "^3.17.0"
+		"winston": "^3.17.0",
+		"zeptomail": "^6.2.1"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.9",

@@ -1,8 +1,25 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const nodemailer = require("nodemailer");
+const { SendMailClient } = require("zeptomail");
+const {
+	_registrationEmailTemplate,
+	_forgotUsernameOtpTemplate,
+} = require("../config/emailTemplates");
 
 const emailController = {
+	sendRegistrationEmailZeptomail: async data => {
+		data.subject = _registrationEmailTemplate.subject;
+		data.mailBody = _registrationEmailTemplate.email(data);
+		sendZeptoMail(data);
+	},
+
+	sendForgetOtpZeptomail: data => {
+		data.subject = _forgotUsernameOtpTemplate.subject;
+		data.mailBody = _forgotUsernameOtpTemplate.email(data);
+		sendZeptoMail(data);
+	},
+
 	sendEmailView: function (req, res) {
 		console.log("email view rendering");
 		res.render("master/email/emailPage.pug", {
@@ -76,6 +93,34 @@ const getEmailTransporter = () => {
 	});
 	return transporter;
 };
+
+function sendZeptoMail(data) {
+	const url = "api.zeptomail.in/";
+	const token =
+		"Zoho-enczapikey PHtE6r1fE+7o2TF78hUE5/exQ8LwNtt/9LxnKFNAuIdLCvUASk1c+NEjxDS+rx4iXfYWEfKZz9hguevPsO2FLWrsZjpOX2qyqK3sx/VYSPOZsbq6x00Vt1kScE3UV4LuctZv0ibeuN7YNA==";
+
+	let client = new SendMailClient({ url, token });
+
+	client
+		.sendMail({
+			from: {
+				address: "help@ydccbank.com",
+				name: "YDCC Bank",
+			},
+			to: [
+				{
+					email_address: {
+						address: data.email,
+						name: data.first_name,
+					},
+				},
+			],
+			subject: data.subject,
+			htmlbody: data.mailBody,
+		})
+		.then(resp => console.log("success send email to: ", resp))
+		.catch(error => console.log("error send email to: ", error));
+}
 
 module.exports = emailController;
 
