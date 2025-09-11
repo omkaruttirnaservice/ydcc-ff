@@ -92,3 +92,32 @@ $.validator.addMethod(
 	},
 	"Enter valid mobile number",
 );
+
+$.validator.addMethod(
+	"allowedEmail",
+	function (value, element) {
+		if (!value) return false; // required check if needed
+
+		// Basic email regex
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(value)) {
+			return false;
+		}
+
+		// Extract domain
+		const domain = value.split("@")[1].toLowerCase();
+
+		// Allowed domains list
+		const allowedDomains = [
+			"gmail.com",
+			"yahoo.com",
+			"outlook.com",
+			"rediff.com",
+			"hotmail.com",
+			"icloud.com",
+		];
+
+		return allowedDomains.includes(domain);
+	},
+	"Enter a valid email",
+);

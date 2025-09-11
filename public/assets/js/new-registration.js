@@ -79,17 +79,21 @@ $(function () {
 				equalTo: "#newMobileNumber",
 			},
 			newAlternativeMobileNumber: {
+				required: true,
 				number: true,
 				minlength: 10,
 				maxlength: 10,
+				validMobileNumber: true,
 			},
 			newMailPartOne: {
 				required: true,
 				email: true,
+				allowedEmail: true,
 			},
 			checkNewMailPartOne: {
 				required: true,
 				equalTo: "#newMailPartOne",
+				allowedEmail: true,
 			},
 		},
 		messages: {
@@ -156,7 +160,7 @@ $(function () {
 			},
 			checkNewMailPartOne: {
 				required: "Enter Email Id.",
-				equalTo: "Confirm Mail ID Doesn't Match With Mail ID.",
+				equalTo: "Confirm Mail ID Doesn't Match",
 			},
 		},
 		// errorPlacement: function (error, element) {
