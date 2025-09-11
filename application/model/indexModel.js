@@ -1088,7 +1088,6 @@ module.exports = {
 		data,
 		t_type = "utr_candidate_appications",
 	) {
-		console.log({ t_type });
 		// This is only when taking data from utr_candidate_appications_final table
 		let column = "";
 		if (t_type === "utr_candidate_appications_final") {

@@ -153,15 +153,8 @@ function sendZeptoMailBulk(data) {
 			subject: data.subject,
 			htmlbody: data.mailBody,
 		})
-		.then(resp => console.log("success send email to: ", resp))
+		.then(resp => {})
 		.catch(error => console.log("error send email to: ", error));
 }
 
 module.exports = emailController;
-
-// <p> Total General Details Done : ${
-// 	data.application_status.general_details_done_count
-// } </p>
-// <p> Total Document Details Done : ${
-// 	data.application_status.document_details_done_count
-// } </p>

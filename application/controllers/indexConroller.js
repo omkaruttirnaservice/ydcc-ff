@@ -187,7 +187,6 @@ var indexController = {
 
 	getCandidateHome: async (req, res, next) => {
 		try {
-			// responderSet.getFromCache();
 			if (req.session.cri === undefined) {
 				return res.redirect("/");
 			}
@@ -250,8 +249,6 @@ var indexController = {
 				data,
 				table,
 			);
-
-			console.log({ _applicationsList }, "==");
 
 			applicationList = _applicationsList;
 
