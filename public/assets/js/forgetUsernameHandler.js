@@ -9,8 +9,8 @@ let reference_id = null;
 $("#get-user-id").click(function (event) {
 	event.preventDefault();
 	let $this = $(this);
-	$this.prop("disabled", true);
 	if ($("#forget-username").valid()) {
+		$this.prop("disabled", true);
 		$.ajax({
 			method: "post",
 			url: "/v2/getUsernameRecovery",
