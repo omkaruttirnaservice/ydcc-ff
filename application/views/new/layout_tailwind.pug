@@ -19,6 +19,15 @@ html(lang="en")
         link(href="https://fonts.googleapis.com/css2?family=Playwrite+US+Modern:wght@100..400&display=swap" rel="stylesheet")
 
         style.
+            [id$="-error"],
+            .error.text-danger {
+                color: #fb2c36 !important;
+                font-size: 0.85rem;
+                background-color: transparent;
+                width: 100%;
+                max-width: 20rem;
+                text-transform: capitalize !important;
+            }
             @keyframes borderCycle {
                 0% {
                     transform: rotate(0deg);
@@ -47,7 +56,14 @@ html(lang="en")
         //- top bar
 
         div(class="bg-[#71C0BB] text-gray-50 py-2 px-4")
-            div(class="w-full mx-auto flex flex-col md:flex-row justify-between items-center gap-2")
+            div(class="w-full mx-auto flex flex-col md:flex-row justify-end items-center gap-2")
+
+                //- div.flex.items-center.gap-3
+                    h1(class="text-xs md:text-xl font-semibold text-[#fff]" )
+                        | ऑनलाइन अर्ज पोर्टल - २०२५
+                    h1(class="text-xs md:text-xl font-semibold text-[#fff]" )
+                        | Online Application Portal - 2025
+
                 // Contact info
                 div(class="flex flex-col sm:flex-row gap-2 sm:gap-4")
                     a(

@@ -9,8 +9,8 @@ let reference_id = null;
 $("#get-user-id").click(function (event) {
 	event.preventDefault();
 	let $this = $(this);
+	$this.prop("disabled", true);
 	if ($("#forget-username").valid()) {
-		$this.prop("disabled", true).html("Getting Details...");
 		$.ajax({
 			method: "post",
 			url: "/v2/getUsernameRecovery",
@@ -21,17 +21,19 @@ $("#get-user-id").click(function (event) {
 		})
 			.done(function (data) {
 				reference_id = data.data.reference_id;
+				otpInputContainerEl.removeClass("hidden");
+				getUserIdBtnEl.addClass("hidden");
 				messageContainer.html(`
 						<p class="text-sm text-red-500 ">${data.usrMsg}</p>`);
 			})
 			.fail(function (error) {
-				$this.prop("disabled", false).html("Get Username");
-				$("#showPass").html("Server Error Try Again/Contact Admin.");
-				console.log(error);
+				const er = error?.responseJSON;
+
+				messageContainer.html(`
+						<p class="text-sm text-red-500 ">${er?.usrMsg}</p>`);
 			})
 			.always(function () {
-				otpInputContainerEl.removeClass("hidden");
-				getUserIdBtnEl.addClass("hidden");
+				$this.prop("disabled", false);
 			});
 	}
 });
@@ -70,8 +72,6 @@ $("#verify-otp-btn").click(function (event) {
 			})
 			.always(function () {
 				$this.prop("disabled", false).html("Verify OTP");
-				// getUserIdBtnEl.removeClass("hidden");
-				// otpInputContainerEl.addClass("hidden");
 			});
 	}
 });
