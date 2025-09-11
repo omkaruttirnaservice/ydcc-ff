@@ -1,6 +1,6 @@
 require("dotenv").config();
+const { v4: uuidv4 } = require("uuid");
 var IndexModel = require("../model/indexModel");
-const FormData = require("form-data");
 const fs = require("fs");
 
 let { createHash } = require("crypto");
@@ -21,12 +21,16 @@ const {
 	REGISTRATION_SMS_TYPE,
 	IMP_DATES_CACHE_KEY,
 	PROCESS_DATES,
+	OTP_TYPE,
 } = require("../config/constants.js");
-const { redisClient } = require("../config/redisConnect.js");
 const { infoLog } = require("../config/logger.js");
 const ApiResponseV2 = require("../config/ApiResponseV2.js");
 const ApiError = require("../config/ApiError.js");
-const { sendRegistrationEmailZeptomail } = require("./emailController.js");
+const { otpController } = require("./otpController.js");
+const {
+	sendRegistrationEmailZeptomail,
+	sendForgetOtpZeptomail,
+} = require("./emailController.js");
 
 const __processDb = process.env.DB_DATABASE;
 
@@ -1645,6 +1649,57 @@ var indexController = {
 			.catch(function (error, status) {
 				res.status(500).send(error);
 			});
+	},
+
+	getUsernameRecovery_V2: async (req, res, next) => {
+		try {
+			const data = req.body;
+			const userData = await IndexModel.getUserDetailsByAadhaarAndMobile(
+				res.pool,
+				data,
+			);
+
+			if (userData.length === 0) {
+				res.status(200).send({
+					_call: 1,
+					type: "User not found",
+				});
+			}
+
+			// send email otp
+			const otp = Math.floor(100000 + Math.random() * 900000);
+			const expiry = Date.now() + 10 * 60 * 1000;
+			const reference_id = uuidv4();
+
+			let otpEmailData = {
+				from: "help@ydccbank.com",
+				email: userData[0].email,
+				first_name: userData[0].ub_first_name,
+				middle_name: userData[0].ub_middle_name,
+				last_name: userData[0].ub_last_name,
+				otp: otp,
+				type: "username",
+				otpType: OTP_TYPE.FORGET_USER_ID_OTP,
+				regards: "YDCC Bank",
+				expiry,
+				reference_id,
+			};
+
+			await otpController.addOtp(res.pool, otpEmailData);
+			sendForgetOtpZeptomail(otpEmailData);
+
+			return res.status(200).json(
+				new ApiResponseV2(
+					200,
+					`OTP send to registered email ${responderSet.maskEmail(userData[0].email)}`,
+					{
+						reference_id,
+					},
+				),
+			);
+		} catch (error) {
+			next(error);
+		}
 	},
 
 	paymentChecksum: async (req, res) => {

@@ -222,3 +222,15 @@ exports.isDateExpired = (datesList, type) => {
 			: false;
 	} else return false;
 };
+
+exports.maskEmail = email => {
+	if (!email) return "";
+	const [localPart, domain] = email.split("@");
+	if (localPart.length <= 2) {
+		return `${localPart[0]}***@${domain}`;
+	}
+	const firstChar = localPart[0];
+	const lastChar = localPart[localPart.length - 1];
+	const maskedSection = "*".repeat(localPart.length - 2);
+	return `${firstChar}${maskedSection}${lastChar}@${domain}`;
+};
