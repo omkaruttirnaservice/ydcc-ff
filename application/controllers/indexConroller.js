@@ -1705,7 +1705,7 @@ var indexController = {
 				new ApiResponseV2(
 					200,
 					`
-					<p class="text-red-500">OTP sent to registered email. नोंदणीकृत ईमेलवर OTP पाठवला.
+					<p class="text-red-500">OTP sent to registered email. नोंदणीकृत ईमेलवर OTP पाठवला आहे.
 					${responderSet.maskEmail(userData[0].email)}</p>
 					`,
 					{
