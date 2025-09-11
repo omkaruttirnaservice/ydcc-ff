@@ -1,50 +1,79 @@
-$(function () {
-	$("#get-user-id").click(function (event) {
-		event.preventDefault();
-		let $this = $(this);
-		if ($("#forget-username").valid()) {
-			$this.prop("disabled", true).html("Getting Details...");
-			$.ajax({
-				method: "post",
-				url: "/getUsernameRecovery",
-				data: {
-					aadharNumber: $('input[name="forAadharNumber"]').val(),
-					mobileNumber: $('input[name="forgetMobileNumber"]').val(),
-				},
+const getUserIdBtnEl = $("#get-user-id");
+const otpInputContainerEl = $("#otp-input-container");
+
+const messageContainer = $("#messageContainer");
+const messageContainer2 = $("#messageContainer-2");
+
+let reference_id = null;
+
+$("#get-user-id").click(function (event) {
+	event.preventDefault();
+	let $this = $(this);
+	if ($("#forget-username").valid()) {
+		$this.prop("disabled", true).html("Getting Details...");
+		$.ajax({
+			method: "post",
+			url: "/v2/getUsernameRecovery",
+			data: {
+				aadharNumber: $('input[name="forAadharNumber"]').val(),
+				mobileNumber: $('input[name="forgetMobileNumber"]').val(),
+			},
+		})
+			.done(function (data) {
+				reference_id = data.data.reference_id;
+				messageContainer.html(`
+						<p class="text-sm text-red-500 ">${data.usrMsg}</p>`);
 			})
-				.done(function (data) {
-					$this.prop("disabled", false).html("Get Username");
-					var json_data = data;
-					switch (json_data._call) {
-						case 1:
-							$("#showPass").html(
-								"Your Username is :: " +
-									json_data.data[0].username,
-							);
-							$("#addDhr").prop("disabled", true);
-							$("#mobile").prop("disabled", true);
-							var parent = $this.parent("td");
-							$(parent).addClass("d-none");
-							break;
-						case 0:
-							$("#showPass").html(
-								"No data found in record, try again.",
-							);
-							break;
-					}
-				})
-				.fail(function (error) {
-					$this.prop("disabled", false).html("Get Username");
-					$("#showPass").html(
-						"Server Error Try Again/Contact Admin.",
-					);
-					console.log(error);
-				})
-				.always(function () {
-					console.log("Done");
-				});
-		}
-	});
+			.fail(function (error) {
+				$this.prop("disabled", false).html("Get Username");
+				$("#showPass").html("Server Error Try Again/Contact Admin.");
+				console.log(error);
+			})
+			.always(function () {
+				otpInputContainerEl.removeClass("hidden");
+				getUserIdBtnEl.addClass("hidden");
+			});
+	}
+});
+
+$("#verify-otp-btn").click(function (event) {
+	event.preventDefault();
+	let $this = $(this);
+	if ($("#forget-username").valid()) {
+		$this.prop("disabled", true).html("Verifying OTP...");
+
+		$.ajax({
+			method: "post",
+			url: "/verify-otp",
+			data: {
+				otp: $('input[name="otp"]').val(),
+				reference_id,
+				aadharNumber: $('input[name="forAadharNumber"]').val(),
+				mobileNumber: $('input[name="forgetMobileNumber"]').val(),
+			},
+		})
+			.done(function (data) {
+				messageContainer.html(`
+						<p class="text-sm text-red-500 ">${data?.usrMsg || "Details shared to registered email"}</p>`);
+
+				$("#forget-username")[0].reset();
+				otpInputContainerEl.addClass("hidden");
+			})
+			.fail(function (error) {
+				const er = error?.responseJSON;
+
+				$("#otp-error").html(`
+						<p class="text-sm text-red-500 ">${er?.usrMsg}</p>`);
+				setTimeout(() => {
+					$("#otp-error").html("");
+				}, 1400);
+			})
+			.always(function () {
+				$this.prop("disabled", false).html("Verify OTP");
+				// getUserIdBtnEl.removeClass("hidden");
+				// otpInputContainerEl.addClass("hidden");
+			});
+	}
 });
 
 $("#forget-username").validate({

@@ -1995,9 +1995,9 @@ module.exports = {
 	getUserNameRecovery: function (pool, data) {
 		return new Promise((resolve, reject) => {
 			let query = `SELECT id as username
-                         FROM utr_user_basic
-                         WHERE ub_aadhar_number = ?
-                           AND ub_mobile_number = ? LIMIT 1`;
+							FROM utr_user_basic
+							WHERE ub_aadhar_number = ?
+							AND ub_mobile_number = ? LIMIT 1`;
 			pool.query(
 				query,
 				[data.aadharNumber, data.mobileNumber],
@@ -2015,6 +2015,65 @@ module.exports = {
 			);
 		});
 	},
+
+	getUserEmail: function (pool, data) {
+		return new Promise((resolve, reject) => {
+			let query = `SELECT 
+							ub_email_id AS email,
+							ub_first_name,
+							ub_middle_name,
+							ub_last_name
+							FROM utr_user_basic
+							WHERE ub_aadhar_number = ?
+							AND ub_mobile_number = ? LIMIT 1`;
+			pool.query(
+				query,
+				[data.aadharNumber, data.mobileNumber],
+				(err, result) => {
+					if (err) {
+						((responderSet.sendData._call = -1),
+							(responderSet.sendData._error =
+								"Op Error, Contact To Admin"),
+							(responderSet.sendData._sys_erorr = err),
+							reject(responderSet.sendData));
+					} else {
+						resolve(result);
+					}
+				},
+			);
+		});
+	},
+
+	getUserDetailsByAadhaarAndMobile: function (pool, data) {
+		return new Promise((resolve, reject) => {
+			let query = `SELECT 
+							id as username,
+							ub_password as password,
+							ub_email_id AS email,
+							ub_first_name,
+							ub_middle_name,
+							ub_last_name
+							FROM utr_user_basic
+							WHERE ub_aadhar_number = ?
+							AND ub_mobile_number = ? LIMIT 1`;
+			pool.query(
+				query,
+				[data.aadharNumber, data.mobileNumber],
+				(err, result) => {
+					if (err) {
+						((responderSet.sendData._call = -1),
+							(responderSet.sendData._error =
+								"Op Error, Contact To Admin"),
+							(responderSet.sendData._sys_erorr = err),
+							reject(responderSet.sendData));
+					} else {
+						resolve(result);
+					}
+				},
+			);
+		});
+	},
+
 
 	getOnlyPaymentStatus: function (pool, data) {
 		return new Promise((resolve, reject) => {
@@ -2420,4 +2479,6 @@ module.exports = {
 			});
 		});
 	},
+
+
 };
