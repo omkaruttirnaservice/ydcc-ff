@@ -1704,7 +1704,10 @@ var indexController = {
 			return res.status(200).json(
 				new ApiResponseV2(
 					200,
-					`OTP send to registered email ${responderSet.maskEmail(userData[0].email)}`,
+					`
+					<p class="text-red-500">OTP sent to registered email. नोंदणीकृत ईमेलवर OTP पाठवला.
+					${responderSet.maskEmail(userData[0].email)}</p>
+					`,
 					{
 						reference_id,
 					},

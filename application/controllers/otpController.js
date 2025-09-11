@@ -49,7 +49,7 @@ exports.otpController = {
 				.json(
 					new ApiResponseV2(
 						200,
-						"Login details are sent to registered email",
+						"<p class='text-red-500'>Login details sent to registered email. नोंदणीकृत ईमेलवर लॉगिन तपशील पाठवले. </p>",
 					),
 				);
 		} catch (error) {

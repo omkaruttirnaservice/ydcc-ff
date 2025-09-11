@@ -231,7 +231,7 @@ exports.maskEmail = email => {
 	}
 
 	const firstChar = localPart.slice(0, 1);
-	const lastChar = localPart.slice(-3, -1);
+	const lastChar = localPart.slice(-2);
 	const maskedSection = "*".repeat(localPart.length - 2);
 	return `${firstChar}${maskedSection}${lastChar}@${domain}`;
 };
