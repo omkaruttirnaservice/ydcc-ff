@@ -1674,10 +1674,9 @@ var indexController = {
 			);
 
 			if (userData.length === 0) {
-				res.status(200).send({
-					_call: 1,
-					type: "User not found",
-				});
+				return res
+					.status(404)
+					.json(new ApiResponseV2(404, `User not found`));
 			}
 
 			// send email otp
