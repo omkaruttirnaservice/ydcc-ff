@@ -39,54 +39,138 @@ module.exports.candidateGuidelines = (details = {}) => ({
 });
 
 module.exports._forgotUsernameOtpTemplate = {
-	subject: "YDCC-OTP",
+	subject: "YDCC - OTP Verification",
 	email: data => {
 		return `
-                        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-                        <p>Dear ${data.first_name} ${data.middle_name} ${data.last_name},</p>
-
-                        <p>We have received a request to recover your ${data.type} for 
-                        <strong>YDCC Form Filling</strong>.</p>
-
-                        <p><strong>Your One-Time Password (OTP):</strong></p>
-                        <div style="font-size: 20px; font-weight: bold; color: #2c3e50; margin: 15px 0; letter-spacing: 4px;">
-                                ${data.otp}
+        <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f8f9fa; padding: 20px; color: #333;">
+                <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        
+                        <!-- Header -->
+                        <h2 style="color: #4E6688; margin-top: 0; text-align: center;">OTP Verification 🔐</h2>
+                        
+                        <!-- Greeting -->
+                        <p style="font-size: 15px;">Dear <strong>${data.first_name} ${data.middle_name || ""} ${data.last_name}</strong>,</p>
+                        
+                        <!-- Body -->
+                        <p style="font-size: 15px; line-height: 1.6;">
+                        We have received a request to recover your <strong>${data.type}</strong> for 
+                        <strong>YDCC Form Filling</strong>.
+                        </p>
+                        
+                        <!-- OTP Block -->
+                        <div style="background: #f1f3f5; padding: 20px; border-radius: 6px; margin: 20px 0; text-align: center;">
+                        <p style="margin: 0 0 8px 0; font-weight: bold; font-size: 15px;">Your One-Time Password (OTP)</p>
+                        <p style="font-size: 24px; font-weight: bold; color: #2c3e50; letter-spacing: 6px; margin: 10px 0;">
+                        ${data.otp}
+                        </p>
+                        <p style="margin: 0; font-size: 14px; color: #555;">Valid for <strong>10 minutes</strong></p>
                         </div>
-
-                        <p>This OTP is valid for <strong>10 minutes</strong>.
-                        Please use it to verify your identity and recover your ${data.type} .</p>
-
-                        <p>If you did not request this, please ignore this email or contact our support team at 
-                        <a href="mailto:${data.from}">${data.from}</a>.</p>
-
-                        <p>Best regards,<br>
-                        <strong>${data.regards}</strong></p>
-                        </div>`;
+                        
+                        <!-- Next steps -->
+                        <p style="font-size: 15px; line-height: 1.6;">
+                        Please use this OTP to verify your identity and recover your <strong>${data.type}</strong>.  
+                        If you did not request this, kindly ignore the email or contact our support team at  
+                        <a href="mailto:${data.from}" style="color: #007bff; text-decoration: none;">${data.from}</a>.
+                        </p>
+                        
+                        <!-- Closing -->
+                        <p style="margin-top: 30px; font-size: 15px;">
+                        Best regards,<br>
+                        <strong>${data.regards}</strong>
+                        </p>
+                        
+                </div>
+        </div>`;
 	},
 };
 
 module.exports._registrationEmailTemplate = {
-	subject: "YDCC-Registration Successful",
+	subject: "YDCC - Registration Successful",
 	email: data => {
 		return `
-		<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-			<p>Dear ${data.first_name} ${data.middle_name} ${data.last_name},</p>
+                <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f8f9fa; padding: 20px; color: #333;">
+                        <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                                
+                                <!-- Header -->
+                                <h2 style="color: #4E6688; margin-top: 0; text-align: center;">Registration Successful 🎉</h2>
+                                
+                                <!-- Greeting -->
+                                <p style="font-size: 15px;">Dear <strong>${data?.first_name} ${data?.middle_name || ""} ${data?.last_name}</strong>,</p>
+                                
+                                <!-- Body -->
+                                <p style="font-size: 15px; line-height: 1.6;">
+                                We are pleased to inform you that your registration for 
+                                <strong>The Yavatmal District Central Co-Op. Bank Ltd., Yavatmal</strong> has been successfully completed.
+                                </p>
+                                
+                                <!-- Credentials -->
+                                <div style="background: #f1f3f5; padding: 15px; border-radius: 6px; margin: 20px 0;">
+                                <p style="margin: 0 0 8px 0; font-weight: bold;">Your login credentials:</p>
+                                <p style="margin: 4px 0;">👤 Username: <strong>${data.username}</strong></p>
+                                <p style="margin: 4px 0;">🔑 Password: <strong>${data.password}</strong></p>
+                                </div>
+                                
+                                <!-- Next steps -->
+                                <p style="font-size: 15px; line-height: 1.6;">
+                                You can now log in and proceed with your application.
+                                If you have any questions or need assistance, please reach out to our support team at 
+                                <a href="mailto:help@ydccbank.com" style="color: #007bff; text-decoration: none;">help@ydccbank.com</a>.
+                                </p>
+                                
+                                <!-- Closing -->
+                                <p style="margin-top: 30px; font-size: 15px;">
+                                Best regards,<br>
+                                <strong>Team, YDCC</strong>
+                                </p>
+                                
+                        </div>
+                </div>`;
+	},
+};
 
-			<p>We are pleased to inform you that your registration for 
-			<strong>APMC Amalner Form Filling</strong> has been successfully completed.</p>
-
-			<p><strong>Your login credentials:</strong></p>
-			<ul style="list-style-type: none; padding: 0;">
-			<li>Username: <strong>${data.username}</strong></li>
-			<li>Password: <strong>${data.password}</strong></li>
-			</ul>
-
-			<p>You can now log in and proceed with your application. 
-			If you have any questions or need assistance, please contact our support team at 
-			<a href="mailto:support@apmcamalner.com">support@apmcamalner.com</a>.</p>
-
-			<p>Best regards,<br>
-			<strong>APMC Amalner</strong></p>
-		</div>`;
+module.exports._paymentSuccessTemplate = {
+	subject: "YDCC - Payment Successful",
+	email: data => {
+                console.log(data, 'for template');
+		return `
+        <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f8f9fa; padding: 20px; color: #333;">
+                <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        
+                        <!-- Header -->
+                        <h2 style="color: #4E6688; margin-top: 0; text-align: center;">Payment Successful ✅</h2>
+                        
+                        <!-- Greeting -->
+                        <p style="font-size: 15px;">Dear <strong>${data?.first_name} ${data?.middle_name || ""} ${data?.last_name}</strong>,</p>
+                        
+                        <!-- Body -->
+                        <p style="font-size: 15px; line-height: 1.6;">
+                        We are pleased to inform you that your payment has been successfully processed for the  
+                        <strong>YDCC Form Filling</strong>.
+                        </p>
+                        
+                        <!-- Payment Details -->
+                        <div style="background: #f1f3f5; padding: 20px; border-radius: 6px; margin: 20px 0;">
+                        <p style="margin: 0 0 12px 0; font-weight: bold; font-size: 15px;">Transaction Details:</p>
+                        <p style="margin: 6px 0;"><strong>Payment Amount:</strong> ₹${data?.amount}</p>
+                        <p style="margin: 6px 0;"><strong>Post Name:</strong> ${data?.post_name}</p>
+                        <p style="margin: 6px 0;"><strong>User ID:</strong> ${data?.r_id}</p>
+                        <p style="margin: 6px 0;"><strong>Application No:</strong> ${data?.f_id}</p>
+                        <p style="margin: 6px 0;"><strong>Payment Date:</strong> ${data?.payment_date} (${data?.payment_time})</p>
+                        <p style="margin: 6px 0;"><strong>Transaction ID:</strong> ${data?.transaction_id}</p>
+                        </div>
+                        
+                        <!-- Next Steps -->
+                        <p style="font-size: 15px; line-height: 1.6;">
+                        Please log in to your account to download the application form.
+                        </p>
+                        
+                        <!-- Closing -->
+                        <p style="margin-top: 30px; font-size: 15px;">
+                        Best regards,<br>
+                        <strong>YDCC Team</strong>
+                        </p>
+                        
+                </div>
+        </div>`;
 	},
 };

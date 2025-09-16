@@ -187,7 +187,6 @@ var indexController = {
 
 	getCandidateHome: async (req, res, next) => {
 		try {
-			// responderSet.getFromCache();
 			if (req.session.cri === undefined) {
 				return res.redirect("/");
 			}
@@ -250,8 +249,6 @@ var indexController = {
 				data,
 				table,
 			);
-
-			console.log({ _applicationsList }, "==");
 
 			applicationList = _applicationsList;
 
@@ -1691,7 +1688,7 @@ var indexController = {
 				middle_name: userData[0].ub_middle_name,
 				last_name: userData[0].ub_last_name,
 				otp: otp,
-				type: "username",
+				type: data.type,
 				otpType: OTP_TYPE.FORGET_USER_ID_OTP,
 				regards: "YDCC Bank",
 				expiry,

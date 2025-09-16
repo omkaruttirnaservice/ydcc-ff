@@ -5,12 +5,19 @@ const { SendMailClient } = require("zeptomail");
 const {
 	_registrationEmailTemplate,
 	_forgotUsernameOtpTemplate,
+	_paymentSuccessTemplate,
 } = require("../config/emailTemplates");
 
 const emailController = {
 	sendRegistrationEmailZeptomail: async data => {
 		data.subject = _registrationEmailTemplate.subject;
 		data.mailBody = _registrationEmailTemplate.email(data);
+		sendZeptoMail(data);
+	},
+
+	sendPaymentDoneEmailZeptomail: async data => {
+		data.subject = _paymentSuccessTemplate.subject;
+		data.mailBody = _paymentSuccessTemplate.email(data);
 		sendZeptoMail(data);
 	},
 
@@ -122,7 +129,6 @@ function sendZeptoMail(data) {
 		.catch(error => console.log("error send email to: ", error));
 }
 
-
 function sendZeptoMailBulk(data) {
 	const url = "api.zeptomail.in/";
 	const token =
@@ -147,15 +153,8 @@ function sendZeptoMailBulk(data) {
 			subject: data.subject,
 			htmlbody: data.mailBody,
 		})
-		.then(resp => console.log("success send email to: ", resp))
+		.then(resp => {})
 		.catch(error => console.log("error send email to: ", error));
 }
 
 module.exports = emailController;
-
-// <p> Total General Details Done : ${
-// 	data.application_status.general_details_done_count
-// } </p>
-// <p> Total Document Details Done : ${
-// 	data.application_status.document_details_done_count
-// } </p>
