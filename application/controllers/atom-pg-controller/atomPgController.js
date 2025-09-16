@@ -25,23 +25,17 @@ dotenv.config();
 
 // ==================================================================
 // production==production==production==production
-const req_enc_key = "42402674C06931044E3F4B159051639F";
-const req_salt = "42402674C06931044E3F4B159051639F";
-const res_dec_key = "81E3746B0CAC0F1F1466090F9EFF48D4";
-const res_salt = "81E3746B0CAC0F1F1466090F9EFF48D4";
-const resHashKey = "ec6ffe4587e436f5af";
-const reqHashKey = "3f23bb14010052e3aa";
+const req_enc_key = "CF77FBD3D6E748B3AC869B6A9159D540";
+const req_salt = "CF77FBD3D6E748B3AC869B6A9159D540";
+const res_dec_key = "479BE741BD090A1062565F994FAA11AD";
+const res_salt = "479BE741BD090A1062565F994FAA11AD";
+const resHashKey = "a8de28d7ef140087ec";
+const reqHashKey = "0ba6e201a82979aee2";
 
-// const req_enc_key = "";
-// const req_salt = "";
-// const res_dec_key = "";
-// const res_salt = "";
-// const resHashKey = "";
-// const reqHashKey = "";
+const merchId = "747711";
+const merchPass = "f959a762";
+const prodId = "YAVATMAL";
 
-const merchId = "734239";
-const merchPass = "4f16829e";
-const prodId = "SAMITI";
 const Authurl = "https://payment1.atomtech.in/ots/aipay/auth";
 
 const algorithm = "aes-256-cbc";
@@ -53,29 +47,6 @@ const iv = Buffer.from(
 	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
 	"utf8",
 );
-
-// ==================================================================
-
-// testing==testing==testing==testing
-// const req_enc_key = 'A4476C2062FFA58980DC8F79EB6A799E';
-// const req_salt = 'A4476C2062FFA58980DC8F79EB6A799E';
-// const res_dec_key = '75AEF0FA1B94B3C10D4F5B268F757F11';
-// const res_salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
-// const resHashKey = 'KEYRESP123657234';
-
-// const merchId = '317159';
-// const merchPass = 'Test@123';
-// const prodId = 'NSE';
-// const Authurl = 'https://caller.atomtech.in/ots/aipay/auth';
-
-// const algorithm = 'aes-256-cbc';
-// const password = Buffer.from(req_enc_key, 'utf8');
-// const salt = Buffer.from(req_salt, 'utf8');
-// const respassword = Buffer.from(res_dec_key, 'utf8');
-// const ressalt = Buffer.from(res_salt, 'utf8');
-// const iv = Buffer.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 'utf8');
-
-// ==================================================================
 
 const atomPgController = {
 	getPaymentDetails: async (reqe, resp, next) => {
