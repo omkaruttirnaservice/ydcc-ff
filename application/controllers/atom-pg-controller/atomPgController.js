@@ -323,6 +323,7 @@ const atomPgController = {
 			const JSONString = JSON.stringify(jsondata);
 
 			console.log(JSONString, "=JSON string");
+			console.log(JSONString.toString(), "=JSON string to string");
 
 			let encDataR = encrypt(JSONString.toString());
 			console.log(encDataR, "enc Data");
