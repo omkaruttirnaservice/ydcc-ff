@@ -163,7 +163,8 @@ exports.getFileDetails = file => {
 };
 
 exports.getMerchTxnId = ({ transId, r_id, f_id }) => {
-	return `${transId}${r_id}${f_id}${uuidv4().split("-").join("")}`;
+	// return `${r_id}${f_id}${uuidv4().split("-").join("")}`;
+	return `${transId}${r_id}${f_id}${uuidv4().split("-")[4].join("")}`;
 };
 
 // exports.getMerchTxnId = ({ transId, r_id, f_id }) => {
