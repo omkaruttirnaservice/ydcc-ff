@@ -105,7 +105,8 @@ const atomPgController = {
 				f_id,
 			});
 
-			const amount = userDetails.totalPayment;
+			// const amount = userDetails.totalPayment;
+			const amount = "101.00";
 			const jsondata =
 				'{"payInstrument":{"headDetails":{"version":"OTSv1.1","api":"AUTH","platform":"FLASH"},"merchDetails":{"merchId":"' +
 				merchId +
