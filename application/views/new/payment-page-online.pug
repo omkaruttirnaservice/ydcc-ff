@@ -21,6 +21,10 @@ block inline_js
         userDetails.transId = p.p_trans_id // adding dynamic transaction id
 
 block js_link
+    script.
+        var cdnScript = document.createElement('script');
+        cdnScript.setAttribute('src', 'https://pgtest.atomtech.in/staticdata/ots/js/atomcheckout.js?v=' + Date.now());
+        document.head.appendChild(cdnScript);
     script(src="/assets/js/paymentHandlerOnline.js" type="module" defer)
 
 block inline_css 

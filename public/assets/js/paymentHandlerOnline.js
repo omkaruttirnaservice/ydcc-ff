@@ -6,14 +6,14 @@ import {
 } from "./common.js";
 
 window.addEventListener("DOMContentLoaded", () => {
-	(function addPaymentScript() {
-		let cdnScript = document.createElement("script");
-		cdnScript.setAttribute(
-			"src",
-			"https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js",
-		);
-		document.head.appendChild(cdnScript);
-	})();
+	// (function addPaymentScript() {
+	// 	let cdnScript = document.createElement("script");
+	// 	cdnScript.setAttribute(
+	// 		"src",
+	// 		"https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js",
+	// 	);
+	// 	document.head.appendChild(cdnScript);
+	// })();
 
 	(function paymentTimer() {
 		let paymentTimer = $("#payment-timer");
