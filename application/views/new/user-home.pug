@@ -26,16 +26,10 @@ block inline_css
             padding: 0.2rem !important;
         }
 
-        @keyframes blinkButton {
-            0%   { background-color: oklch(67.3% 0.182 276.935); color: white; }
-            100% { background-color: oklch(71.5% 0.143 215.221); color: white; }
-        }
-
 block inline_js
     script.
         let regID = Number(#{regIDInt});
         let impDates = !{JSON.stringify(impDates)}
-        console.log(impDates,'==impDates')
         let regString = '#{regIDString}';
         const p = !{JSON.stringify(p)};
         const isResultGenerated = '#{isResultGenerated}'
@@ -61,8 +55,16 @@ block content
                 - return false
 
 
-        - const _isPaymentDateExpired = checkIfDateExpired(PROCESS_DATES.P_PAYMENT_END_DATE)
-        - const _isEditDateExpired = checkIfDateExpired(PROCESS_DATES.P_EDIT_END_DATE)
+        //- - const _isPaymentDateExpired = checkIfDateExpired(PROCESS_DATES.P_PAYMENT_END_DATE)
+        //- - const _isEditDateExpired =  checkIfDateExpired(PROCESS_DATES.P_EDIT_END_DATE)
+        //- - const _isAppPrintDateExpired = checkIfDateExpired(PROCESS_DATES.P_PRINT_END_DATE)
+        //- - const _isPracExamDateExpired = checkIfDateExpired(PROCESS_DATES.P_PRACTICAL_HT_EXPIRY_DATE)
+        //- - const _isInterviewCallLetterDateExpired = checkIfDateExpired(PROCESS_DATES.P_INTERVIEW_CALL_LETTER_EXPIRY_DATE)
+        //- - const _isAnsKeyDateExpired = checkIfDateExpired(PROCESS_DATES.P_ANSWER_KEY_EXPIRY_DATE)
+        //- - const _isHallticketDateExpired = checkIfDateExpired(PROCESS_DATES.P_HT_EXPIRY_DATE)
+
+        - const _isPaymentDateExpired = false
+        - const _isEditDateExpired =  false
         - const _isAppPrintDateExpired = checkIfDateExpired(PROCESS_DATES.P_PRINT_END_DATE)
         - const _isPracExamDateExpired = checkIfDateExpired(PROCESS_DATES.P_PRACTICAL_HT_EXPIRY_DATE)
         - const _isInterviewCallLetterDateExpired = checkIfDateExpired(PROCESS_DATES.P_INTERVIEW_CALL_LETTER_EXPIRY_DATE)
@@ -98,7 +100,6 @@ block content
                             //-     tr
                             //-         td(colspan="10")
                             //-             h5.text-danger No Application Found
-
                         
                             - function isPostForPracticalExam(post) 
                                 - const postList = ["वाहन चालक", "वीजतंत्री", "भुईकाटा ऑपरेटर", ];
@@ -110,8 +111,8 @@ block content
 
                             tbody.font-weight-bolder
                                 each application, idx in applicationList
-                                    - const _isPreviewDone = application.p_done === 1
-                                    - const _isPaymentDone = application.payment_is_done === 1
+                                    - const _isPreviewDone = application.p_done == 1
+                                    - const _isPaymentDone = application.payment_is_done == 1
                                     - const r_id = application.r_id
                                     - const f_id = application.f_id
 
@@ -130,7 +131,8 @@ block content
                                             else
                                                 button(id="" class="d-inline-block c-button c-btn-warning") Incomplete
                                         th
-                                            p #{application.applied_post}
+                                            p.mb-0 #{application.applied_post}
+                                            span.fs-6.text-muted (#{application.catagory.toUpperCase()})
                                         th
                                             p #{f_id}
                                         th
@@ -152,15 +154,15 @@ block content
                                             if _isPreviewDone && _isPaymentDone
 
                                                 if !_isAppPrintDateExpired
-                                                    a(target="_blank" class="d-inline-block c-button c-btn-success" href=`/application?r=${r_id}&f=${f_id}`) Application
+                                                    button(class="d-inline-block c-button c-btn-success open-new-window" data-url=`/application?r=${r_id}&f=${f_id}`) Application
 
                                                 //- for online exam hallticket
                                                 if _isHtGenerated && !_isHallticketDateExpired
-                                                    button(class="btn btn-success btn-sm print-ht-btn" data-url=`/print-ht?r=${r_id}&f=${f_id}&name=${userName.split(" ").join("_")}'`) Download Hallticket
+                                                    button(class="btn btn-success btn-sm open-new-window" data-url=`/print-ht?r=${r_id}&f=${f_id}&name=${userName.split(" ").join("_")}'`) Download Hallticket
                                                 
                                                 //- for practical exam
                                                 if _isPracticalExamHtGenerated && _isPresentforExam && isPostForPracticalExam(application.applied_post) && !_isPracExamDateExpired
-                                                    button(class="btn btn-success btn-sm print-ht-btn" data-url=`/practical-exam-ht?r=${r_id}&f=${f_id}&name=${userName.split(" ").join("_")}'`) Download Hallticket
+                                                    button(class="btn btn-success btn-sm open-new-window" data-url=`/practical-exam-ht?r=${r_id}&f=${f_id}&name=${userName.split(" ").join("_")}'`) Download Hallticket
 
                                                 else if _isPracticalExamHtGenerated && !isPostForPracticalExam(application.applied_post)
                                                     //- p --
@@ -169,7 +171,7 @@ block content
                                                 if _isAnswerKeyGenerated && _isPresentforExam && !_isAnsKeyDateExpired
                                                     a(target="_blank" class="d-inline-block c-button c-btn-success" href=`/paper-key?r=${regID}&f=${f_id}`) Answer Key
                                                 else if !_isAnswerKeyGenerated && !_isHtGenerated && !_isPracticalExamHtGenerated 
-                                                    p -
+                                                    //- p -
                                                 else if _isPracticalExamHtGenerated && _isAnswerKeyGenerated && !_isPresentforExam
                                                     button(class="c-button c-btn-success") Absent
                                                 
@@ -180,22 +182,23 @@ block content
                                                         class="d-inline-block c-button c-btn-primary applicationEditBtn application-modify-btn" 
                                                         data-type="EDIT"
                                                         data-index=`${idx}`
-                                                        data-f-id=`${f_id}`) Edit
+                                                        data-f-id=`${f_id}`
+                                                        data-r-id=`${r_id}`) Edit
                                                     button(
                                                         name="" 
                                                         id="applicationResumeBtn" 
                                                         class="d-inline-block c-button c-btn-success applicationResumeBtn application-modify-btn"
                                                         data-type="RESUME"
                                                         data-index=`${idx}`
-                                                        data-f-id=`${f_id}`) Resume
+                                                        data-f-id=`${f_id}`
+                                                        data-r-id=`${r_id}`) Resume
 
 
-                        if !checkIfDateExpired(PROCESS_DATES.P_REGISTRATION_END_DATE)
-                            .d-flex.justify-content-center.mt-4
-                                button#idApplyForNewPost.c-button.c-btn-primary.w-25(
-                                    style="background-color:red; font-weight: bold !important; font-size: 1.1rem !important; color:white; animation: blinkButton 1s infinite;"
-                                ) Apply For New Post
-
+                    if !checkIfDateExpired(PROCESS_DATES.P_REGISTRATION_END_DATE)
+                        .d-flex.justify-content-center.mt-4
+                            button#idApplyForNewPost.c-button.c-btn-primary.w-25(
+                                style="background-color:red; font-weight: bold !important; font-size: 1.1rem !important; color:white; animation: blinkButton 1s infinite;"
+                            ) Apply For New Post
 
 
                     //- result
