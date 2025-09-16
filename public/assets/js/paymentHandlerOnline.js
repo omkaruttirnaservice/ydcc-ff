@@ -79,7 +79,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	const makePayment = async () => {
 		try {
-			let _tokenRes = await fetch("/v2/get-payment-details", {
+			let _tokenRes = await fetch("/get-payment-details", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
