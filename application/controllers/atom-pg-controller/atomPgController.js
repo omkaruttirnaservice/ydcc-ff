@@ -34,7 +34,7 @@ const reqHashKey = "0ba6e201a82979aee2";
 
 const merchId = "747711";
 const merchPass = "f959a762";
-const prodId = "YAVATMAL";
+const prodId = "DISTRICT";
 
 const Authurl = "https://payment1.atomtech.in/ots/aipay/auth";
 
