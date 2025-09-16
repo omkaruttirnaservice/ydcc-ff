@@ -324,7 +324,7 @@ const atomPgController = {
 
 			console.log(JSONString, "=JSON string");
 
-			let encDataR = encrypt(JSONString);
+			let encDataR = encrypt(JSONString.toString());
 			console.log(encDataR, "enc Data");
 
 			var req = unirest("POST", Authurl);
