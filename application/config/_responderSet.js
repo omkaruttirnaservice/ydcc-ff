@@ -162,14 +162,14 @@ exports.getFileDetails = file => {
 	return { name, extension };
 };
 
-// exports.getMerchTxnId = ({ transId, r_id, f_id }) => {
-// return `${r_id}${f_id}${uuidv4().split("-").join("")}`;
-// return `${transId}${r_id}${f_id}${uuidv4().split("-")[4]}`;
-// };
-
 exports.getMerchTxnId = ({ transId, r_id, f_id }) => {
-	return `${transId}${r_id}${f_id}${Math.floor(Math.random() * 100) + 1}`;
+	return `${r_id}${f_id}${uuidv4().split("-").join("")}`;
+	// return `${transId}${r_id}${f_id}${uuidv4().split("-")[4]}`;
 };
+
+// exports.getMerchTxnId = ({ transId, r_id, f_id }) => {
+// return `${transId}${r_id}${f_id}${Math.floor(Math.random() * 100) + 1}`;
+// };
 
 exports.getFromGlobalCache = async key => {
 	const cachedData = await redisClient.get(key);
