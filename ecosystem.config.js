@@ -1,10 +1,10 @@
-require('dotenv').config();
+require("dotenv").config();
 module.exports = {
 	apps: [
 		{
 			name: `${process.env.PROCESS_NAME}`,
 			script: "app.js",
-			instances: 4,
+			instances: 2,
 			autorestart: true,
 			watch: false,
 			max_memory_restart: "2G",
