@@ -125,13 +125,201 @@ const atomPgController = {
 				contact +
 				'"},  "extras": {"udf1":"udf1","udf2":"udf2","udf3":"udf3","udf4":"udf4","udf5":"udf5"}}}';
 
-			// console.log(jsondata, "==jsondata==");
-
 			const JSONString = jsondata.toString();
 
-			// console.log(JSONString, "===JSONString====");
 			let encDataR = encrypt(JSONString);
-			// console.log(encDataR, "==encDataR==");
+
+			var req = unirest("POST", Authurl);
+			req.headers({
+				"cache-control": "no-cache",
+				"content-type": "application/x-www-form-urlencoded",
+			});
+
+			req.form({
+				encData: encDataR,
+				merchId: merchId,
+			});
+
+			req.end(async function (res) {
+				// console.log(res, "==res==");
+				// console.log(res.body, "==res==");
+				if (!res.body) {
+					return resp.status(400).json({
+						call: 0,
+						message:
+							"Unable to generate payment token, try again later.",
+					});
+				}
+
+				if (res.error) {
+					return resp.status(400).json({
+						call: 0,
+						message:
+							JSON.stringify(res.error) ||
+							"Unable to generate payment token, try again later.",
+					});
+				}
+
+				let datas = res.body;
+
+				var arr = datas.split("&").map(function (val) {
+					return val;
+				});
+				var arrTwo = arr[1].split("=").map(function (val) {
+					return val;
+				});
+				var decrypted_data = decrypt(arrTwo[1]);
+				let jsonData = JSON.parse(decrypted_data);
+
+				// this is insert data to insert in payment history table
+				const insertData = {
+					r_id: userDetails.r_id,
+					f_id: userDetails.f_id,
+					txn_id: txnId,
+					insertDate: momentDates.getDateOnly({
+						dateFormat: "YYYY-MM-DD",
+					}),
+					insertTime: momentDates.getTimeOnly(),
+					amount: userDetails.totalPayment,
+					paymentMode: ONLINE_PAYMENT,
+				};
+
+				const payStatusCode =
+					jsonData["responseDetails"]["txnStatusCode"];
+
+				if (
+					payStatusCode === "OTS0000" ||
+					payStatusCode === "OTS0002"
+				) {
+					await atomPgModel.updateTokenInPayHistory(
+						resp.pool,
+						insertData,
+					);
+					return resp.status(200).json(
+						new ApiResponseV2(200, "Successfully generated token", {
+							token: jsonData["atomTokenId"],
+							txnId: txnId,
+							merchId: merchId,
+						}),
+					);
+				} else {
+					throw new ApiError(
+						400,
+						"Unable to process payment try again later",
+					);
+				}
+			});
+		} catch (err) {
+			console.log(err, "=error in token generation");
+			if (err.code === "ER_DUP_ENTRY") {
+				// ✅ Duplicate entry error
+				return resp
+					.status(400)
+					.json(
+						new ApiResponseV2(
+							400,
+							"Unable to generate token, try again later.",
+						),
+					);
+			}
+			next(err);
+		}
+	},
+
+	getPaymentDetailsV2: async (reqe, resp, next) => {
+		try {
+			const { userDetails } = reqe.body;
+
+			if (!userDetails) {
+				return resp
+					.status(400)
+					.json(new ApiResponseV2(400, "No user details passed"));
+			}
+
+			const { transId, r_id, f_id, totalPayment, email, contact } =
+				userDetails;
+
+			if (!transId) {
+				return resp
+					.status(400)
+					.json(new ApiResponseV2(400, "Invalid transaction ID"));
+			}
+
+			if (!r_id) {
+				return resp
+					.status(400)
+					.json(new ApiResponseV2(400, "Invalid user ID"));
+			}
+
+			if (!f_id) {
+				return resp
+					.status(400)
+					.json(new ApiResponseV2(400, "Invalid application ID"));
+			}
+
+			if (!totalPayment) {
+				return resp
+					.status(400)
+					.json(new ApiResponseV2(400, "Invalid payment amount"));
+			}
+
+			if (!email) {
+				return resp
+					.status(400)
+					.json(new ApiResponseV2(400, "Invalid email"));
+			}
+
+			if (!contact) {
+				return resp
+					.status(400)
+					.json(new ApiResponseV2(400, "Invalid contact"));
+			}
+
+			const txnId = getMerchTxnId({
+				transId,
+				r_id,
+				f_id,
+			});
+
+			const amount = userDetails.totalPayment;
+
+			const jsondata = {
+				payInstrument: {
+					headDetails: {
+						version: "OTSv1.1",
+						api: "AUTH",
+						platform: "FLASH",
+					},
+					merchDetails: {
+						merchId: merchId,
+						userId: "",
+						password: merchPass,
+						merchTxnId: txnId,
+						merchTxnDate: momentDates._getTimestamp(),
+					},
+					payDetails: {
+						amount: amount,
+						product: prodId,
+						custAccNo: "",
+						txnCurrency: "INR",
+					},
+					custDetails: {
+						custEmail: email,
+						custMobile: contact,
+					},
+					extras: {
+						udf1: "udf1",
+						udf2: "udf2",
+						udf3: "udf3",
+						udf4: "udf4",
+						udf5: "udf5",
+					},
+				},
+			};
+
+			const JSONString = JSON.stringify(jsondata);
+
+			let encDataR = encrypt(JSONString);
 
 			var req = unirest("POST", Authurl);
 			req.headers({

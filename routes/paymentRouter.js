@@ -32,6 +32,14 @@ paymentRouter.post(
 );
 
 paymentRouter.post(
+	"/v2/get-payment-details",
+	middleware.checkForPoolConnection,
+	middleware.setProcessData,
+	middleware.redirectToHome,
+	atomPgController.getPaymentDetailsV2,
+);
+
+paymentRouter.post(
 	"/verify-payment",
 	middleware.checkForPoolConnection,
 	atomPgController.verifyPayment,
