@@ -126,6 +126,7 @@ const atomPgController = {
 				'"},  "extras": {"udf1":"udf1","udf2":"udf2","udf3":"udf3","udf4":"udf4","udf5":"udf5"}}}';
 
 			const JSONString = jsondata.toString();
+			console.log(JSONString, "1json string");
 
 			let encDataR = encrypt(JSONString);
 
@@ -142,7 +143,7 @@ const atomPgController = {
 
 			req.end(async function (res) {
 				// console.log(res, "==res==");
-				console.log(res.body, "==res==");
+				console.log(res.body, "==1res==");
 				if (!res.body) {
 					return resp.status(400).json({
 						call: 0,
