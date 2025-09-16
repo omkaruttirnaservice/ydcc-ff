@@ -79,11 +79,23 @@ $(function () {
 				equalTo: "#newMobileNumber",
 			},
 			newAlternativeMobileNumber: {
-				required: true,
-				number: true,
-				minlength: 10,
-				maxlength: 10,
-				validMobileNumber: true,
+				minlength: {
+					param: 10,
+					depends: function (element) {
+						return $(element).val().length > 0;
+					},
+				},
+				maxlength: {
+					param: 10,
+					depends: function (element) {
+						return $(element).val().length > 0;
+					},
+				},
+				validMobileNumber: {
+					depends: function (element) {
+						return $(element).val().length > 0;
+					},
+				},
 			},
 			newMailPartOne: {
 				required: true,
