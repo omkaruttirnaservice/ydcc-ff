@@ -358,6 +358,12 @@ const atomPgController = {
 
 				let datas = res.body;
 
+				if (datas?.txnStatusCode === "OTS0600") {
+					return resp
+						.status(400)
+						.json(new ApiResponseV2(400, "Validation Failed"));
+				}
+
 				var arr = datas.split("&").map(function (val) {
 					return val;
 				});
