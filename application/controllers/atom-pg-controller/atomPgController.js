@@ -334,7 +334,7 @@ const atomPgController = {
 
 			req.end(async function (res) {
 				// console.log(res, "==res==");
-				// console.log(res.body, "==res==");
+				console.log(res.body, "==res==");
 				if (!res.body) {
 					return resp.status(400).json({
 						call: 0,
