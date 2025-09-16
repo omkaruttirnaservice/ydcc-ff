@@ -283,7 +283,8 @@ const atomPgController = {
 				f_id,
 			});
 
-			const amount = userDetails.totalPayment;
+			// const amount = userDetails.totalPayment;
+			const amount = "101.00";
 
 			const jsondata = {
 				payInstrument: {
