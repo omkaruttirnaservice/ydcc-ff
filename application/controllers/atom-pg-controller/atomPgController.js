@@ -52,7 +52,7 @@ const atomPgController = {
 	getPaymentDetails: async (reqe, resp, next) => {
 		try {
 			const { userDetails } = reqe.body;
-			// console.log(userDetails, "==userDetails");
+			console.log(userDetails, "==userDetails");
 
 			if (!userDetails) {
 				return resp
