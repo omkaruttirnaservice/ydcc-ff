@@ -68,6 +68,15 @@ window.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 
+	$("#paymentAgreement").click(function (e) {
+		var checked = $(this).prop("checked");
+		console.log(1);
+		if (checked == true) {
+			$(this).prop("disabled", true);
+			$("#makePayment").removeClass("d-none");
+		}
+	});
+
 	const makePayment = async () => {
 		try {
 			let _tokenRes = await fetch("/get-payment-details", {
