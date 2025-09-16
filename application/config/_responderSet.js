@@ -1,6 +1,7 @@
 require("dotenv").config();
 const momentTz = require("moment-timezone");
 const { redisClient } = require("./redisConnect.js");
+const { v4: uuidv4 } = require("uuid");
 
 exports.sendData = {
 	_call: 0,
@@ -162,8 +163,12 @@ exports.getFileDetails = file => {
 };
 
 exports.getMerchTxnId = ({ transId, r_id, f_id }) => {
-	return `${transId}${r_id}${f_id}${Math.floor(Math.random() * 100) + 1}`;
+	return `${transId}${r_id}${f_id}${uuidv4().split("-").join("")}`;
 };
+
+// exports.getMerchTxnId = ({ transId, r_id, f_id }) => {
+// 	return `${transId}${r_id}${f_id}${Math.floor(Math.random() * 100) + 1}`;
+// };
 
 exports.getFromGlobalCache = async key => {
 	const cachedData = await redisClient.get(key);
