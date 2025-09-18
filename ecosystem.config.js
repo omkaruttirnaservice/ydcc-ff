@@ -4,10 +4,11 @@ module.exports = {
 		{
 			name: `${process.env.PROCESS_NAME}`,
 			script: "app.js",
-			instances: 1,
+			exec_mode: "cluster",
+			instances: 10,
 			autorestart: true,
 			watch: false,
-			max_memory_restart: "2G",
+			max_memory_restart: "4G",
 			env: {
 				NODE_ENV: "development",
 			},
