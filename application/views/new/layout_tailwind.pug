@@ -64,19 +64,19 @@ html(lang="en")
                     h1(class="text-xs md:text-xl font-semibold text-[#fff]" )
                         | Online Application Portal - 2025
 
-                // Contact info
-                div(class="flex flex-col sm:flex-row gap-2 sm:gap-4")
+                //- Contact info
+                div(class="flex   gap-2 sm:gap-4")
                     a(
                         href="#"
                         class="flex items-center gap-2 text-gray-50 hover:text-[#4E6688] transition duration-300 ease-in-out text-sm"
                     )
                         // Icon with circle ring
-                        span(class="rounded-full p-1 border-1 border-[#332D56]")
+                        span(class="rounded-full text-center p-1 border-1 border-[#332D56]")
                             i.fa-solid.fa-phone 
                             | &nbsp;Helpline: #{p.help_mobile_number}
                     a(href="#" class="flex items-center gap-2 text-gray-50 hover:text-[#4E6688] transition duration-300 ease-in-out text-sm")
                         // Icon with circle ring
-                        span(class="rounded-full p-1 border-1 border-[#332D56]")
+                        span(class="rounded-full text-center p-1 border-1 border-[#332D56]")
                             i.fa-solid.fa-envelope
                             | &nbsp;Email: #{p.help_email_id}
 
@@ -100,12 +100,13 @@ html(lang="en")
                                         | #{processNameMarathi}
                     //-Right Section
                     div(class="flex flex-wrap justify-center gap-2")
-                        div(data-target-div="important-dates" class=" scroll-to-btn cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md transition duration-300 ease-in-out flex items-center shadow-sm gap-2")
-                            i.fa-solid.fa-calendar-days
-                            |  Important Dates
-                        div(data-target-div="important-notices" class="scroll-to-btn cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md transition duration-300 ease-in-out flex items-center shadow-sm gap-2")
-                            i.fa-solid.fa-bullhorn
-                            |  Important Notices
+                        div.flex.gap-2
+                            div(data-target-div="important-dates" class="text-sm scroll-to-btn cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md transition duration-300 ease-in-out flex items-center shadow-sm gap-2")
+                                i.fa-solid.fa-calendar-days
+                                |  Important Dates
+                            div(data-target-div="important-notices" class="text-sm scroll-to-btn cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md transition duration-300 ease-in-out flex items-center shadow-sm gap-2")
+                                i.fa-solid.fa-bullhorn
+                                |  Important Notices
 
                         if dates
                             each impDate in dates
@@ -126,7 +127,7 @@ html(lang="en")
 
                                             // Actual button
                                             span(
-                                                class="relative flex items-center gap-2 bg-[#4E6688] hover:bg-[#332D56] text-gray-50 px-14 py-2 rounded-md transition duration-300 ease-in-out"
+                                                class="relative text-sm flex items-center gap-2 bg-[#4E6688] hover:bg-[#332D56] text-gray-50 px-14 py-2 rounded-md transition duration-300 ease-in-out"
                                             )
                                                 i(class="fa-solid fa-arrow-right")
                                                 |  New Registration
@@ -139,19 +140,19 @@ html(lang="en")
         footer(class="bg-gray-800 text-gray-50 mt-12 py-8")
             div(class="px-4 mx-auto")
                 // Footer grid
-                div(class="grid grid-cols-1 md:grid-cols-3 gap-8")
+                div(class="grid grid-cols-1 items-center md:grid-cols-3 md:gap-8")
                     // Company Info
                     div(class="md:col-span-1")
-                        div(class="flex flex-col items-end mb-4")
+                        div(class="flex flex-col items-center md:items-end mb-4")
                             //- div(class="bg-gray-50 text-gray-900 w-10 h-10 rounded-full flex items-center justify-center font-semibold mr-3")
                             //- 	| 🏦
-                            h3(class="text-sm font-semibold mb-4") #{processNameEnglish}
-                            h5(class="text-sm font-normal") #{processNameMarathi}
+                            h3(class="text-sm text-center md:text-start font-semibold mb-4") #{processNameEnglish}
+                            h5(class="text-sm text-center md:text-start font-normal") #{processNameMarathi}
                         p(class="text-gray-400 text-sm")
                     // Quick Links
                     div(class="col-span-2")
-                        h3(class="text-lg font-semibold mb-4") Quick Links
-                        ul(class="flex items-center justify-start gap-4")
+                        h3(class="text-lg text-center md:text-start font-semibold mb-4") Quick Links
+                        ul(class="flex flex-col md:flex-row items-center justify-start gap-4")
                             li
                                 a(href="/" class="text-gray-400 hover:text-gray-50 transition duration-300") Home
                             li

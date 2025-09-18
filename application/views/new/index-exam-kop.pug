@@ -42,233 +42,406 @@ block js
 
 
 block content
-		- function getDateFor(dateType) {
-		-     for (let i = 0; i < dates.length; i++) {
-		-         if (dates[i]._column === dateType) {
-		-             return dates[i];
-		-         }
-		-     }
-		-     return null;
-		- }
+	- function getDateFor(dateType) {
+	-     for (let i = 0; i < dates.length; i++) {
+	-         if (dates[i]._column === dateType) {
+	-             return dates[i];
+	-         }
+	-     }
+	-     return null;
+	- }
 
-		//- marque section
-		div(class="bg-[#332D56] text-gray-50 py-2 shadow-md relative overflow-x-hidden")
-			//-Left gradient fade
-			div(class="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-orange-500 to-transparent pointer-events-none")
-			//-Right gradient fade
-			div(class="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-orange-500 to-transparent pointer-events-none")
-			//-Marquee wrapper with infinite scroll
-			div(class="flex animate-marquee gap-12 px-8 whitespace-nowrap")
-				//-Repeat the content twice for infinite looping
-				- const regLastDate = getDateFor('p_registration_end_date')
-				each _ in [0,1]
+	//- marque section
+	div(class="bg-[#332D56] text-gray-50 py-2 shadow-md relative overflow-x-hidden")
+		//-Left gradient fade
+		div(class="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-orange-500 to-transparent pointer-events-none")
+		//-Right gradient fade
+		div(class="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-orange-500 to-transparent pointer-events-none")
+		//-Marquee wrapper with infinite scroll
+		div(class="flex animate-marquee gap-12 px-8 whitespace-nowrap")
+			//-Repeat the content twice for infinite looping
+			- const regLastDate = getDateFor('p_registration_end_date')
+			each _ in [0,1]
 
-					div(class="flex items-center")
-						span(class="bg-gray-50 text-orange-500 rounded-full h-6 w-6 flex items-center justify-center mr-2")
-							i.fa-solid.fa-bell
-						span
-							| Last date for application form filling is #{regLastDate.date}
+				div(class="flex items-center")
+					span(class="bg-gray-50 text-orange-500 rounded-full h-6 w-6 flex items-center justify-center mr-2")
+						i.fa-solid.fa-bell
+					span
+						| Last date for application form filling is #{regLastDate.date}
 
-					div(class="flex items-center")
-						span(class="bg-gray-50 text-orange-500 rounded-full h-6 w-6 flex items-center justify-center mr-2")
-							i.fa-solid.fa-bell
-						span
-							| Candidates are requested to visit website regulary for latest updates
+				div(class="flex items-center")
+					span(class="bg-gray-50 text-orange-500 rounded-full h-6 w-6 flex items-center justify-center mr-2")
+						i.fa-solid.fa-bell
+					span
+						| Candidates are requested to visit website regulary for latest updates
 
-		//- hero secion
-		section(
-			class="w-full min-h-[34vh] relative px-4 py-6 flex flex-col items-center justify-start md:justify-center text-center md:text-left gap-8"
-			style="background-image: url('/assets/images/hero-bg.jpg'); background-size: contain; background-position: center; background-repeat: no-repeat;"
-			)
-			//-Enhanced Overlay
-			//- div(class="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-black/40 z-0")
+	//- hero secion
+	section(class="w-full relative md:p-9 isolate flex flex-col md:flex-row items-center justify-center overflow-hidden ")
 
-			//-Content placed above - Reordered for mobile
-			div(class="z-10 flex flex-col md:flex-row gap-8 items-center w-full max-w-5xl md:flex-row-reverse")
 
-				//-Right side - Title moved below on mobile
-				div(class="order-0 md:order-none flex-1 flex items-center justify-center text-center px-4")
-					//- div(class="text-gray-50")
-						h1(class="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight mb-4 drop-shadow-2xl")
-							span(class="bg-gradient-to-r from-gray-50 via-blue-100 to-gray-50 bg-clip-text text-transparent") #{processNameEnglish}
-						h2(class="text-xl sm:text-2xl md:text-3xl font-semibold drop-shadow-2xl")
-							span(class="bg-gradient-to-r from-yellow-100 via-yellow-50 to-yellow-100 bg-clip-text text-transparent") #{processNameMarathi}
-						//-Decorative elements
-						div(class="mt-6 flex justify-center")
-							div(class="w-16 h-1 bg-gradient-to-r from-transparent via-gray-50 to-transparent rounded-full opacity-60")
-				//-Login form now comes first in the DOM for mobile
-				if isProcessLive
-					div(class="order-1 md:order-none bg-gray-50/30 backdrop-blur-md p-3 rounded-2xl shadow-2xl w-full md:w-72 lg:w-80 border border-gray-500/20")
-						//-Header
-						div(class="flex items-center justify-between p-3 bg-gray-50/20 backdrop-blur-md border-b border-gray-500/20 rounded-t-2xl")
-							h2(class="text-sm font-semibold ") Account Login
-							div(class="  ")
-								i.fa-solid.fa-right-to-bracket
-						div(class="flex items-center justify-center mt-2")
-							form(action='/login' method="POST" class=" max-w-xs w-full")
-								//-Username Field
-								div(class="mb-2")
-									label(for="username" class="block text-xs font-semibold mb-1 text-left") User ID
-									div(class="relative rounded-md shadow-md")
-										div(class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none")
-											FaUser(class="h-3 w-3 ")
-										input#username(
-											type="text"
-											class="block w-full pl-7 pr-2 py-2 text-xs border border-gray-500/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/40 hover:bg-gray-50/60 text-gray-900"
-											placeholder="User ID"
-											name="utrUserName"
-										)
-								//-Password Field
-								div(class="mb-2")
-									label(for="password" class="block text-xs font-semibold mb-1 text-left") Password
-									div(class="relative rounded-md shadow-md")
-										div(class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none")
-											FaLock(class="h-3 w-3 ")
-										input#password(
-											type='password'
-											class="block w-full pl-7 pr-2 py-2 text-xs border border-gray-500/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/40 hover:bg-gray-50/60 text-gray-900"
-											placeholder="Password"
-											name="utrPassword"
-										)
-								//-Show Password Checkbox
-								div(class="mb-2 flex items-center")
-									input#show-password(type="checkbox" class="h-3 w-3 text-blue-500 focus:ring-blue-500 border-gray-500 rounded mr-2 transition-all duration-200")
-									label(for="show-password" class="text-xs font-semibold ") Show Password
+		//- img(class="w-full h-full  md:hidden pointer-events-none -z-10"
+		//- 	src="/assets/images/hero-bg.jpg"
+		//- 		alt="hero background")
 
-								//-Login Button
-								div(class="space-y-1")
-									button( type="submit" class="w-full flex justify-center items-center py-2 px-2 border border-transparent rounded-md shadow-md text-xs font-semibold text-gray-50 bg-[#4E6688] hover:bg-[#3c4c63] transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500")
-										| Login
-								div.py-2.mb-2
-									if (message)
-										span.absolute.font-semibold.text-center.text-xs.font-medium.pb-3.inline-block #{message}
+		img(class="absolute inset-0 w-full h-full object-contain hidden md:block pointer-events-none -z-10"
+			src="/assets/images/hero-bg.jpg"
+				alt="hero background")
 
-						//-Footer Links
-						div(class="px-3 py-2 bg-gray-50/20 backdrop-blur-md border-t border-gray-500/20 rounded-b-2xl flex justify-between")
-							a(href="/forget?type=userid" class="text-xs font-semibold hover:text-blue-400 hover:underline transition-colors duration-200") Forgot User ID?
-							a(href="/forget?type=password" class="text-xs font-semibold hover:text-blue-400 hover:underline transition-colors duration-200") Forgot Password?
 
-			//-Decorative floating elements
-			div(class="absolute top-10 left-10 w-16 h-16 bg-blue-500/10 rounded-full blur-2xl animate-pulse")
-			div(class="absolute bottom-10 right-10 w-20 h-20 bg-indigo-500/10 rounded-full blur-2xl animate-pulse delay-1000")
-			div(class="absolute top-1/2 left-1/4 w-12 h-12 bg-gray-50/5 rounded-full blur-2xl animate-pulse delay-500")
 
-		div
-			- let _topNotice = p?.notices || [] 
-			each topNotice in _topNotice
-				div(class="bg-gradient-to-r mb-0.5 from-purple-600 via-violet-400 to-purple-500 text-gray-900 py-2 shadow-md relative overflow-hidden")
-					//-Content wrapper
-					div(class="flex items-center gap-4 px-6 whitespace-nowrap  justify-center text-white ")
-						span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
-							i.fa-solid.fa-bullhorn
+		//-Enhanced Overlay
+		//- div(class="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-black/40 z-0")
+
+		//-Content placed above - Reordered for mobile
+		//- div(class="z-10 flex flex-col md:flex-row gap-8 items-center w-full max-w-5xl md:flex-row-reverse")
+		div(class="z-10 flex flex-col md:flex-row-reverse gap-3 md:gap-8 items-center w-full max-w-5xl mb-4")
+
+			//-Right side - Title moved below on mobile
+			div(class="order-0 md:order-none flex-1 flex items-center justify-center text-center px-4")
+				//- div(class="text-gray-50")
+					h1(class="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight mb-4 drop-shadow-2xl")
+						span(class="bg-gradient-to-r from-gray-50 via-blue-100 to-gray-50 bg-clip-text text-transparent") #{processNameEnglish}
+					h2(class="text-xl sm:text-2xl md:text-3xl font-semibold drop-shadow-2xl")
+						span(class="bg-gradient-to-r from-yellow-100 via-yellow-50 to-yellow-100 bg-clip-text text-transparent") #{processNameMarathi}
+					//-Decorative elements
+					div(class="mt-6 flex justify-center")
+						div(class="w-16 h-1 bg-gradient-to-r from-transparent via-gray-50 to-transparent rounded-full opacity-60")
+
+			//-Login form now comes first in the DOM for mobile
+			if isProcessLive
+				div(class="order-1 md:order-none bg-gray-50/30 backdrop-blur-md p-3 rounded-2xl shadow-2xl w-full sm:w-[50%] md:w-72 lg:w-80 border border-gray-500/20")
+					//-Header
+					div(class="flex items-center justify-between p-3 bg-gray-50/20 backdrop-blur-md border-b border-gray-500/20 rounded-t-2xl")
+						h2(class="text-sm font-semibold ") Account Login
+						div(class="  ")
+							i.fa-solid.fa-right-to-bracket
+					div(class="flex items-center justify-center mt-2")
+						form(action='/login' method="POST" class=" max-w-xs w-full")
+							//-Username Field
+							div(class="mb-2")
+								label(for="username" class="block text-xs font-semibold mb-1 text-left") User ID
+								div(class="relative rounded-md shadow-md")
+									div(class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none")
+										FaUser(class="h-3 w-3 ")
+									input#username(
+										type="text"
+										class="block w-full pl-7 pr-2 py-2 text-xs border border-gray-500/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/40 hover:bg-gray-50/60 text-gray-900"
+										placeholder="User ID"
+										name="utrUserName"
+									)
+							//-Password Field
+							div(class="mb-2")
+								label(for="password" class="block text-xs font-semibold mb-1 text-left") Password
+								div(class="relative rounded-md shadow-md")
+									div(class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none")
+										FaLock(class="h-3 w-3 ")
+									input#password(
+										type='password'
+										class="block w-full pl-7 pr-2 py-2 text-xs border border-gray-500/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/40 hover:bg-gray-50/60 text-gray-900"
+										placeholder="Password"
+										name="utrPassword"
+									)
+							//-Show Password Checkbox
+							div(class="mb-2 flex items-center")
+								input#show-password(type="checkbox" class="h-3 w-3 text-blue-500 focus:ring-blue-500 border-gray-500 rounded mr-2 transition-all duration-200")
+								label(for="show-password" class="text-xs font-semibold ") Show Password
+
+							//-Login Button
+							div(class="space-y-1")
+								button( type="submit" class="w-full flex justify-center items-center py-2 px-2 border border-transparent rounded-md shadow-md text-xs font-semibold text-gray-50 bg-[#4E6688] hover:bg-[#3c4c63] transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500")
+									| Login
+							div.py-2.mb-2
+								if (message)
+									span.absolute.font-semibold.text-center.text-xs.font-medium.pb-3.inline-block #{message}
+
+					//-Footer Links
+					div(class="px-3 py-2 bg-gray-50/20 backdrop-blur-md border-t border-gray-500/20 rounded-b-2xl flex justify-between")
+						a(href="/forget?type=userid" class="text-xs font-semibold hover:text-blue-400 hover:underline transition-colors duration-200") Forgot User ID?
+						a(href="/forget?type=password" class="text-xs font-semibold hover:text-blue-400 hover:underline transition-colors duration-200") Forgot Password?
+
+		//-Decorative floating elements
+		div(class="absolute top-10 left-10 w-16 h-16 bg-blue-500/10 rounded-full blur-2xl animate-pulse")
+		div(class="absolute bottom-10 right-10 w-20 h-20 bg-indigo-500/10 rounded-full blur-2xl animate-pulse delay-1000")
+		div(class="absolute top-1/2 left-1/4 w-12 h-12 bg-gray-50/5 rounded-full blur-2xl animate-pulse delay-500")
+
+
+	//- hero secion(Original)
+	section(
+		class="hidden w-full min-h-[34vh] relative px-4 py-6 flex flex-col items-center justify-start md:justify-center text-center md:text-left gap-8"
+		style="background-image: url('/assets/images/hero-bg.jpg'); background-size: contain; background-position: center; background-repeat: no-repeat;"
+	)
+		//-Enhanced Overlay
+		//- div(class="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-black/40 z-0")
+
+		//-Content placed above - Reordered for mobile
+		div(class="z-10 flex flex-col md:flex-row gap-8 items-center w-full max-w-5xl md:flex-row-reverse")
+
+			//-Right side - Title moved below on mobile
+			div(class="order-0 md:order-none flex-1 flex items-center justify-center text-center px-4")
+				//- div(class="text-gray-50")
+					h1(class="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight mb-4 drop-shadow-2xl")
+						span(class="bg-gradient-to-r from-gray-50 via-blue-100 to-gray-50 bg-clip-text text-transparent") #{processNameEnglish}
+					h2(class="text-xl sm:text-2xl md:text-3xl font-semibold drop-shadow-2xl")
+						span(class="bg-gradient-to-r from-yellow-100 via-yellow-50 to-yellow-100 bg-clip-text text-transparent") #{processNameMarathi}
+					//-Decorative elements
+					div(class="mt-6 flex justify-center")
+						div(class="w-16 h-1 bg-gradient-to-r from-transparent via-gray-50 to-transparent rounded-full opacity-60")
+			//-Login form now comes first in the DOM for mobile
+			if isProcessLive
+				div(class="order-1 md:order-none bg-gray-50/30 backdrop-blur-md p-3 rounded-2xl shadow-2xl w-full md:w-72 lg:w-80 border border-gray-500/20")
+					//-Header
+					div(class="flex items-center justify-between p-3 bg-gray-50/20 backdrop-blur-md border-b border-gray-500/20 rounded-t-2xl")
+						h2(class="text-sm font-semibold ") Account Login
+						div(class="  ")
+							i.fa-solid.fa-right-to-bracket
+					div(class="flex items-center justify-center mt-2")
+						form(action='/login' method="POST" class=" max-w-xs w-full")
+							//-Username Field
+							div(class="mb-2")
+								label(for="username" class="block text-xs font-semibold mb-1 text-left") User ID
+								div(class="relative rounded-md shadow-md")
+									div(class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none")
+										FaUser(class="h-3 w-3 ")
+									input#username(
+										type="text"
+										class="block w-full pl-7 pr-2 py-2 text-xs border border-gray-500/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/40 hover:bg-gray-50/60 text-gray-900"
+										placeholder="User ID"
+										name="utrUserName"
+									)
+							//-Password Field
+							div(class="mb-2")
+								label(for="password" class="block text-xs font-semibold mb-1 text-left") Password
+								div(class="relative rounded-md shadow-md")
+									div(class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none")
+										FaLock(class="h-3 w-3 ")
+									input#password(
+										type='password'
+										class="block w-full pl-7 pr-2 py-2 text-xs border border-gray-500/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50/40 hover:bg-gray-50/60 text-gray-900"
+										placeholder="Password"
+										name="utrPassword"
+									)
+							//-Show Password Checkbox
+							div(class="mb-2 flex items-center")
+								input#show-password(type="checkbox" class="h-3 w-3 text-blue-500 focus:ring-blue-500 border-gray-500 rounded mr-2 transition-all duration-200")
+								label(for="show-password" class="text-xs font-semibold ") Show Password
+
+							//-Login Button
+							div(class="space-y-1")
+								button( type="submit" class="w-full flex justify-center items-center py-2 px-2 border border-transparent rounded-md shadow-md text-xs font-semibold text-gray-50 bg-[#4E6688] hover:bg-[#3c4c63] transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500")
+									| Login
+							div.py-2.mb-2
+								if (message)
+									span.absolute.font-semibold.text-center.text-xs.font-medium.pb-3.inline-block #{message}
+
+					//-Footer Links
+					div(class="px-3 py-2 bg-gray-50/20 backdrop-blur-md border-t border-gray-500/20 rounded-b-2xl flex justify-between")
+						a(href="/forget?type=userid" class="text-xs font-semibold hover:text-blue-400 hover:underline transition-colors duration-200") Forgot User ID?
+						a(href="/forget?type=password" class="text-xs font-semibold hover:text-blue-400 hover:underline transition-colors duration-200") Forgot Password?
+
+		//-Decorative floating elements
+		div(class="absolute top-10 left-10 w-16 h-16 bg-blue-500/10 rounded-full blur-2xl animate-pulse")
+		div(class="absolute bottom-10 right-10 w-20 h-20 bg-indigo-500/10 rounded-full blur-2xl animate-pulse delay-1000")
+		div(class="absolute top-1/2 left-1/4 w-12 h-12 bg-gray-50/5 rounded-full blur-2xl animate-pulse delay-500")
+
+
+
+	//- div
+	//- 	- let _topNotice = p?.notices || [] 
+	//- 	each topNotice in _topNotice
+	//- 		div(class="bg-gradient-to-r mb-0.5 from-purple-600 via-violet-400 to-purple-500 text-gray-900 py-2 shadow-md relative overflow-hidden")
+	//- 			//-Content wrapper
+	//- 			div(class="flex items-center gap-4 px-6 whitespace-nowrap  justify-center text-white ")
+	//- 				span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
+	//- 					i.fa-solid.fa-bullhorn
+	//- 				a(
+	//- 					href=`${p.impNoticeBaseURL}${topNotice.aws_file_path}`
+	//- 					target="_blank"
+	//- 					class="text-xl font-bold hover:underline"
+	//- 				)
+	//- 					| 🚨 #{topNotice.file_name}
+	//- 				span(class=" right-0 top-0 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse"
+	//- 					style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.4));")
+	//- 					| NEW
+	//- original
+	//- div
+		- let _topNotice = p?.notices || [] 
+		each topNotice in _topNotice.slice(0, 2)
+			div(class="bg-gradient-to-r mb-0.5 from-purple-600 via-violet-400 to-purple-500 text-gray-900 py-2 shadow-md relative overflow-hidden")
+				//-Content wrapper
+				div(class="flex items-center gap-4 px-6 whitespace-nowrap  justify-center text-white ")
+					span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
+						i.fa-solid.fa-bullhorn
+					a(
+						href=`${p.impNoticeBaseURL}${topNotice.aws_file_path}`
+						target="_blank"
+						class="text-xl font-bold hover:underline"
+					)
+						| #{topNotice.file_name}
+					span(class=" right-0 top-0 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse"
+						style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.4));")
+						| NEW
+		div(class="bg-gradient-to-r mb-0.5 from-purple-600 via-violet-400 to-purple-500 text-gray-900 py-2 shadow-md relative overflow-hidden")
+			//-Content wrapper
+			div(class="flex items-center gap-4 px-6 whitespace-nowrap  justify-center text-white ")
+				span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
+					i.fa-solid.fa-arrow-down
+				//- a(
+				//- 	href='#important-notices'
+				//- 	class="text-xl font-bold hover:underline scroll-to-btn"
+				//- 	data-target-div="important-notices"
+				//- )
+
+				div(
+					href='#important-notices'
+					class="text-xl font-bold hover:underline scroll-to-btn"
+					data-target-div="important-notices"
+				)
+					| View More
+
+	div
+		- let _topNotice = p?.notices || [] 
+		each topNotice in _topNotice.slice(0, 2)
+			div(class="bg-gradient-to-r mb-0.5 from-purple-600 via-violet-400 to-purple-500 text-gray-900 py-2 shadow-md relative overflow-hidden")
+				//- Content wrapper
+				div(class="flex items-center gap-4 px-6 whitespace-nowrap justify-between text-white")
+					//- Icon
+					span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
+						i.fa-solid.fa-bullhorn
+					//- Notice link
+					div
 						a(
 							href=`${p.impNoticeBaseURL}${topNotice.aws_file_path}`
 							target="_blank"
-							class="text-xl font-bold hover:underline"
+							class="text-sm md:text-xl font-bold hover:underline"
 						)
-							| 🚨 #{topNotice.file_name}
-						span(class=" right-0 top-0 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse"
-							style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.4));")
-							| NEW
+							| #{topNotice.file_name}
+					//- NEW badge
+					span(class="right-4 top-1 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse" style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234,179,8,0.4));")
+						| NEW
 
+		div(
+			href='#important-notices'
+			class="text-sm text-center font-bold hover:underline cursor-pointer scroll-to-btn flex justify-center items-center mt-3 gap-3"
+			data-target-div="important-notices"
+		)
+			span(class="bg-white animate-bounce text-red-600 rounded-full h-3 w-3 flex items-center justify-center shadow-md ")
+				i.fa-solid.fa-arrow-down
+			span View More
 
-		//- important dates
-		section(id="important-dates" class="px-4 py-12 md:px-8 lg:px-12 rounded-2xl bg-gradient-to-br from-white to-gray-50")
-			div.max-w-7xl.mx-auto
-				//-Header
-				div(class="text-center mb-10")
-					h2(class="text-xl md:text-2xl font-bold text-[#332D56]")
-						| Important 
-						span(class="text-[#4E6688]") Dates & Timeline
-					p(class="text-gray-600 mt-3 max-w-2xl mx-auto text-sm md:text-base")
-						| Keep track of all important dates related to the exam application process.
-
-				if p.important_dates.length == 0
-					p.text-xl.text-center No information available right now.
-				//-Cards grid
-				div(class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6")
-					if p.important_dates.length > 0
-						each item, index in p.important_dates
-							if item.imp_date_is_visible === 'YES'
-								- function formatDateForBadge(date)
-									- const [day, month, year] = date.split('-')
-									- return {day, month, year}
-
-								- const { day, month, year } = formatDateForBadge(item.date)
-								- 
-									const colors = [
-										"from-purple-500 to-purple-700",
-										"from-blue-500 to-blue-700",
-										"from-emerald-500 to-emerald-700",
-										"from-amber-500 to-amber-700",
-										"from-rose-500 to-rose-700",
-										"from-cyan-500 to-cyan-700",
-									]
-								- const colorClass = colors[index % colors.length]
-
-								div(class=`bg-white p-5 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden relative`)
-									//-Decorative element
-									div(class=`absolute top-0 right-0 w-24 h-24 -mr-12 -mt-12 rounded-full bg-gradient-to-br ${colorClass} opacity-10`)
-									div(class="flex items-start gap-4")
-										//-Enhanced Date Badge
-										div(class=`flex-shrink-0 w-24 h-28 rounded-lg bg-gradient-to-br ${colorClass} flex flex-col items-center justify-center text-white shadow-lg relative overflow-hidden`)
-											//-Decorative circles
-											div(class="absolute -top-6 -left-6 w-12 h-12 rounded-full bg-white opacity-10")
-											div(class="absolute -bottom-6 -right-6 w-12 h-12 rounded-full bg-white opacity-10")
-											//-Date number - much larger
-											span(class="text-4xl font-bold leading-none mt-1") #{day}
-											//-Month and year stacked below
-											span(class="text-sm uppercase tracking-wider font-medium mt-1") #{month} #{year}
-										//-Information
-										div(class="flex-1 relative z-10")
-											h3(class="text-lg font-semibold text-[#332D56] mb-1") #{item.secondary_title} 
-											div(class="text-gray-600 text-sm") #{item.title}
-											//-p(class="text-gray-500 text-sm mb-2") #{item.date} //-(commented like in JSX)
-											div(class=" text-lg") #{item.time} #{item.time_am_pm}
+		//- div(class="bg-gradient-to-r mb-0.5 from-purple-600 via-violet-400 to-purple-500 text-gray-900 py-2 shadow-md relative overflow-hidden")
+		//- 	//- Content wrapper
+		//- 	div(class="flex items-center gap-4 px-6 whitespace-nowrap justify-center text-white")
+		//- 		//- Icon
+		//- 		span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
+		//- 			i.fa-solid.fa-arrow-down
+		//- 		//- Scroll trigger
+		//- 		div(
+		//- 			href='#important-notices'
+		//- 			class="text-xl font-bold hover:underline cursor-pointer scroll-to-btn"
+		//- 			data-target-div="important-notices"
+		//- 		)
+		//- 			| View More
 
 
 
-		//- important notices
-		div(class="w-full py-6" id="important-notices")
-			div(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8")
-				//-Header
-				div(class="text-center mb-10")
-					h2(class="text-xl md:text-2xl font-bold text-[#332D56]")
-						| Important 
-						span(class="text-[#4E6688]") Notices
-					p(class="text-gray-600 mt-3 max-w-2xl mx-auto text-sm md:text-base")
-						| Keep track of all important notices related to the exam application process.
 
-				- let notices = p?.notices || [] 
-				if notices.length == 0
-					p.text-xl.text-center No information available right now.
+	//- important dates
+	section(id="important-dates" class="px-4 py-12 md:px-8 lg:px-12 rounded-2xl bg-gradient-to-br from-white to-gray-50")
+		div.max-w-7xl.mx-auto
+			//-Header
+			div(class="text-center mb-10")
+				h2(class="text-xl md:text-2xl font-bold text-[#332D56]")
+					| Important 
+					span(class="text-[#4E6688]") Dates & Timeline
+				p(class="text-gray-600 mt-3 max-w-2xl mx-auto text-sm md:text-base")
+					| Keep track of all important dates related to the exam application process.
 
-				//-Notices Grid
-				div(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6")
-					if (notices.length >= 1)
-						each notice, index in notices
-							a(href=`${p.impNoticeBaseURL}${notice.aws_file_path}` class="bg-gray-50 rounded-lg shadow-md border border-gray-200 p-4 relative transform hover:shadow-lg hover:-translate-y-1 transition duration-300 ease-in-out h-full flex flex-col" target="_blank")
-								//-Number circle
-								div(class="absolute -top-4 left-4 rounded-full w-10 h-10 flex items-center justify-center font-semibold text-gray-50 bg-[#71C0BB] text-xl")
-									| #{index + 1}
-								//-Title with icon
-								h3(class="text-[#332D56] font-semibold mt-6 mb-4 flex items-start")
-									span(class="bg-blue-100 p-2 mr-3 rounded-full flex-shrink-0")
-										//- = notice.icon
-									span(class="text-sm sm:text-base")
-										| #{notice.file_name}
-								//-Fixed right-side elements
-								div(class="mt-auto flex justify-end items-center space-x-2")
-									//-PDF Icon - Fixed to right
-									div(class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-200")
-										i.fa-solid.fa-file-pdf
-									//-NEW tag in Star Shape - Fixed to right
-									if notice.file_blink == 1
-										div(class="relative w-16 h-8 flex-shrink-0")
-											div(class="relative h-full w-full")
-												span(class="absolute right-0 top-0 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse"
-													style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.4));")
-													| NEW
+			if p.important_dates.length == 0
+				p.text-xl.text-center No information available right now.
+			//-Cards grid
+			div(class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6")
+				if p.important_dates.length > 0
+					each item, index in p.important_dates
+						if item.imp_date_is_visible === 'YES'
+							- function formatDateForBadge(date)
+								- const [day, month, year] = date.split('-')
+								- return {day, month, year}
+
+							- const { day, month, year } = formatDateForBadge(item.date)
+							- 
+								const colors = [
+									"from-purple-500 to-purple-700",
+									"from-blue-500 to-blue-700",
+									"from-emerald-500 to-emerald-700",
+									"from-amber-500 to-amber-700",
+									"from-rose-500 to-rose-700",
+									"from-cyan-500 to-cyan-700",
+								]
+							- const colorClass = colors[index % colors.length]
+
+							div(class=`bg-white p-5 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden relative`)
+								//-Decorative element
+								div(class=`absolute top-0 right-0 w-24 h-24 -mr-12 -mt-12 rounded-full bg-gradient-to-br ${colorClass} opacity-10`)
+								div(class="flex items-start gap-4")
+									//-Enhanced Date Badge
+									div(class=`flex-shrink-0 w-24 h-28 rounded-lg bg-gradient-to-br ${colorClass} flex flex-col items-center justify-center text-white shadow-lg relative overflow-hidden`)
+										//-Decorative circles
+										div(class="absolute -top-6 -left-6 w-12 h-12 rounded-full bg-white opacity-10")
+										div(class="absolute -bottom-6 -right-6 w-12 h-12 rounded-full bg-white opacity-10")
+										//-Date number - much larger
+										span(class="text-4xl font-bold leading-none mt-1") #{day}
+										//-Month and year stacked below
+										span(class="text-sm uppercase tracking-wider font-medium mt-1") #{month} #{year}
+									//-Information
+									div(class="flex-1 relative z-10")
+										h3(class="text-lg font-semibold text-[#332D56] mb-1") #{item.secondary_title} 
+										div(class="text-gray-600 text-sm") #{item.title}
+										//-p(class="text-gray-500 text-sm mb-2") #{item.date} //-(commented like in JSX)
+										div(class=" text-lg") #{item.time} #{item.time_am_pm}
 
 
-		script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
+
+	//- important notices
+	div(class="w-full py-6" id="important-notices")
+		div(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8")
+			//-Header
+			div(class="text-center mb-10")
+				h2(class="text-xl md:text-2xl font-bold text-[#332D56]")
+					| Important 
+					span(class="text-[#4E6688]") Notices
+				p(class="text-gray-600 mt-3 max-w-2xl mx-auto text-sm md:text-base")
+					| Keep track of all important notices related to the exam application process.
+
+			- let notices = p?.notices || [] 
+			if notices.length == 0
+				p.text-xl.text-center No information available right now.
+
+			//-Notices Grid
+			div(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6")
+				if (notices.length >= 1)
+					each notice, index in notices
+						a(href=`${p.impNoticeBaseURL}${notice.aws_file_path}` class="bg-gray-50 rounded-lg shadow-md border border-gray-200 p-4 relative transform hover:shadow-lg hover:-translate-y-1 transition duration-300 ease-in-out h-full flex flex-col" target="_blank")
+							//-Number circle
+							div(class="absolute -top-4 left-4 rounded-full w-10 h-10 flex items-center justify-center font-semibold text-gray-50 bg-[#71C0BB] text-xl")
+								| #{index + 1}
+							//-Title with icon
+							h3(class="text-[#332D56] font-semibold mt-6 mb-4 flex items-start")
+								span(class="bg-blue-100 p-2 mr-3 rounded-full flex-shrink-0")
+									//- = notice.icon
+								span(class="text-sm sm:text-base")
+									| #{notice.file_name}
+							//-Fixed right-side elements
+							div(class="mt-auto flex justify-end items-center space-x-2")
+								//-PDF Icon - Fixed to right
+								div(class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-200")
+									i.fa-solid.fa-file-pdf
+								//-NEW tag in Star Shape - Fixed to right
+								if notice.file_blink == 1
+									div(class="relative w-16 h-8 flex-shrink-0")
+										div(class="relative h-full w-full")
+											span(class="absolute right-0 top-0 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse"
+												style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.4));")
+												| NEW
+
+
+	script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
