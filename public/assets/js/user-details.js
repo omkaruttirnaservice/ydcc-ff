@@ -678,20 +678,20 @@ $(document).ready(() => {
 			generalDetails.age = updateData[0].age;
 
 			generalDetails.detailsMarital = updateData[0].detailsMarital;
-			generalDetails.detailsSpouse = updateData[0].spouse_name;
+			generalDetails.detailsSpouse = updateData[0]?.spouse_name?.toUpperCase();
 
 			generalDetails.detailsNationality =
 				updateData[0].detailsNationality;
 			generalDetails.detailsDomicile = updateData[0].detailsDomicile;
 
-			generalDetails.detailsFather = updateData[0].fathers_name;
-			generalDetails.detailsMother = updateData[0].mother_name;
+			generalDetails.detailsFather = updateData[0].fathers_name?.toUpperCase();
+			generalDetails.detailsMother = updateData[0].mother_name?.toUpperCase();
 
 			generalDetails.detailsCategory = updateData[0].catagory;
 			generalDetails.detailsCategoryName = updateData[0].catagory_name;
 
 			generalDetails.detailsSubCategory =
-				updateData[0].detailsSubCategory;
+				updateData[0].detailsSubCategory?.toUpperCase();
 
 			generalDetails.detailsReligion = updateData[0].detailsReligion;
 
@@ -700,17 +700,17 @@ $(document).ready(() => {
 
 			generalDetails.languageDetails = updateData[0].languageDetails;
 
-			generalDetails.detailsAddress = updateData[0].address;
+			generalDetails.detailsAddress = updateData[0].address?.toUpperCase();
 
-			generalDetails.detailsLineTwo = updateData[0].line_two_address;
+			generalDetails.detailsLineTwo = updateData[0].line_two_address?.toUpperCase();
 
-			generalDetails.detailsLineThree = updateData[0].line_three_address;
+			generalDetails.detailsLineThree = updateData[0].line_three_address?.toUpperCase();
 
 			generalDetails.detailsState = updateData[0].state;
 
 			generalDetails.detailsDistrict = updateData[0].district;
 
-			generalDetails.detailsTaluka = updateData[0].detailsTaluka;
+			generalDetails.detailsTaluka = updateData[0].detailsTaluka?.toUpperCase();
 
 			generalDetails.detailsPin = updateData[0].pin_number;
 		}

@@ -756,6 +756,7 @@ $(document).on("click", "#confirmElgDetails", function () {
 
 function saveEligibility() {
 	let $this = $("#submitPersonalDetails");
+	$this.prop("disabled", true);
 	$.ajax({
 		method: "post",
 		url: "/save-eligible-details",

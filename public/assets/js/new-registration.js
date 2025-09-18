@@ -300,6 +300,7 @@ $(function () {
 
 	function saveRegistration() {
 		let $this = $("#saveNewRegistration");
+		$this.prop("disabled", true);
 		$.ajax({
 			method: "POST",
 			url: "registerd-new-user",
