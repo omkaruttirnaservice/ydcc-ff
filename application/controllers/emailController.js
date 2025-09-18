@@ -6,6 +6,7 @@ const {
 	_registrationEmailTemplate,
 	_forgotUsernameOtpTemplate,
 	_paymentSuccessTemplate,
+	_summaryEmailTemplate,
 } = require("../config/emailTemplates");
 
 const emailController = {
@@ -85,6 +86,12 @@ const emailController = {
 			}
 		});
 	},
+
+	sendSummaryEmailZeptoMail: data => {
+		data.subject = _summaryEmailTemplate.subject;
+		data.mailBody = _summaryEmailTemplate.email(data);
+		sendZeptoMail(data);
+	},
 };
 
 const getEmailTransporter = () => {
@@ -118,7 +125,7 @@ function sendZeptoMail(data) {
 				{
 					email_address: {
 						address: data.email,
-						name: data.first_name,
+						name: data?.first_name || "-",
 					},
 				},
 			],

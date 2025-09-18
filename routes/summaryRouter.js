@@ -8,4 +8,10 @@ summaryRouter.get(
 	candidateCountSummaryController._getAllSummary,
 );
 
+summaryRouter.get(
+	"/v2/get",
+	middleware.checkForPoolConnection,
+	candidateCountSummaryController._getAllSummaryV2,
+);
+
 module.exports = summaryRouter;
