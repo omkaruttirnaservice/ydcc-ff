@@ -1096,7 +1096,7 @@ var indexController = {
 
 	addNewCandidate: (req, res, next) => {
 		let data = req.body;
-		console.log(data, "==new registration data==");
+
 		let randomstring = Math.floor(100000 + Math.random() * 900000);
 		let mobileNo = data.newMobileNumber;
 
@@ -1119,31 +1119,16 @@ var indexController = {
 						message: "duplicate addhar",
 					});
 				} else {
-					// var mailData = {
-					// 	to: data.newMailPartOne,
-					// 	subject: `${process.name} Recruitment Process.`,
-					// 	message: `Dear ${data.newFname},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Your registration for ${process.name} recruitment is done successfully.Your login details are as <br> UserName: <strong>${result.insertId} </strong> <br> Password: <strong>${randomstring} </strong> <br>Do not share the credentials.<br>Thank you.`,
-					// };
-					// emailModel.sendEmailGmailCallback(mailData, function (data) {});
-					let details = {
-						ub_first_name: data.newFname,
-						ub_middle_name: data.newMname,
-						ub_last_name: data.newLname,
-						r_id: result.insertId,
-						ub_password: randomstring,
-						email: data.newMailPartOne,
-					};
 					let sms = {
 						mobile: mobileNo,
 						username: result.insertId,
 						password: randomstring,
 					};
 
+					// send sms
 					smsModel.sendSMS(
 						{ smsDetails: sms, smsType: REGISTRATION_SMS_TYPE },
-						function (smsResponse) {
-							// console.log(smsResponse, "==smsResponse==");
-						},
+						function (smsResponse) {},
 					);
 
 					let emailData = {
@@ -1156,11 +1141,7 @@ var indexController = {
 					};
 
 					// send mail
-					// sendRegistrationEmailZeptomail(emailData);
-
-					// let context = registrationDone(details);
-					// emailModel.sendEmailGmailPromise(details.email, context);
-					// emailController.sendRegistrationEmail(details);
+					sendRegistrationEmailZeptomail(emailData);
 
 					let base64data = resultStatus.toBase64(
 						result.insertId.toString(),

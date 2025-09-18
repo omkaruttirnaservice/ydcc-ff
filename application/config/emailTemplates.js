@@ -106,8 +106,8 @@ module.exports._registrationEmailTemplate = {
                                 <!-- Credentials -->
                                 <div style="background: #f1f3f5; padding: 15px; border-radius: 6px; margin: 20px 0;">
                                 <p style="margin: 0 0 8px 0; font-weight: bold;">Your login credentials:</p>
-                                <p style="margin: 4px 0;">👤 Username: <strong>${data.username}</strong></p>
-                                <p style="margin: 4px 0;">🔑 Password: <strong>${data.password}</strong></p>
+                                <p style="margin: 4px 0;">Username: <strong>${data.username}</strong></p>
+                                <p style="margin: 4px 0;">Password: <strong>${data.password}</strong></p>
                                 </div>
                                 
                                 <!-- Next steps -->
