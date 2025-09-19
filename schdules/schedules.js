@@ -9,10 +9,8 @@ const sendSummaryCron = () => {
 	console.log("Done Sending summary emails...");
 };
 
-// cron.schedule("0 17 * * *", sendSummaryCron);
-// cron.schedule("0 17 * * *", sendSummaryCron);
-//cron.schedule("30 17 * * *", sendSummaryCron);
-//cron.schedule("0 9 * * *", sendSummaryCron);
+cron.schedule("0 17 * * *", sendSummaryCron);
+cron.schedule("0 9 * * *", sendSummaryCron);
 
 const getDbBackup = () => {
 	infoLog("Generating db backup...");
