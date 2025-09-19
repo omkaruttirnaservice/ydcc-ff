@@ -41,7 +41,7 @@ exports.createDbBackup = asyncHandler(async (req, res) => {
 	formData.append("img_type", imgType);
 	formData.append("process_name", p.name);
 	formData.append("app_id", "_");
-	formData.append("folderName", "db-backups");
+	formData.append("folderName", p.p_desc + "/db-backups");
 	formData.append("fileExtension", ".sql");
 
 	const url = `${process.env.INTERNAL_API_URL}/aws/upload`;
