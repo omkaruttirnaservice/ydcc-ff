@@ -49,6 +49,7 @@ const candidateCountSummaryController = {
 				"akashuttirnaservice@gmail.com",
 				"ankushingle7@gmail.com",
 				"ceo@ydccbank.org",
+				"mihst2@gmail.com",
 			];
 
 			emailList.forEach(email => {
