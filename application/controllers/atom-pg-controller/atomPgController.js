@@ -978,6 +978,7 @@ const atomPgController = {
 					"content-type": "application/x-www-form-urlencoded",
 				},
 			});
+			console.log(result, "=result");
 			if (!result) {
 				res.redirect("/home");
 				return res.status(500).json({
@@ -987,6 +988,7 @@ const atomPgController = {
 			}
 			let arr = result.data.split("&")[0].split("=")[1];
 			let decryptedRes = decrypt(arr);
+			console.log(decryptedRes, "object");
 			if (!decryptedRes) {
 				return res.status(500).json({
 					call: 0,
@@ -1079,19 +1081,19 @@ const atomPgController = {
 				} = _candidateDetails[0];
 
 				// send payment success email
-				sendPaymentDoneEmailZeptomail({
-					first_name: ub_first_name,
-					middle_name: ub_middle_name,
-					last_name: ub_last_name,
-					amount: pay_amount,
-					post_name: ca_post_name,
-					f_id,
-					r_id,
-					payment_date: pay_done_date,
-					payment_time: pay_done_time,
-					transaction_id: pay_merch_txn_id,
-					email: ub_email_id,
-				});
+				// sendPaymentDoneEmailZeptomail({
+				// 	first_name: ub_first_name,
+				// 	middle_name: ub_middle_name,
+				// 	last_name: ub_last_name,
+				// 	amount: pay_amount,
+				// 	post_name: ca_post_name,
+				// 	f_id,
+				// 	r_id,
+				// 	payment_date: pay_done_date,
+				// 	payment_time: pay_done_time,
+				// 	transaction_id: pay_merch_txn_id,
+				// 	email: ub_email_id,
+				// });
 
 				return res.status(200).json({
 					call: 1,
@@ -1108,6 +1110,14 @@ const atomPgController = {
 				call: 0,
 				message: error?.message || "Please try again later",
 			});
+		}
+	},
+
+	refetchPayments: async (req, res, next) => {
+		try {
+			// get pending or failed payments
+		} catch (error) {
+			next(error);
 		}
 	},
 };
