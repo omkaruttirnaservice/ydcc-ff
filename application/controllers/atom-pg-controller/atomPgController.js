@@ -944,8 +944,6 @@ const atomPgController = {
 			// }; // sample
 
 			const dataToSign = `${merchId}${merchPass}${userTxnDetails.merch_trans_id}${userTxnDetails.amount}INR${txnVerifycationApi}`; //production
-			// console.log(dataToSign, '-data to sign');
-			// const dataToSign = `${merchId}${merchPass}${userTxnDetails.merch_trans_id}1.00INR${txnVerifycationApi}`; //production
 			const signature = generateSignature_2(dataToSign);
 
 			const refetchPayloadData = {
@@ -978,7 +976,6 @@ const atomPgController = {
 					"content-type": "application/x-www-form-urlencoded",
 				},
 			});
-			console.log(result, "=result");
 			if (!result) {
 				res.redirect("/home");
 				return res.status(500).json({
@@ -988,7 +985,7 @@ const atomPgController = {
 			}
 			let arr = result.data.split("&")[0].split("=")[1];
 			let decryptedRes = decrypt(arr);
-			console.log(decryptedRes, "object");
+			console.log(decryptedRes, "refetch response");
 			if (!decryptedRes) {
 				return res.status(500).json({
 					call: 0,
@@ -1081,19 +1078,19 @@ const atomPgController = {
 				} = _candidateDetails[0];
 
 				// send payment success email
-				// sendPaymentDoneEmailZeptomail({
-				// 	first_name: ub_first_name,
-				// 	middle_name: ub_middle_name,
-				// 	last_name: ub_last_name,
-				// 	amount: pay_amount,
-				// 	post_name: ca_post_name,
-				// 	f_id,
-				// 	r_id,
-				// 	payment_date: pay_done_date,
-				// 	payment_time: pay_done_time,
-				// 	transaction_id: pay_merch_txn_id,
-				// 	email: ub_email_id,
-				// });
+				sendPaymentDoneEmailZeptomail({
+					first_name: ub_first_name,
+					middle_name: ub_middle_name,
+					last_name: ub_last_name,
+					amount: pay_amount,
+					post_name: ca_post_name,
+					f_id,
+					r_id,
+					payment_date: pay_done_date,
+					payment_time: pay_done_time,
+					transaction_id: pay_merch_txn_id,
+					email: ub_email_id,
+				});
 
 				return res.status(200).json({
 					call: 1,
@@ -1116,6 +1113,30 @@ const atomPgController = {
 	refetchPayments: async (req, res, next) => {
 		try {
 			// get pending or failed payments
+			const failedPayments = await atomPgModel.getFailedPaymentsList(
+				res.pool,
+			);
+			let successCount = 0;
+
+			if (failedPayments.length === 0) {
+				return res
+					.status(404)
+					.json(new ApiResponseV2(404, "No failed payments found"));
+			}
+
+			await (async () => {
+				for (let pay of failedPayments) {
+					let URL = `${process.env.INTERNAL_API_URL}/v3/transaction-status?merch_trans_id=${pay.pay_merch_txn_id}&merchTxnDate=${pay.pay_start_date}&amount=${pay.pay_amount}`;
+					const resp = await fetch(URL);
+					const json = await resp.json();
+					if (json.call === 1) successCount++;
+				}
+			})();
+
+			console.log(successCount, "=success Count");
+			return res
+				.status(200)
+				.json(new ApiResponseV2(200, `Successfully fetched payments`));
 		} catch (error) {
 			next(error);
 		}

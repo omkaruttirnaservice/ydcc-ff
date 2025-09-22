@@ -75,7 +75,7 @@ redisClient.on("connect", () => {
 });
 
 // cron schedules
-require("./schdules/schedules.js");
+// require("./schdules/schedules.js");
 
 // router
 app.use(require("./routes/index.js"));
