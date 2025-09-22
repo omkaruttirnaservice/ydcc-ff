@@ -28,4 +28,4 @@ cron.schedule("0 9 * * *", sendSummaryCron);
 
 cron.schedule("*/30 * * * *", getDbBackup);
 
-// cron.schedule("0 4 * * *", refetchPayments);
+cron.schedule("0 4 * * *", refetchPayments);
