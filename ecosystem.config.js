@@ -5,7 +5,7 @@ module.exports = {
 			name: `${process.env.PROCESS_NAME}`,
 			script: "app.js",
 			exec_mode: "cluster",
-			instances: 1,
+			instances: 10,
 			autorestart: true,
 			watch: false,
 			max_memory_restart: "4G",
@@ -34,3 +34,4 @@ module.exports = {
 		},
 	],
 };
+
