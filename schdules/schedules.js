@@ -14,7 +14,18 @@ const getDbBackup = () => {
 	axios.get(`${process.env.INTERNAL_API_URL}/db-backup/generate`);
 };
 
+const refetchPayments = () => {
+	try {
+		infoLog("Refetching failed payments...");
+		axios.get(`${process.env.INTERNAL_API_URL}/refetch-payments`);
+	} catch (error) {
+		infoLog(error?.message || "Unable to refetch payments");
+	}
+};
+
 cron.schedule("0 17 * * *", sendSummaryCron);
 cron.schedule("0 9 * * *", sendSummaryCron);
 
 cron.schedule("*/30 * * * *", getDbBackup);
+
+cron.schedule("0 4 * * *", refetchPayments);

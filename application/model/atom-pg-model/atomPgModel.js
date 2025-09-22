@@ -1,3 +1,5 @@
+const runQuery = require("../../config/runQuery");
+
 const atomPgModel = {
 	updateTokenInPayHistory: function (pool, data) {
 		return new Promise((resolve, reject) => {
@@ -186,6 +188,20 @@ const atomPgModel = {
 				err ? reject(err) : resolve(result);
 			});
 		});
+	},
+
+	getFailedPaymentsList: async pool => {
+		const q = `
+		SELECT 
+		pay_merch_txn_id,
+		DATE_FORMAT(pay_start_date,'%Y-%m-%d') AS pay_start_date,
+		pay_amount
+
+		FROM payment_history
+		WHERE pay_status_code <> 'OTS_0000' AND 
+		TIMESTAMP(pay_start_date, pay_start_time) >= NOW() - INTERVAL 1 DAY;`;
+
+		return await runQuery(pool, q);
 	},
 };
 

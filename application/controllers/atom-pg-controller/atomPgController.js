@@ -944,8 +944,6 @@ const atomPgController = {
 			// }; // sample
 
 			const dataToSign = `${merchId}${merchPass}${userTxnDetails.merch_trans_id}${userTxnDetails.amount}INR${txnVerifycationApi}`; //production
-			// console.log(dataToSign, '-data to sign');
-			// const dataToSign = `${merchId}${merchPass}${userTxnDetails.merch_trans_id}1.00INR${txnVerifycationApi}`; //production
 			const signature = generateSignature_2(dataToSign);
 
 			const refetchPayloadData = {
@@ -987,6 +985,7 @@ const atomPgController = {
 			}
 			let arr = result.data.split("&")[0].split("=")[1];
 			let decryptedRes = decrypt(arr);
+			console.log(decryptedRes, "refetch response");
 			if (!decryptedRes) {
 				return res.status(500).json({
 					call: 0,
@@ -1108,6 +1107,38 @@ const atomPgController = {
 				call: 0,
 				message: error?.message || "Please try again later",
 			});
+		}
+	},
+
+	refetchPayments: async (req, res, next) => {
+		try {
+			// get pending or failed payments
+			const failedPayments = await atomPgModel.getFailedPaymentsList(
+				res.pool,
+			);
+			let successCount = 0;
+
+			if (failedPayments.length === 0) {
+				return res
+					.status(404)
+					.json(new ApiResponseV2(404, "No failed payments found"));
+			}
+
+			await (async () => {
+				for (let pay of failedPayments) {
+					let URL = `${process.env.INTERNAL_API_URL}/v3/transaction-status?merch_trans_id=${pay.pay_merch_txn_id}&merchTxnDate=${pay.pay_start_date}&amount=${pay.pay_amount}`;
+					const resp = await fetch(URL);
+					const json = await resp.json();
+					if (json.call === 1) successCount++;
+				}
+			})();
+
+			console.log(successCount, "=success Count");
+			return res
+				.status(200)
+				.json(new ApiResponseV2(200, `Successfully fetched payments`));
+		} catch (error) {
+			next(error);
 		}
 	},
 };
