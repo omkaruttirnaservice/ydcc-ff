@@ -262,3 +262,60 @@ module.exports._summaryEmailTemplate = {
     `;
 	},
 };
+
+module.exports._hallticketEventTemplate = {
+	subject: "YDCC - Hallticket Released 🎟️",
+	email: data => {
+		return `
+      <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f8f9fa; padding: 20px; color: #333;">
+        <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+
+          <!-- Header -->
+          <h2 style="color: #4E6688; margin-top: 0; text-align: center;">Hallticket Released 📅</h2>
+
+          <!-- Greeting -->
+          <p style="font-size: 15px;">
+            Dear <strong>${data.first_name} ${data.middle_name || ""} ${data.last_name}</strong>,
+          </p>
+
+          <!-- Body -->
+          <p style="font-size: 15px; line-height: 1.6;">
+            Your hallticket for <strong>${data.examName}</strong> is now available.
+            Please download it and don’t forget to check the exam schedule.
+          </p>
+
+          <!-- Event Block -->
+          <div style="background: #f1f3f5; padding: 20px; border-radius: 6px; margin: 20px 0;">
+            <p style="margin: 0 0 8px 0; font-weight: bold; font-size: 15px;">Exam Details</p>
+            <p style="margin: 6px 0; font-size: 14px; color: #2c3e50;"><strong>Exam:</strong> ${data.examName}</p>
+            <p style="margin: 6px 0; font-size: 14px; color: #2c3e50;"><strong>Date:</strong> ${data.examDate}</p>
+            <p style="margin: 6px 0; font-size: 14px; color: #2c3e50;"><strong>Time:</strong> ${data.examTime}</p>
+            <p style="margin: 6px 0; font-size: 14px; color: #2c3e50;">
+              <strong>Hallticket:</strong>
+              <a href="${data.ticketUrl}" style="color: #007bff; text-decoration: none;">Download here</a>
+            </p>
+          </div>
+
+          <!-- Calendar Notice -->
+          <p style="font-size: 15px; line-height: 1.6;">
+            An <strong>event invite</strong> is attached to this email 
+            (<code>.ics</code> file). You can add it to your Google Calendar or Outlook 
+            to get automatic reminders.
+          </p>
+
+          <!-- Support -->
+          <p style="font-size: 15px; line-height: 1.6;">
+            If you have any questions, feel free to reach out to us at
+            <a href="mailto:${data.from}" style="color: #007bff; text-decoration: none;">${data.from}</a>.
+          </p>
+
+          <!-- Closing -->
+          <p style="margin-top: 30px; font-size: 15px;">
+            Best regards,<br>
+            <strong>${data.regards}</strong>
+          </p>
+
+        </div>
+      </div>`;
+	},
+};

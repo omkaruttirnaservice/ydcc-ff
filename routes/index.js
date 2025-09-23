@@ -9,7 +9,10 @@ const policiesRouter = require("./policiesRouter.js");
 const {
 	sendRegistrationEmailZeptomail,
 	sendForgetOtpZeptomail,
+	sendExamIcal,
 } = require("../application/controllers/emailController.js");
+
+const { default: ical } = require("ical-generator");
 
 console.log(process.pid, "-process id");
 
@@ -23,6 +26,42 @@ indexRouter.get("/m", (req, res, next) => {
 		password: 574643,
 	};
 	sendRegistrationEmailZeptomail(emailData);
+});
+
+indexRouter.get("/cal", (req, res, next) => {
+	console.log(ical, "ical,=======");
+
+	const cal = ical();
+
+	cal.createEvent({
+		start: new Date(),
+		end: new Date(),
+		summary: "Jr. Clerk Exam",
+		description: "Download Hallticket Here: https://ydccbank.com/ht",
+		location: "Exam Center 2",
+		url: "https://ydccbank.com",
+	});
+
+	console.log(cal, "=cal");
+
+	const icalString = cal.toString();
+	console.log(icalString);
+	const icalBase64 = Buffer.from(icalString, "utf8").toString("base64");
+
+	let emailData = {
+		from: "help@ydccbank.com",
+		// email: "omkaruttirnaservice@gmail.com",
+		// email: "deepakkumarshinde0@gmail.com",
+		email: "uttirnaservices9@gmail.com",
+		first_name: "omakr",
+		middle_name: "popat",
+		last_name: "patole",
+		otp: 123456,
+		type: "username",
+		regards: "YDCC Bank",
+		icalBase64: icalBase64,
+	};
+	sendExamIcal(emailData);
 });
 
 indexRouter.get("/otp", (req, res, next) => {

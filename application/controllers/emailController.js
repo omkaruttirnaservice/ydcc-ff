@@ -7,6 +7,7 @@ const {
 	_forgotUsernameOtpTemplate,
 	_paymentSuccessTemplate,
 	_summaryEmailTemplate,
+	_hallticketEventTemplate,
 } = require("../config/emailTemplates");
 
 const emailController = {
@@ -26,6 +27,12 @@ const emailController = {
 		data.subject = _forgotUsernameOtpTemplate.subject;
 		data.mailBody = _forgotUsernameOtpTemplate.email(data);
 		sendZeptoMail(data);
+	},
+
+	sendExamIcal: data => {
+		data.subject = _hallticketEventTemplate.subject;
+		data.mailBody = _hallticketEventTemplate.email(data);
+		sendZeptoMailAttachment(data);
 	},
 
 	sendEmailView: function (req, res) {
@@ -131,6 +138,41 @@ function sendZeptoMail(data) {
 			],
 			subject: data.subject,
 			htmlbody: data.mailBody,
+		})
+		.then(resp => console.log("success send email to: ", resp))
+		.catch(error => console.log("error send email to: ", error));
+}
+
+function sendZeptoMailAttachment(data) {
+	const url = "api.zeptomail.in/";
+	const token =
+		"Zoho-enczapikey PHtE6r1fE+7o2TF78hUE5/exQ8LwNtt/9LxnKFNAuIdLCvUASk1c+NEjxDS+rx4iXfYWEfKZz9hguevPsO2FLWrsZjpOX2qyqK3sx/VYSPOZsbq6x00Vt1kScE3UV4LuctZv0ibeuN7YNA==";
+
+	let client = new SendMailClient({ url, token });
+
+	client
+		.sendMail({
+			from: {
+				address: "help@ydccbank.com",
+				name: "YDCC Bank",
+			},
+			to: [
+				{
+					email_address: {
+						address: data.email,
+						name: data?.first_name || "-",
+					},
+				},
+			],
+			subject: data.subject,
+			htmlbody: data.mailBody,
+			attachments: [
+				{
+					name: "invite.ics",
+					content: data.icalBase64,
+					mime_type: "text/calendar",
+				},
+			],
 		})
 		.then(resp => console.log("success send email to: ", resp))
 		.catch(error => console.log("error send email to: ", error));
