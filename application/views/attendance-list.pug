@@ -3,7 +3,7 @@ block css_link
     link(rel='stylesheet' href='/assets/css/hallticket/hallticket.css')
 block content
     div.print-data
-      img.brand-header(src="/assets/images/brandName.png")
+      img.brand-header(src=CDN_URL+"/assets/images/brandName.png")
       table.table.table-bordered.table-inverse.print-table.mb-0
         tbody
           tr
@@ -32,7 +32,7 @@ block content
             td.user-details(colspan="2").p-2.align-middle
               span.font-weight-bold  SURAJ GOVIND TIKHE
             td.user-profile-img(rowspan='4', width='15%').p-2.align-middle
-              img(src="/assets/images/pics/photo_1571570310211.jpg")
+              img(src=CDN_URL+"/assets/images/pics/photo_1571570310211.jpg")
           tr
             td.user-details(colspan="1" width="21%").p-2.align-middle
               span.font-weight-bold CAST
@@ -68,4 +68,4 @@ block content
                     td.user-details.text-center.p-2
                       span 66
             td.user-sign-img( width='15%' rowspan="1").p-2
-              img(src="/assets/images/pics/photo_1571571572788.jpeg") 
+              img(src=CDN_URL+"/assets/images/pics/photo_1571571572788.jpeg") 

@@ -1,6 +1,6 @@
 extends layout_index_new
 block css_link
-    link(rel="stylesheet" href="/assets/css/experience-details/experience-details.css")
+    link(rel="stylesheet" href=CDN_URL+"/assets/css/experience-details/experience-details.css")
 
 block inline_js 
     script.
@@ -12,7 +12,7 @@ block inline_js
         let is_post_required_experience = '#{isExpReq}';
         let totalExpRequiredInYears = '#{totalExpRequiredInYears}'
 
-    script(src="/assets/js/experience-details.js" type="module")
+    script(src=CDN_URL+"/assets/js/experience-details.js" type="module")
 
 block content
 

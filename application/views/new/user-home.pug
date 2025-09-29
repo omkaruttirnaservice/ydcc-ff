@@ -44,7 +44,7 @@ block inline_js
         let updateData  = !{JSON.stringify(applicationList)};
 
 block js_link 
-    script(src='./assets/js/candidate-home.js' type="module" defer)
+    script(src=CDN_URL+'/assets/js/candidate-home.js' type="module" defer)
 
 block content
         - function checkIfDateExpired(dateType)
@@ -228,7 +228,7 @@ block content
                             tbody
                                 tr
                                     td(colspan="4" style="width: 40rem; height: 6rem; overflow: hidden; border: 1px solid black; border-radius: 10px; margin: 0.4rem 0;")
-                                        img(src="/assets/images/brand-name.jpg" alt="" class="header-image" style='height: 100%; width: 100%;')
+                                        img(src=CDN_URL+"/assets/images/brand-name.jpg" alt="" class="header-image" style='height: 100%; width: 100%;')
                                 tr
                                     td(colspan="1" width="20%") Post Name
                                     td(colspan="3" width="80%") #{ca_post_name}

@@ -73,7 +73,7 @@ export function _showLoader() {
 
 export const alertjs = {
 	success: function (data, callback) {
-		swal.fire({
+		Swal.fire({
 			title: data.t,
 			html: data.m,
 			icon: "success",
@@ -82,7 +82,7 @@ export const alertjs = {
 		});
 	},
 	warning: function (data, callback) {
-		swal.fire({
+		Swal.fire({
 			title: data.t,
 			html: data.m,
 			icon: "warning",
@@ -91,7 +91,7 @@ export const alertjs = {
 		});
 	},
 	error: function (callback) {
-		swal.fire({
+		Swal.fire({
 			title: "Application System Error",
 			html: "Kindly Contact To Admin,Or Retry Again",
 			icon: "error",
@@ -100,7 +100,7 @@ export const alertjs = {
 		});
 	},
 	delete: function (callback) {
-		swal.fire({
+		Swal.fire({
 			title: "Are you sure to delete ?",
 			text: "",
 			icon: "warning",
@@ -256,4 +256,3 @@ export const checkProcessDates = async type => {
 		throw new Error(error?.message || "Please try again later");
 	}
 };
-

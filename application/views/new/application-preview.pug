@@ -1,7 +1,7 @@
 extends layout_index_new
 block css_link
 block inline_css
-    link(rel="stylesheet" href="/assets/css/application-preview.css")
+    link(rel="stylesheet" href=CDN_URL+"/assets/css/application-preview.css")
 block inline_js
     script.
         var regID = Number(#{regIDInt});
@@ -9,7 +9,7 @@ block inline_js
         var form_id = Number(#{form_id});
 
 block js_link
-    script(src="/assets/js/application-preview.js" type="module" defer)
+    script(src=CDN_URL+"/assets/js/application-preview.js" type="module" defer)
 block content
 
     div.container-fluid.mt-1

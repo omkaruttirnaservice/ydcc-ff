@@ -25,7 +25,7 @@ block js_link
         var cdnScript = document.createElement('script');
         cdnScript.setAttribute('src','https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js?v='+Date.now());
         document.head.appendChild(cdnScript);
-    script(src="/assets/js/paymentHandlerOnline.js" type="module" defer)
+    script(src=CDN_URL+"/assets/js/paymentHandlerOnline.js" type="module" defer)
 
 block inline_css 
     style. 

@@ -1,6 +1,6 @@
 extends layout_index_new
 block css_link
-    link(rel="stylesheet" href="/assets/css/user-details/user-details.css")
+    link(rel="stylesheet" href=CDN_URL+"/assets/css/user-details/user-details.css")
 
 block inline_js
     script.
@@ -20,7 +20,7 @@ block inline_js
             is_new = false;
         }
 block js_link
-    script(src="/assets/js/user-details.js" type="module" defer)
+    script(src=CDN_URL+"/assets/js/user-details.js" type="module" defer)
 block content
 
     div.container-fluid

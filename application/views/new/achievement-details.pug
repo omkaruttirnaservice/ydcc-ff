@@ -1,7 +1,7 @@
 extends layout_index_new
 
 block css_link
-    link(rel="stylesheet" href="/assets/css/achievement-details/achievement-details.css")
+    link(rel="stylesheet" href=CDN_URL+"/assets/css/achievement-details/achievement-details.css")
 
 block inline_js
     script.
@@ -12,7 +12,7 @@ block inline_js
         console.log(achievementList,'=achievementList')
 
 block js_link 
-    script(src="/assets/js/achievement-details.js" type="module" defer)
+    script(src=CDN_URL+"/assets/js/achievement-details.js" type="module" defer)
 
 block content
 

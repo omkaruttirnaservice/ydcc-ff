@@ -1,9 +1,4 @@
-import {
-	_hideLoader,
-	_showLoader,
-	alertjs,
-	compareDate
-} from "./common.js";
+import { _hideLoader, _showLoader, alertjs, compareDate } from "./common.js";
 
 $(function () {
 	$("#idApplyForNewPost").on("click", async function () {
@@ -286,32 +281,27 @@ async function setEditor(f_id, type, index) {
 
 				switch (index) {
 					case 0:
-						url = "/user-details/";
-
+						url = "/user-details/" + regString;
 						break;
 
 					case 1:
-						url = "/education-details/";
-
+						url = "/education-details/" + regString;
 						break;
 
 					case 2:
-						url = "/document-upload/";
-
+						url = "/document-upload/" + regString;
 						break;
 
 					case 3:
-						url = "/application-preview/";
-
+						url = "/application-preview/" + regString;
 						break;
 
 					case 4:
-						url = "/payment-page/";
+						// url = `/payment-page/?r=${regID}&f=${f_id}`;
+						alert("Please check on make payment button.");
+						break;
 				}
-
-				//  console.log(url);
-
-				window.location.assign(url + regString);
+				window.location.assign(url);
 
 				return false;
 			}

@@ -1,10 +1,10 @@
 extends layout_index_new
 block css_link
-	link(rel="stylesheet" href="/assets/css/new-registration/new-registration.css")
+	link(rel="stylesheet" href=CDN_URL+"/assets/css/new-registration/new-registration.css")
 block inline_css
 
 block js_link
-	script(src="/assets/js/new-registration.js" type="module" defer)
+	script(src=CDN_URL+"/assets/js/new-registration.js" type="module" defer)
 
 block content
 	div.container-fluid

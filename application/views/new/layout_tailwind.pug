@@ -7,12 +7,12 @@ html(lang="en")
 
         title #{title ? title : 'Form Filling'}
 
-        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer")
-        script(src='/plugins/jquery/jquery.min.js')
-        script(src='/plugins/jquery_validation/jquery.validate.min.js')
-        script(src='/plugins/jquery_validation/additional-methods.js')
-        script(src='/assets/js/common.js' type="module" )
-        script(src="https://cdn.tailwindcss.com")
+        link(rel="stylesheet", href=CDNS.fontAwesomeCSS)
+        script(src=CDNS.jquery)
+        script(src=CDNS.jqueryValidate)
+        script(src=CDNS.jqueryValidateAdditional)
+        script(src=CDNS.customCommonJS type="module" )
+        script(src=CDNS.tailwind)
 
         link(rel="preconnect" href="https://fonts.googleapis.com")
         link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
@@ -92,7 +92,7 @@ html(lang="en")
                         //- 	div(class="absolute -inset-1 rounded-lg bg-blue-900/30 animate-pulse")
                         div
                             .flex.items-center
-                                img(src="/assets/images/ydcc-logo.jpeg" alt="Bank Logo" class="w-14 h-14 object-contain mr-3")
+                                img(src=CDN_URL+"/assets/images/ydcc-logo.jpeg" alt="Bank Logo" class="w-14 h-14 object-contain mr-3")
                                 div
                                     h1(class="text-xs md:text-xl font-semibold text-[#332D56]" )
                                         | #{processNameEnglish}

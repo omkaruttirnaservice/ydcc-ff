@@ -10,6 +10,8 @@ const errorHandler = require("./middlewares/errorMiddleware.js");
 const { isDevEnv } = require("./application/config/_responderSet.js");
 const { infoLog, errorLog } = require("./application/config/logger.js");
 
+const CDN_URL = process.env.CDN_URL;
+
 const {
 	redisStore,
 	connectRedis,
@@ -18,6 +20,53 @@ const {
 const { initExpiryDateSchedule } = require("./middlewares/middleware.js");
 
 const app = express();
+
+// IMPORTANT: Ensure the CDN_URL variable (e.g., from environment variables)
+// is accessible in this scope before this middleware runs.
+
+app.use((_, res, next) => {
+	// 1. Set the root URL for your custom assets (CloudFront)
+	res.locals.CDN_URL = CDN_URL;
+
+	// 2. Set ALL CDN Links (External Libraries AND Custom Assets)
+	res.locals.CDNS = {
+		// --- STYLING (CSS) ---
+		tailwind: "https://cdn.tailwindcss.com",
+		fontAwesomeCSS:
+			"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css",
+		bootstrapCSS:
+			"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css",
+		sweetAlertCSS:
+			"https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css",
+
+		// --- JAVASCRIPT LIBRARIES ---
+		jquery: "https://code.jquery.com/jquery-3.7.1.min.js",
+		jqueryValidate:
+			"https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js",
+		jqueryValidateAdditional:
+			"https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.js",
+		bootstrapJS:
+			"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js",
+		sweetAlertJs:
+			"https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js",
+		popperJs:
+			"https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js",
+		fontAwesomeJS:
+			"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js",
+
+		// --- YOUR CUSTOM JS FILES (NOW INCLUDED IN CDNS) ---
+		// We use template literals to combine CDN_URL with your specific file path
+		customCommonJS: `${CDN_URL}/assets/js/common.js`,
+		customValidationJS: `${CDN_URL}/assets/js/common-validation.js`,
+
+		// CUSTOM CSS FILES
+		customCommonStylesCss: `${CDN_URL}/assets/css/common-styles/common-styles.css`,
+		customCommonNavbarCss: `${CDN_URL}/assets/css/navbar/navbar.css`,
+		customCommonProgressNavbarCss: `${CDN_URL}/assets/css/navbar/progress-navbar.css`,
+	};
+
+	next();
+});
 
 app.use(cors());
 
