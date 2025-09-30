@@ -295,24 +295,25 @@ block content
 	div
 		- let _topNotice = p?.notices || [] 
 		each topNotice in _topNotice.slice(0, 2)
-			div(class="bg-gradient-to-r mb-0.5 from-[#4E6688] via-[#7185a0] to-[#4E6688] text-gray-900 py-2 shadow-md relative overflow-hidden")
-				//- Content wrapper
-				div(class="flex items-center gap-4 px-6 whitespace-nowrap justify-between text-white")
-					//- Icon
-					span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
-						i.fa-solid.fa-bullhorn
-					//- Notice link
-					div.flex.items-center.gap-2
-						a(
-							href=`${p.impNoticeBaseURL}${topNotice.aws_file_path}`
-							target="_blank"
-							class="text-sm md:text-xl font-bold hover:underline"
-						)
-							| #{topNotice.file_name}
-						//- NEW badge
-						span(class="right-4 top-1 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse" style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234,179,8,0.4));")
-							| NEW
-					div
+			if topNotice.file_show == 1
+				div(class="bg-gradient-to-r mb-0.5 from-[#4E6688] via-[#7185a0] to-[#4E6688] text-gray-900 py-2 shadow-md relative overflow-hidden")
+					//- Content wrapper
+					div(class="flex items-center gap-4 px-6 whitespace-nowrap justify-between text-white")
+						//- Icon
+						span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
+							i.fa-solid.fa-bullhorn
+						//- Notice link
+						div.flex.items-center.gap-2
+							a(
+								href=`${p.impNoticeBaseURL}${topNotice.aws_file_path}`
+								target="_blank"
+								class="text-sm md:text-xl font-bold hover:underline"
+							)
+								| #{topNotice.file_name}
+							//- NEW badge
+							span(class="right-4 top-1 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse" style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234,179,8,0.4));")
+								| NEW
+						div
 
 		div(
 			href='#important-notices'
@@ -415,28 +416,29 @@ block content
 			div(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6")
 				if (notices.length >= 1)
 					each notice, index in notices
-						a(href=`${p.impNoticeBaseURL}${notice.aws_file_path}` class="bg-gray-50 rounded-lg shadow-md border border-gray-200 p-4 relative transform hover:shadow-lg hover:-translate-y-1 transition duration-300 ease-in-out h-full flex flex-col" target="_blank")
-							//-Number circle
-							div(class="absolute -top-4 left-4 rounded-full w-10 h-10 flex items-center justify-center font-semibold text-gray-50 bg-[#71C0BB] text-xl")
-								| #{index + 1}
-							//-Title with icon
-							h3(class="text-[#332D56] font-semibold mt-6 mb-4 flex items-start")
-								span(class="bg-blue-100 p-2 mr-3 rounded-full flex-shrink-0")
-									//- = notice.icon
-								span(class="text-sm sm:text-base")
-									| #{notice.file_name}
-							//-Fixed right-side elements
-							div(class="mt-auto flex justify-end items-center space-x-2")
-								//-PDF Icon - Fixed to right
-								div(class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-200")
-									i.fa-solid.fa-file-pdf
-								//-NEW tag in Star Shape - Fixed to right
-								if notice.file_blink == 1
-									div(class="relative w-16 h-8 flex-shrink-0")
-										div(class="relative h-full w-full")
-											span(class="absolute right-0 top-0 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse"
-												style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.4));")
-												| NEW
+						if notice.file_show == 1
+							a(href=`${p.impNoticeBaseURL}${notice.aws_file_path}` class="bg-gray-50 rounded-lg shadow-md border border-gray-200 p-4 relative transform hover:shadow-lg hover:-translate-y-1 transition duration-300 ease-in-out h-full flex flex-col" target="_blank")
+								//-Number circle
+								div(class="absolute -top-4 left-4 rounded-full w-10 h-10 flex items-center justify-center font-semibold text-gray-50 bg-[#71C0BB] text-xl")
+									| #{index + 1}
+								//-Title with icon
+								h3(class="text-[#332D56] font-semibold mt-6 mb-4 flex items-start")
+									span(class="bg-blue-100 p-2 mr-3 rounded-full flex-shrink-0")
+										//- = notice.icon
+									span(class="text-sm sm:text-base")
+										| #{notice.file_name}
+								//-Fixed right-side elements
+								div(class="mt-auto flex justify-end items-center space-x-2")
+									//-PDF Icon - Fixed to right
+									div(class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-200")
+										i.fa-solid.fa-file-pdf
+									//-NEW tag in Star Shape - Fixed to right
+									if notice.file_blink == 1
+										div(class="relative w-16 h-8 flex-shrink-0")
+											div(class="relative h-full w-full")
+												span(class="absolute right-0 top-0 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse"
+													style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.4));")
+													| NEW
 
 
 	script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
