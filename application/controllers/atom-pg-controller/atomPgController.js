@@ -1097,7 +1097,7 @@ const atomPgController = {
 					message: "Success",
 				});
 			} else {
-				return res.status(200).json({
+				return res.status(400).json({
 					call: 0,
 					message: "Payment Failed",
 				});
@@ -1134,6 +1134,43 @@ const atomPgController = {
 			})();
 
 			console.log(successCount, "=success Count");
+			return res
+				.status(200)
+				.json(new ApiResponseV2(200, `Successfully fetched payments`));
+		} catch (error) {
+			next(error);
+		}
+	},
+
+	refetchPaymentsV2: async (req, res, next) => {
+		try {
+			// get pending or failed payments
+			const failedPayments = await atomPgModel.getFailedPaymentsList(
+				res.pool,
+			);
+			let successCount = 0;
+			const BATCH_SIZE = 50;
+
+			if (failedPayments.length === 0) {
+				return res
+					.status(404)
+					.json(new ApiResponseV2(404, "No failed payments found"));
+			}
+
+			const fetchOne = async pay => {
+				let URL = `${process.env.INTERNAL_API_URL}/v3/transaction-status?merch_trans_id=${pay.pay_merch_txn_id}&merchTxnDate=${pay.pay_start_date}&amount=${pay.pay_amount}`;
+				const resp = await fetch(URL);
+				if (!resp.ok) return false;
+				const json = await resp.json();
+				return json;
+			};
+
+			for (let i = 0; i < failedPayments.length; i += BATCH_SIZE) {
+				const batch = failedPayments.slice(i, i + BATCH_SIZE);
+				await Promise.allSettled(batch.map(pay => fetchOne(pay)));
+			}
+
+			// console.log(successCount, "=success Count");
 			return res
 				.status(200)
 				.json(new ApiResponseV2(200, `Successfully fetched payments`));

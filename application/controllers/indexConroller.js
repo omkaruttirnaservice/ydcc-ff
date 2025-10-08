@@ -151,6 +151,10 @@ var indexController = {
 					: "";
 			delete req.session.ErrorMessage;
 
+			console.log(
+				await responderSet.getFromGlobalCache(`p_${__processDb}`),
+			);
+
 			const dates =
 				await responderSet.getFromGlobalCache(IMP_DATES_CACHE_KEY);
 			return res.render("new/index-exam-kop", {

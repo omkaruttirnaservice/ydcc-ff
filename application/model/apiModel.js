@@ -100,7 +100,6 @@ const studentsDataModel = {
 			}
 			query += ` ORDER BY ca.ca_roll_number;`;
 
-			console.log(query, "==query==");
 
 			pool.query(query, function (err, result) {
 				err ? reject(err) : resolve(result);

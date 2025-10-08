@@ -191,6 +191,15 @@ const atomPgModel = {
 	},
 
 	getFailedPaymentsList: async pool => {
+		// const q = `
+		// SELECT 
+		// pay_merch_txn_id,
+		// DATE_FORMAT(pay_start_date,'%Y-%m-%d') AS pay_start_date,
+		// pay_amount
+
+		// FROM payment_history
+		// WHERE pay_status_code <> 'OTS_0000' AND 
+		// TIMESTAMP(pay_start_date, pay_start_time) >= NOW() - INTERVAL 1 DAY;`;
 		const q = `
 		SELECT 
 		pay_merch_txn_id,
@@ -198,8 +207,7 @@ const atomPgModel = {
 		pay_amount
 
 		FROM payment_history
-		WHERE pay_status_code <> 'OTS_0000' AND 
-		TIMESTAMP(pay_start_date, pay_start_time) >= NOW() - INTERVAL 1 DAY;`;
+		WHERE (pay_status_code <> 'OTS_0000' OR pay_status_code IS NULL) AND r_id = 101167;`;
 
 		return await runQuery(pool, q);
 	},

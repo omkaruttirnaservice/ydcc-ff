@@ -76,4 +76,10 @@ paymentRouter.get(
 );
 
 
+paymentRouter.get(
+	"/v2/refetch-payments",
+	middleware.checkForPoolConnection,
+	atomPgController.refetchPaymentsV2,
+);
+
 module.exports = paymentRouter;
