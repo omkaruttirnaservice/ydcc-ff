@@ -1,6 +1,17 @@
 $(document).ready(() => {
 	console.log("Home");
 
+	$(document).on("keydown", function (e) {
+		if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p") {
+			e.preventDefault();
+			e.stopPropagation();
+			// alert(
+			// 	"Printing via Ctrl+P / Cmd+P is disabled. Please use the provided print button.",
+			// );
+			return false;
+		}
+	});
+
 	function getValidCandidateList(postId, postName) {
 		try {
 			fetch(`/valid-list?postId=${postId}&postName=${postName}`)
