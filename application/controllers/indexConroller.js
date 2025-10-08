@@ -2685,28 +2685,49 @@ var indexController = {
 				{ postId },
 			);
 
-			res.render(
-				"new/validCandidateList.pug",
-				{
-					p: await responderSet.getFromGlobalCache(
-						`p_${__processDb}`,
-					),
-					data: {
-						postName,
-						validCandidates,
+			const validCandidateListHtml =
+				await responderSet.getFromGlobalCache(
+					`validCandidateList_${postId}`,
+				);
+
+			if (validCandidateListHtml) {
+				console.log("cacheHit");
+				return res
+					.status(200)
+					.json(new ApiResponseV2(400, validCandidateListHtml));
+			} else {
+				console.log("cache miss");
+				res.render(
+					"new/validCandidateList.pug",
+					{
+						p: await responderSet.getFromGlobalCache(
+							`p_${__processDb}`,
+						),
+						data: {
+							postName,
+							validCandidates,
+						},
 					},
-				},
-				(err, html) => {
-					console.log(err);
-					if (err)
-						throw new ApiError(
-							500,
-							"Unable to render valid candidate list",
+					async (err, html) => {
+						console.log(err);
+						if (err)
+							throw new ApiError(
+								500,
+								"Unable to render valid candidate list",
+							);
+
+						await responderSet.setToGlobalCache(
+							`validCandidateList_${postId}`,
+							html,
+							600000,
 						);
 
-					return res.status(200).json(new ApiResponseV2(400, html));
-				},
-			);
+						return res
+							.status(200)
+							.json(new ApiResponseV2(400, html));
+					},
+				);
+			}
 		} catch (error) {
 			console.log(error);
 			next(error);

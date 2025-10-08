@@ -84,40 +84,22 @@ html(lang="en")
             //- block content
             - var printDate = (typeof data !== 'undefined' && data.printDate) ? data.printDate : (new Date()).toLocaleDateString('en-GB') 
 
-            div.my-3
-                p.text-center.m-0.p-0 दि यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या., यवतमाळ
-                p.text-center.m-0.p-0 परीक्षेकरिता पात्र उमेदवारांची यादी
-                p.text-center.m-0.p-0 #{data.postName}
-            p Date: 08/10/2025
-
-            div
-                table.my-print-table
-                    // put colgroup BEFORE the thead so widths are applied immediately
-                    colgroup
-                        col.col-1
-                        col.col-2
-                        col.col-3
-
+            div.flex.justify-center.items-center.flex-col
+                div.my-3
+                    div
+                        p.text-center.m-0.p-0 दि यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या., यवतमाळ
+                        p.text-center.m-0.p-0 परीक्षेकरिता पात्र उमेदवारांची यादी
+                        p.text-center.m-0.p-0 #{data.postName}
+                    p Date: 08/10/2025
+                table
                     thead
-                        //- tr.print-page-header
-                            th(colspan='3')
-                                .header-container
-                                    .header-left
-                                        
-                                    .header-center.mt-2
-                                        p.text-center.m-0.p-0 दि यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या., यवतमाळ
-                                        p.text-center.m-0.p-0 परीक्षेकरिता पात्र उमेदवारांची यादी
-                                        p.text-center.m-0.p-0 #{data.postName}
-                                    .header-right
-                                        | Date: #{printDate}
-
                         tr
-                            th Application ID
-                            th Candidate Name
-                            th Gender
+                            th.border.p-1.text-sm Application ID
+                            th.border.p-1.text-sm Candidate Name
+                            th.border.p-1.text-sm Gender
                     tbody
                         each candidate, index in data.validCandidates
                             tr
-                                td #{candidate.application_id}
-                                td #{candidate.full_name}
-                                td #{candidate.gender}
+                                td.border.p-1 #{candidate.application_id}
+                                td.border.p-1.text-start #{candidate.full_name}
+                                td.border.p-1 #{candidate.gender}
