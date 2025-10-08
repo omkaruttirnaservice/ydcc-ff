@@ -45,14 +45,26 @@ const middleware = {
 	setProcessData: async (req, res, next) => {
 		// check if session has process data
 		// if process data not availble in session get process data and set to session
+		console.log('1');
 		if (
 			!(await getFromGlobalCache(PROCESS_DETAILS_CACHE_KEY)) ||
 			!(await getFromGlobalCache(IMP_DATES_CACHE_KEY))
 		) {
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
+			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
 			let _processData = await IndexModel.getProcessData(res.pool);
 
 			// append the S3 base url here to all base urls
+
 			const s3URL = process.env.S3_BUCKET_URL;
+			console.log(s3URL, "-s3URL");
 			_processData[0].imgBaseURL = `${s3URL}${_processData[0].imgBaseURL}`;
 			_processData[0].impNoticeBaseURL = `${s3URL}${_processData[0].impNoticeBaseURL}`;
 			_processData[0].headerImgBaseURL = `${s3URL}${_processData[0].headerImgBaseURL}`;

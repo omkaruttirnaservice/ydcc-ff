@@ -370,6 +370,7 @@ router.post(
 router.get(
 	"/print-ht",
 	middleware.checkForPoolConnection,
+	middleware.setProcessData,
 	// commenMiddleware.redirectToHome,
 	indexController.printHallTicket,
 );

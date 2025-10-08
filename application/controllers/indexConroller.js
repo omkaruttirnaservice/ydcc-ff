@@ -22,6 +22,7 @@ const {
 	IMP_DATES_CACHE_KEY,
 	PROCESS_DATES,
 	OTP_TYPE,
+	PROCESS_DETAILS_CACHE_KEY,
 } = require("../config/constants.js");
 const { infoLog } = require("../config/logger.js");
 const ApiResponseV2 = require("../config/ApiResponseV2.js");
@@ -2143,7 +2144,10 @@ var indexController = {
 			await IndexModel.updateHTDownload(res.pool, { r_id, f_id });
 
 			// TODO (Omkar) : check process type and render hallticket accordingly
-			const _process = await IndexModel.getProcessData(res.pool);
+			const _process = await responderSet.getFromGlobalCache(
+				PROCESS_DETAILS_CACHE_KEY,
+			);
+			console.log(_process, "-_process");
 			// if (_process[0].print_hall_ticket != 1) {
 			// 	res.render("new/error-page.pug", {
 			// 		errorTitle: "Woops!",
@@ -2166,7 +2170,7 @@ var indexController = {
 
 			//  1 = ONLINE, 2 = OFFLINE
 			const RENDER_HT_FILE_NAME =
-				_process[0].process_mode === 1
+				_process.process_mode === 1
 					? "candidate-hallticket-online.pug"
 					: "candidate-hallticket-offline.pug";
 
