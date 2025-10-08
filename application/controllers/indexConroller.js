@@ -2673,6 +2673,45 @@ var indexController = {
 			p: await responderSet.getFromGlobalCache(`p_${__processDb}`),
 		});
 	},
+
+	// valid candidatel list
+	printValidCandidateList: async (req, res, next) => {
+		try {
+			const { postId, postName = "Test" } = req?.query;
+			console.log(req.query);
+
+			const validCandidates = await IndexModel.getValidCandidatesList(
+				res.pool,
+				{ postId },
+			);
+
+			res.render(
+				"new/validCandidateList.pug",
+				{
+					p: await responderSet.getFromGlobalCache(
+						`p_${__processDb}`,
+					),
+					data: {
+						postName,
+						validCandidates,
+					},
+				},
+				(err, html) => {
+					console.log(err);
+					if (err)
+						throw new ApiError(
+							500,
+							"Unable to render valid candidate list",
+						);
+
+					return res.status(200).json(new ApiResponseV2(400, html));
+				},
+			);
+		} catch (error) {
+			console.log(error);
+			next(error);
+		}
+	},
 };
 
 function getDocumentMessage(type, doc) {

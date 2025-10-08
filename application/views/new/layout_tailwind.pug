@@ -172,3 +172,12 @@ html(lang="en")
                 div(class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-sm")
                     p © #{new Date().getFullYear()} #{processNameEnglish} 
                     p All rights reserved.
+
+
+        //- Modal Wrapper (hidden by default)
+        div(id="simpleModal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50 z-50")
+            //- Modal Box
+            div(class="bg-white rounded-lg shadow-lg h-[80%] m-auto w-[70%] p-6 text-center overflow-y-auto user-select-none")
+                div#valid-list-modal-body
+            div(class="flex justify-center gap-3")
+                button(type="button" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300" id="close-modal") Close

@@ -1,0 +1,123 @@
+//- extends ./layout_index_new
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+            link(rel="stylesheet", href="https://cdn.tailwindcss.com")
+            //- block inline_css
+            style.
+                .menubar, header, .header-container { display: none !important; }
+                @media print {
+                    .menubar, header, .header-container { display: none !important; }
+
+                    .main-container, .main-content, .container-base, .container-primary.container {
+                        display:block !important;
+                        position:static !important;
+                        height:auto !important;
+                        max-height:none !important;
+                        overflow:visible !important;
+                        transform:none !important;
+                    }
+
+                    html, body { height:auto !important; overflow:visible !important; }
+
+                    /* use fixed layout so col widths are respected */
+                    table.my-print-table {
+                        width:100% !important;
+                        border-collapse:collapse !important;
+                        table-layout: fixed !important;
+                        page-break-inside:auto !important;
+                    }
+
+                    table.my-print-table col.col-1 { width: 15% !important; }
+                    table.my-print-table col.col-2 { width: 70% !important; }
+                    table.my-print-table col.col-3 { width: 15% !important; }
+
+                    /* header layout: left title + right date */
+                    //- .print-page-header th .header-container {
+                    //-     display: flex;
+                    //-     justify-content: space-between;
+                    //-     align-items: center;
+                    //-     gap: 12px;
+                    //- }
+                    //- .header-left {
+                    //-     //- text-align: left;
+                    //-     width: 15px;
+                    //-     //- line-height: 1.1;
+                    //- }
+                    //- .header-left,
+                    //- .header-right {
+                    //-     text-align: right;
+                    //-     font-size: 11px;
+                    //-     white-space: nowrap;
+                    //- }
+
+                    /* remove extra padding/margins that expand tiny columns */
+                    table.my-print-table th:nth-child(1),
+                    table.my-print-table td:nth-child(1) {
+                        /* if you want first column extremely narrow, set here; otherwise adjust */
+                        /* width:10px !important; min-width:10px !important; max-width:10px !important; */
+                        padding: 2px 4px !important;
+                        box-sizing: border-box !important;
+                        white-space: nowrap !important;
+                        overflow: hidden !important;
+                        text-overflow: ellipsis !important;
+                    }
+
+                    /* other cells: allow wrapping */
+                    table.my-print-table th, table.my-print-table td {
+                        padding: 6px !important;
+                        word-wrap: break-word !important;
+                        white-space: normal !important;
+                    }
+
+                    thead { display: table-header-group !important; }
+                    tfoot { display: table-footer-group !important; }
+                    tr, td, th { page-break-inside: avoid !important; break-inside: avoid !important; font-size: 11px; }
+
+                    @page { size: A4 portrait; margin: 5mm; }
+                }
+    body 
+
+            //- block content
+            - var printDate = (typeof data !== 'undefined' && data.printDate) ? data.printDate : (new Date()).toLocaleDateString('en-GB') 
+
+            div.my-3
+                p.text-center.m-0.p-0 दि यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या., यवतमाळ
+                p.text-center.m-0.p-0 परीक्षेकरिता पात्र उमेदवारांची यादी
+                p.text-center.m-0.p-0 #{data.postName}
+            p Date: 08/10/2025
+
+            div
+                table.my-print-table
+                    // put colgroup BEFORE the thead so widths are applied immediately
+                    colgroup
+                        col.col-1
+                        col.col-2
+                        col.col-3
+
+                    thead
+                        //- tr.print-page-header
+                            th(colspan='3')
+                                .header-container
+                                    .header-left
+                                        
+                                    .header-center.mt-2
+                                        p.text-center.m-0.p-0 दि यवतमाळ जिल्हा मध्यवर्ती सह. बँक मर्या., यवतमाळ
+                                        p.text-center.m-0.p-0 परीक्षेकरिता पात्र उमेदवारांची यादी
+                                        p.text-center.m-0.p-0 #{data.postName}
+                                    .header-right
+                                        | Date: #{printDate}
+
+                        tr
+                            th Application ID
+                            th Candidate Name
+                            th Gender
+                    tbody
+                        each candidate, index in data.validCandidates
+                            tr
+                                td #{candidate.application_id}
+                                td #{candidate.full_name}
+                                td #{candidate.gender}

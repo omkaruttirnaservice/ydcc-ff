@@ -132,11 +132,11 @@ module.exports = {
 			pool.query(query, function (err, result) {
 				if (err) {
 					console.log(err);
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					console.log(result, "==result postData==");
 					resolve(result);
@@ -158,11 +158,11 @@ module.exports = {
 			pool.query(query, [id], function (err, result) {
 				if (err) {
 					console.log(err);
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -577,11 +577,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -606,11 +606,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -634,11 +634,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -662,11 +662,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -724,11 +724,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -795,11 +795,11 @@ module.exports = {
 			pool.query(query, $data, function (err, result) {
 				if (err) {
 					console.log(err);
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -856,11 +856,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -965,11 +965,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -992,11 +992,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1024,11 +1024,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1050,11 +1050,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri, data.cfi], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1072,11 +1072,11 @@ module.exports = {
 			`;
 			pool.query(query, [data.cri], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1131,11 +1131,11 @@ module.exports = {
 						GROUP BY ca.id`;
 			pool.query(query, [data.cri], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1349,11 +1349,11 @@ module.exports = {
 				[Number(data.r_id), Number(data.f_id)],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -1383,11 +1383,11 @@ module.exports = {
                            AND ca_valid_user = ? LIMIT 1`;
 			pool.query(query, [data.id, type], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1478,11 +1478,11 @@ module.exports = {
 				[Number(data.f), Number(data.r)],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						console.log(result);
 						resolve(result);
@@ -1530,11 +1530,11 @@ module.exports = {
                          WHERE f_id = ?`;
 			pool.query(query, [Number(data)], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					console.log(result);
 					resolve(result);
@@ -1565,11 +1565,11 @@ module.exports = {
 
 			pool.query(q, [Number(fid)], function (err, result) {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					console.log(result);
 					resolve(result);
@@ -1610,11 +1610,11 @@ module.exports = {
                            AND sub_post = ? LIMIT 1`;
 			pool.query(query, [slot.post, slot.sub_post], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1711,11 +1711,11 @@ module.exports = {
                            AND ca_is_alloted = 1 LIMIT 1`;
 			pool.query(query, [data.f_id, data.r_id], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1823,11 +1823,11 @@ module.exports = {
 			console.log(query, "==query==");
 			pool.query(query, roll_no, (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1866,11 +1866,11 @@ module.exports = {
 			console.log(query, "==query==");
 			pool.query(query, (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1885,11 +1885,11 @@ module.exports = {
                          WHERE ub_aadhar_number = ? LIMIT 1`;
 			pool.query(query, [data.newAadharNumber], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1905,11 +1905,11 @@ module.exports = {
                            AND ca_post_id = ? LIMIT 1`;
 			pool.query(query, [cri, data._postId], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -1932,11 +1932,11 @@ module.exports = {
 				],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -1955,11 +1955,11 @@ module.exports = {
 				[data.aadharNumber, Number(data.userId)],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -1978,11 +1978,11 @@ module.exports = {
 				[Number(otp), data.aadharNumber, Number(data.userId)],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2002,11 +2002,11 @@ module.exports = {
 				[data.aadharNumber, data.mobileNumber],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2030,11 +2030,11 @@ module.exports = {
 				[data.aadharNumber, data.mobileNumber],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2060,11 +2060,11 @@ module.exports = {
 				[data.aadharNumber, data.mobileNumber],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2072,7 +2072,6 @@ module.exports = {
 			);
 		});
 	},
-
 
 	getOnlyPaymentStatus: function (pool, data) {
 		return new Promise((resolve, reject) => {
@@ -2086,11 +2085,11 @@ module.exports = {
 				[Number(data.cri), Number(data.cfi)],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2111,11 +2110,11 @@ module.exports = {
 				[Number(data.r), Number(data.f)],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2136,11 +2135,11 @@ module.exports = {
 				[Number(data.r), Number(data.f)],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2306,11 +2305,11 @@ module.exports = {
 				[Number(data.r), Number(data.f), data.t],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2330,11 +2329,11 @@ module.exports = {
 				[Number(data.r), Number(data.f), "OTS0000"],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2364,11 +2363,11 @@ module.exports = {
 				[Number(data.r), Number(data.f)],
 				(err, result) => {
 					if (err) {
-						((responderSet.sendData._call = -1),
+						(responderSet.sendData._call = -1),
 							(responderSet.sendData._error =
 								"Op Error, Contact To Admin"),
 							(responderSet.sendData._sys_erorr = err),
-							reject(responderSet.sendData));
+							reject(responderSet.sendData);
 					} else {
 						resolve(result);
 					}
@@ -2411,11 +2410,11 @@ module.exports = {
 
 			pool.query(query, [insertData], (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -2451,11 +2450,11 @@ module.exports = {
 
 			pool.query(query, updateData, (err, result) => {
 				if (err) {
-					((responderSet.sendData._call = -1),
+					(responderSet.sendData._call = -1),
 						(responderSet.sendData._error =
 							"Op Error, Contact To Admin"),
 						(responderSet.sendData._sys_erorr = err),
-						reject(responderSet.sendData));
+						reject(responderSet.sendData);
 				} else {
 					resolve(result);
 				}
@@ -2479,5 +2478,24 @@ module.exports = {
 		});
 	},
 
+	getValidCandidatesList: async (pool, { postId }) => {
+		let q = `
+        SELECT 
+            uca.id AS application_id,
+            upper(concat(ub_first_name,' ',uub.ub_middle_name ,' ', uub.ub_last_name )) AS full_name,
+            UPPER(ca_gender) AS gender
+        FROM prod_ydcc.utr_candidate_appications AS uca
+        INNER JOIN utr_user_basic uub
+        ON uca.ca_reg_id  = uub.id
+        WHERE 
+            uca.ca_payment_done  = 1
+        `;
 
+		if (postId) {
+			q += ` AND ca_post_id = ${postId} `;
+		}
+
+		console.log(q, "=q");
+		return await runQuery(pool, q);
+	},
 };

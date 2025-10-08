@@ -40,6 +40,8 @@ block js
 			})
 		})
 
+	script(src="/assets/js/landingPageHandler.js") 
+
 
 block content
 	- function getDateFor(dateType) {
@@ -293,8 +295,49 @@ block content
 					| View More
 
 	div
+
+		div(class="bg-gradient-to-r mb-0.5 from-[#4E6688] via-[#7185a0] to-[#4E6688] text-gray-900 py-2 shadow-md relative overflow-hidden")
+
+			div(class="flex items-center gap-4 px-6 whitespace-nowrap justify-between text-white")
+				//- Icon
+				span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
+					i.fa-solid.fa-bullhorn
+				div.flex.items-center.gap-2.justify-center
+					p(
+						data-post-id="1"
+						data-post-name="कनिष्ठ लिपिक"
+						target="_blank"
+						class="text-center text-white valid-candidate-list text-sm md:text-xl font-bold hover:underline"
+						
+					)
+						| परीक्षेकरिता पात्र उमेदवारांची यादी कनिष्ठ लिपिक
+					//- NEW badge
+					span(class="right-4 top-1 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse" style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234,179,8,0.4));")
+						| NEW
+				div
+
+		div(class="bg-gradient-to-r mb-0.5 from-[#4E6688] via-[#7185a0] to-[#4E6688] text-gray-900 py-2 shadow-md relative overflow-hidden")
+
+			div(class="flex items-center gap-4 px-6 whitespace-nowrap justify-between text-white")
+				//- Icon
+				span(class="bg-white text-red-600 rounded-full h-7 w-7 flex items-center justify-center shadow-md animate-pulse")
+					i.fa-solid.fa-bullhorn
+				div.flex.items-center.gap-2.justify-center
+					p(
+						data-post-id="2"
+						data-post-name="सहाय्यक कर्मचारी (शिपाई)"
+						target="_blank"
+						class="text-center text-white valid-candidate-list text-sm md:text-xl font-bold hover:underline"
+						
+					)
+						| परीक्षेकरिता पात्र उमेदवारांची यादी सहाय्यक कर्मचारी (शिपाई)
+					//- NEW badge
+					span(class="right-4 top-1 w-16 h-8 flex items-center justify-center text-xs font-bold text-yellow-800 uppercase animate-pulse" style="background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transform: rotate(-12deg); filter: drop-shadow(0 2px 4px rgba(234,179,8,0.4));")
+						| NEW
+				div
+
 		- let _topNotice = p?.notices || [] 
-		each topNotice in _topNotice.slice(0, 2)
+		//- each topNotice in _topNotice.slice(0, 2)
 			if topNotice.file_show == 1
 				div(class="bg-gradient-to-r mb-0.5 from-[#4E6688] via-[#7185a0] to-[#4E6688] text-gray-900 py-2 shadow-md relative overflow-hidden")
 					//- Content wrapper

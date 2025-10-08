@@ -502,4 +502,10 @@ router.post(
 	indexController.sendOTP,
 );
 
+router.get(
+	"/valid-list",
+	middleware.checkForPoolConnection,
+	indexController.printValidCandidateList,
+);
+
 module.exports = router;
