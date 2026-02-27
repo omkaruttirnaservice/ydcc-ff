@@ -45,20 +45,10 @@ const middleware = {
 	setProcessData: async (req, res, next) => {
 		// check if session has process data
 		// if process data not availble in session get process data and set to session
-		console.log('1');
 		if (
 			!(await getFromGlobalCache(PROCESS_DETAILS_CACHE_KEY)) ||
 			!(await getFromGlobalCache(IMP_DATES_CACHE_KEY))
 		) {
-			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
-			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
-			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
-			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
-			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
-			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
-			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
-			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
-			console.log('1111111111111111111111111111111111111111111111111111111111111111111111111111111');
 			let _processData = await IndexModel.getProcessData(res.pool);
 
 			// append the S3 base url here to all base urls
@@ -84,28 +74,30 @@ const middleware = {
 	},
 
 	checkForPoolConnection: (req, res, next) => {
-		req.getConnection(function (err, connection) {
-			if (err) {
-				next(err);
-			} else {
-				res.pool = connection;
-				next();
-			}
-		});
+		next();
+		// req.getConnection(function (err, connection) {
+		// 	if (err) {
+		// 		next(err);
+		// 	} else {
+		// 		res.pool = connection;
+		// 		next();
+		// 	}
+		// });
 	},
 
 	checkForPoolConnectionWithSession: (req, res, next) => {
 		middleware.setSessionData(req);
 		if (typeof req.session.User == "undefined") return res.redirect("/");
+		next();
 
-		req.getConnection(function (err, connection) {
-			if (err) {
-				next(err);
-			} else {
-				res.pool = connection;
-				next();
-			}
-		});
+		// req.getConnection(function (err, connection) {
+		// 	if (err) {
+		// 		next(err);
+		// 	} else {
+		// 		res.pool = connection;
+		// 		next();
+		// 	}
+		// });
 	},
 	setSessionData: req => {
 		// req.session.cri = 101201;

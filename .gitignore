@@ -133,3 +133,5 @@ package-lock.json
 downloads
 
 qr-captures
+
+.DS_Store

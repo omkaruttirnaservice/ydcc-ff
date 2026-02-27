@@ -30,9 +30,30 @@ async function flushRedisCache() {
 		infoLog("Success Flusing out redis cache");
 		return { message: "Successfully flushed redis cache", success: true };
 	} catch (error) {
+		console.log(error);
 		infoLog("Error Flusing out redis cache");
 		return { message: "Error Flusing out redis cache", success: false };
 	}
 }
 
-module.exports = { redisStore, redisClient, connectRedis, flushRedisCache };
+async function flushRedisCacheCli() {
+	try {
+		await connectRedis();
+		infoLog("Flusing out redis cache");
+		await redisClient.flushAll();
+		infoLog("Success Flusing out redis cache");
+		process.exit();
+	} catch (error) {
+		console.log(error);
+		infoLog("Error Flusing out redis cache");
+		return { message: "Error Flusing out redis cache", success: false };
+	}
+}
+
+module.exports = {
+	redisStore,
+	redisClient,
+	connectRedis,
+	flushRedisCache,
+	flushRedisCacheCli,
+};

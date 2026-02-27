@@ -18,6 +18,10 @@ const {
 	redisClient,
 } = require("./application/config/redisConnect.js");
 const { initExpiryDateSchedule } = require("./middlewares/middleware.js");
+const {
+	_pool,
+	_promisePool,
+} = require("./application/config/db.connect-pool.js");
 
 const app = express();
 
@@ -79,9 +83,15 @@ app.use(
 	}),
 );
 
-app.use(
-	db_connect.myConnection(db_connect.mysql, db_connect.dbOptions, "pool"),
-);
+// app.use(
+// 	db_connect.myConnection(db_connect.mysql, db_connect.dbOptions, "pool"),
+// );
+
+app.use(function (_, res, next) {
+	res.pool = _pool;
+	res.promisePool = _promisePool;
+	next();
+});
 
 app.set("views", path.join(__dirname, "application/views"));
 app.set("view engine", "pug");

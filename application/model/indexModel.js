@@ -1,5 +1,5 @@
 var responderSet = require("../config/_responderSet");
-const { AWS_DIR } = require("../config/constants.js");
+const { AWS_DIR, s3URL, s3CdnUrl } = require("../config/constants.js");
 const runQuery = require("../config/runQuery.js");
 var myDates = responderSet.myDate;
 
@@ -242,9 +242,13 @@ module.exports = {
 						p_anwser_key,
 						p_result_decleared,
 						p_interview_schedule_decleared,
-						CONCAT("/",p_desc, "${AWS_DIR.userImages}") AS imgBaseURL,
-						CONCAT("/",p_desc, "${AWS_DIR.importantNotices}") AS impNoticeBaseURL,
-						CONCAT("/",p_desc, "${AWS_DIR.headerImages}") AS headerImgBaseURL 
+
+						CONCAT( "${s3URL}", "/", p_desc, "${AWS_DIR.userImages}") AS imgBaseURL,
+						CONCAT( "${s3URL}", "/", p_desc, "${AWS_DIR.importantNotices}") AS impNoticeBaseURL,
+						CONCAT( "${s3URL}", "/", p_desc, "${AWS_DIR.headerImages}") AS headerImgBaseURL,
+						CONCAT( "${s3URL}", "/", p_image) AS headerImg,
+						CONCAT( "${s3URL}") AS s3URL,
+						CONCAT( "${s3CdnUrl}",'/',p_image) AS headerUrl 
 
                 FROM utr_process AS p
 
@@ -284,17 +288,79 @@ module.exports = {
 											DATE_FORMAT(imp_dates.imp_date,"%p") as time_am_pm ,
 											imp_dates.imp_date as original_date_format ,
 											imp_dates.id as id,
-											imp_dates.imp_date_is_visible
+											imp_dates.imp_date_is_visible,
+											IF(imp_dates.imp_date < NOW(), 'true', 'false') as isExpired
 										FROM utr_important_dates as imp_dates
 
 										ORDER BY id;`;
-								pool.query(q, function (err, result_3) {
+								pool.execute(q, function (err, result_3) {
 									result[0] = {
 										...result[0],
 										important_dates: [...result_3],
 									};
 
-									err ? reject(err) : resolve(result);
+									if (err) reject(err);
+									else {
+										result[0].projectConfigs = {
+											features: {
+												isLiveDocumentUploadActive: true,
+												isRegistrationEmailVerificationActive: false,
+												isAwsDBBackupActive: false,
+											},
+
+											isDevEnv: responderSet.isDevEnv(),
+
+											sms: {
+												isRegistrationSMSActive: false,
+											},
+
+											isRegistrationActive: true,
+											isLoginActive: true,
+											isPaymentActive: true,
+											cronJobs: {
+												isSummaryEmailActive: true,
+												isRefetchPaymentsActive: true,
+												isDbBackupActive: true,
+											},
+
+											_ticketSystem: {
+												isActive: false,
+												baseEmbedUrl:
+													"http://localhost:3001", // This is url of the ticket system script form where it will be loaded
+												clientID: result[0].p_desc, // This is client ID unique to each form filling proces
+											},
+
+											emails: {
+												isRegistrationEmailActive: false,
+												isPaymentDoneEmailActive: true,
+												isForgetOtpEmailActive: true,
+											},
+
+											emailConfigs: {
+												departmentName:
+													result[0]?.name || "",
+												emailFrom:
+													result[0]?.help_email_id ||
+													"",
+												processUrl:
+													result[0]
+														?.p_form_filling_site ||
+													"",
+												processBaseUrl:
+													new responderSet.GetDomainFromUrl(
+														result[0]
+															?.p_form_filling_site ||
+															"",
+													).get(),
+
+												summaryEmailList: [
+													"omkaruttirnaservice@gmail.com",
+												],
+											},
+										};
+
+										resolve(result);
+									}
 								});
 							}
 						});

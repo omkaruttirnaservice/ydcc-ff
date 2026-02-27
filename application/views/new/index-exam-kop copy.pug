@@ -62,7 +62,7 @@ html(lang="en")
 			nav.sticky.top-0.left-0.w-full.bg-white.px-10.py-5(style="z-index:1000;")
 				div.flex.justify-between.items-center
 					div(style="width: 40rem; height: 5rem; overflow: hidden; ")
-						img(src="/assets/images/brand-name.jpg" alt="" class="header-image" style='height: 100%; width: 100%;')
+						img(src=p.headerUrl alt="" class="header-image" style='height: 100%; width: 100%;')
 					if isProcessLive 
 						each impDate in dates
 							if impDate._column === 'p_registration_end_date'

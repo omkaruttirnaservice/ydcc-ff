@@ -180,6 +180,12 @@ exports.getFromGlobalCache = async key => {
 };
 
 exports.setToGlobalCache = async (key, data, expTime = 200) => {
+	/**
+	 * EX: expiry time in seconds
+	 * PX: expiry time in milliseconds
+	 * key: key name
+	 * data: data to be stored (it will be stringified before storing in redis)
+	 * */
 	await redisClient.set(key, JSON.stringify(data), { EX: expTime });
 };
 
@@ -241,3 +247,36 @@ exports.maskEmail = email => {
 	const maskedSection = "*".repeat(localPart.length - 2);
 	return `${firstChar}${maskedSection}${lastChar}@${domain}`;
 };
+
+/**
+ * Extracts the domain from a given URL, excluding the subdomain.
+ * For example, if the URL is "https://sub.example.com/path", it will return "example.com".
+ */
+class GetDomainFromUrl extends URL {
+	domain = null;
+	constructor(url) {
+		if (!url || typeof url !== "string") {
+			return null;
+		}
+		if (url && !url.startsWith("http://") && !url.startsWith("https://")) {
+			url = "http://" + url; // Prepend http if no protocol is specified
+		}
+		super(url);
+		this.host = this.host;
+	}
+
+	_getDomainOnly() {
+		const host = this.host;
+		if (host.split(".").length <= 2) {
+			this.domain = host;
+		} else {
+			this.domain = host.split(".").slice(1).join(".");
+		}
+	}
+
+	get() {
+		this._getDomainOnly();
+		return `${this.protocol}//${this.domain}`;
+	}
+}
+module.exports.GetDomainFromUrl = GetDomainFromUrl;

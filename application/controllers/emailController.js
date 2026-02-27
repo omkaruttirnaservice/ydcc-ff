@@ -7,6 +7,9 @@ const {
 	_forgotUsernameOtpTemplate,
 	_paymentSuccessTemplate,
 	_summaryEmailTemplate,
+	_hallticketLiveNotificationTemplate,
+	_examPostponementNotificationTemplate,
+	_examPostponementNotificationTemplate2,
 } = require("../config/emailTemplates");
 
 const emailController = {
@@ -16,9 +19,27 @@ const emailController = {
 		sendZeptoMail(data);
 	},
 
+	sendExamPostPondEmailZeptomail: async data => {
+		data.subject = _examPostponementNotificationTemplate2.subject;
+		data.mailBody = _examPostponementNotificationTemplate2.email(data);
+		sendZeptoMail(data);
+	},
+
+	sendExamPostPondEmailZeptomailV2: async data => {
+		data.subject = _examPostponementNotificationTemplate2.subject;
+		data.mailBody = _examPostponementNotificationTemplate2.email(data);
+		return await sendZeptoMailV2(data);
+	},
+
 	sendPaymentDoneEmailZeptomail: async data => {
 		data.subject = _paymentSuccessTemplate.subject;
 		data.mailBody = _paymentSuccessTemplate.email(data);
+		sendZeptoMail(data);
+	},
+
+	sendHallticketLiveNotificationEmailZeptomail: async data => {
+		data.subject = _hallticketLiveNotificationTemplate.subject;
+		data.mailBody = _hallticketLiveNotificationTemplate.email(data);
 		sendZeptoMail(data);
 	},
 
@@ -134,6 +155,38 @@ function sendZeptoMail(data) {
 		})
 		.then(resp => console.log("success send email to: ", resp))
 		.catch(error => console.log("error send email to: ", error));
+}
+
+function sendZeptoMailV2(data) {
+	return new Promise(async (resolve, reject) => {
+		const url = "api.zeptomail.in/";
+		const token = "Zoho-enczapikey PHtE6r1fE+";
+		// "Zoho-enczapikey PHtE6r1fE+7o2TF78hUE5/exQ8LwNtt/9LxnKFNAuIdLCvUASk1c+NEjxDS+rx4iXfYWEfKZz9hguevPsO2FLWrsZjpOX2qyqK3sx/VYSPOZsbq6x00Vt1kScE3UV4LuctZv0ibeuN7YNA==";
+
+		let client = new SendMailClient({ url, token });
+		try {
+			await client.sendMail({
+				from: {
+					address: "help@ydccbank.com",
+					name: "YDCC Bank",
+				},
+				to: [
+					{
+						email_address: {
+							address: data.email,
+							name: data?.first_name || "-",
+						},
+					},
+				],
+				subject: data.subject,
+				htmlbody: data.mailBody,
+			});
+			resolve("Email sent successfully");
+		} catch (error) {
+			reject(error);
+			console.log(error, "Sending email");
+		}
+	});
 }
 
 function sendZeptoMailBulk(data) {

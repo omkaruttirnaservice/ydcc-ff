@@ -38,6 +38,7 @@ module.exports.candidateGuidelines = (details = {}) => ({
           CONTACT NO ::+91-782080844</p>`,
 });
 
+//=================
 module.exports._forgotUsernameOtpTemplate = {
 	subject: "YDCC - OTP Verification",
 	email: data => {
@@ -260,5 +261,121 @@ module.exports._summaryEmailTemplate = {
       </table>
     </div>
     `;
+	},
+};
+
+module.exports._hallticketLiveNotificationTemplate = {
+	subject: "YDCC - Halltickets are Now Live",
+	email: data => {
+		return `
+        <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f8f9fa; padding: 20px; color: #333;">
+                <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        
+                        <!-- Header -->
+                        <h2 style="color: #4E6688; margin-top: 0; text-align: center;">Halltickets Are Now Live</h2>
+                        
+                        <!-- Greeting -->
+                        <p style="font-size: 15px;">Dear <strong>${data?.first_name} ${data?.middle_name || ""} ${data?.last_name}</strong>,</p>
+                        
+                        <!-- Body -->
+                        <p style="font-size: 15px; line-height: 1.6;">
+                        We are pleased to inform you that the <strong>halltickets for the upcoming YDCC examination</strong> are now available on the website.
+                        </p>
+
+                        <p style="margin: 0; font-size: 15px; line-height: 1.6;">
+                        Please visit the official website to download your hallticket and review all examination details, including date, time, and venue.
+                        </p>
+                        
+                        <p style="font-size: 15px; line-height: 1.6;">
+                        If you have any questions or need assistance, please reach out to our support team at 
+                        <a href="mailto:help@ydccbank.com" style="color: #007bff; text-decoration: none;">help@ydccbank.com</a>.
+                        </p>
+                        
+                        <!-- Closing -->
+                        <p style="margin-top: 30px; font-size: 15px;">
+                        Best regards,<br>
+                        <strong>YDCC Team</strong>
+                        </p>
+                        
+                </div>
+        </div>`;
+	},
+};
+
+module.exports._examPostponementNotificationTemplate = {
+	subject:
+		"YDCC - Updated Notice on Postponement of Peon & Clerk Recruitment Examination",
+	email: data => {
+		return `
+        <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f8f9fa; padding: 20px; color: #333;">
+            <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                
+                <!-- Header -->
+                <h2 style="color: #D9534F; margin-top: 0; text-align: center;">📢 Notice – Postponement of Peon & Clerk Recruitment Examination</h2>
+                
+                <!-- Greeting -->
+                <p style="font-size: 15px;">Dear <strong>${data?.first_name} ${data?.middle_name || ""} ${data?.last_name}</strong>,</p>
+                
+                <!-- English Content -->
+                <p style="font-size: 15px; line-height: 1.6;">
+                    Due to some <strong>unavoidable reasons</strong>, the <strong>recruitment examination for the posts of Peon and Clerk</strong>, 
+                    which was scheduled on <strong>13th, 14th, and 15th November 2025</strong>, has been <strong>postponed</strong>.
+                </p>
+
+                <p style="font-size: 15px; line-height: 1.6;">
+                    The <strong>revised information</strong> will be published on this recruitment portal on 
+                    <strong>17th November 2025</strong>. Candidates are advised to regularly visit the website for updated information.
+                </p>
+
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid #ddd;">
+
+                <!-- Marathi Content -->
+                <h3 style="color: #4E6688; margin-top: 0;">📢 सूचना – शिपाई व लिपिक भरती परीक्षा पुढे ढकलण्यात आली आहे</h3>
+                
+                <p style="font-size: 15px; line-height: 1.6;">
+                    काही <strong>अपरिहार्य कारणास्तव</strong>, शिपाई व लिपिक पदांसाठीची भरती परीक्षा, जी 
+                    <strong>13, 14 आणि 15 नोव्हेंबर 2025</strong> रोजी होणार होती, ती <strong>पुढे ढकलण्यात आली आहे</strong>.
+                </p>
+
+                <p style="font-size: 15px; line-height: 1.6;">
+                    <strong>सुधारित माहिती</strong> दिनांक <strong>17 नोव्हेंबर 2025</strong> रोजी या भरती संकेतस्थळावर प्रसिद्ध करण्यात येईल. 
+                    उमेदवारांनी अद्ययावत माहितीसाठी संकेतस्थळ नियमितपणे तपासावे.
+                </p>
+
+                <!-- Closing -->
+                <p style="margin-top: 30px; font-size: 15px;">
+                    Best regards,<br>
+                    <strong>YDCC Recruitment Team</strong>
+                </p>
+
+            </div>
+        </div>`;
+	},
+};
+
+module.exports._examPostponementNotificationTemplate2 = {
+	subject:
+		"YDCC - Updated Notice on Postponement of Peon & Clerk Recruitment Examination",
+	email: data => {
+		return `
+        <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f8f9fa; padding: 20px; color: #333;">
+            <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                
+                <!-- Greeting -->
+                <p style="font-size: 15px;">Dear <strong>${data?.first_name} ${data?.middle_name || ""} ${data?.last_name}</strong>,</p>
+                
+                <!-- English Content -->
+                <p style="font-size: 15px; line-height: 1.6;">
+                  दि यवतमाळ जिल्हा मध्यवर्ती सहकारी बँकेची नोकरभरती चे अनुषंगाने ऑनलाईन परिक्षा काही अपरिहार्य कारणामुळे पुढील आदेशापावेतो पुढे करण्यात आलेली आहे.
+                </p>
+
+                <!-- Closing -->
+                <p style="margin-top: 30px; font-size: 15px;">
+                    Best regards,<br>
+                    <strong>YDCC Recruitment Team</strong>
+                </p>
+
+            </div>
+        </div>`;
 	},
 };

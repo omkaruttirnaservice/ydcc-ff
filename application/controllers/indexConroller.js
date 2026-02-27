@@ -152,10 +152,6 @@ var indexController = {
 					: "";
 			delete req.session.ErrorMessage;
 
-			console.log(
-				await responderSet.getFromGlobalCache(`p_${__processDb}`),
-			);
-
 			const dates =
 				await responderSet.getFromGlobalCache(IMP_DATES_CACHE_KEY);
 			return res.render("new/index-exam-kop", {
@@ -906,7 +902,6 @@ var indexController = {
 			) {
 				return res.redirect("/home");
 			}
-
 			res.render("application", {
 				title: "Application Print",
 				regIDInt: data.r,
@@ -2117,15 +2112,14 @@ var indexController = {
 				});
 
 			if (candidateHtDetails.length === 0) {
-				res.render("new/error-page.pug", {
+				console.log(1);
+				return res.render("new/error-page.pug", {
 					errorTitle: "Woops!",
 					errorMessage:
 						"Requested Candidate Hallticket Details Not Found.",
 				});
 			}
-
 			userData.htDetails = candidateHtDetails[0];
-			console.log(userData, "-userData");
 
 			const candidateSlotDetails = await IndexModel.getSoloSlotDetails(
 				res.pool,
@@ -2135,7 +2129,7 @@ var indexController = {
 			if (candidateSlotDetails.length === 0) {
 				res.render("new/error-page.pug", {
 					errorTitle: "Woops!",
-					errorMessage: "Candidate Slot Details Not Found11.",
+					errorMessage: "Candidate Slot Details Not Found.",
 				});
 			}
 
@@ -2147,7 +2141,6 @@ var indexController = {
 			const _process = await responderSet.getFromGlobalCache(
 				PROCESS_DETAILS_CACHE_KEY,
 			);
-			console.log(_process, "-_process");
 			// if (_process[0].print_hall_ticket != 1) {
 			// 	res.render("new/error-page.pug", {
 			// 		errorTitle: "Woops!",
@@ -2173,6 +2166,19 @@ var indexController = {
 				_process.process_mode === 1
 					? "candidate-hallticket-online.pug"
 					: "candidate-hallticket-offline.pug";
+
+			// fs.writeFileSync(
+			// 	"hallticket_debug.json",
+			// 	JSON.stringify({
+			// 		p: _process,
+			// 		ca: userData.candidate,
+			// 		ht: userData.htDetails,
+			// 		slot: userData.slotDetails,
+			// 		s3BucketUrl: process.env.S3_BUCKET_URL,
+			// 		rulesList,
+			// 		rulesFilesList,
+			// 	}),
+			// );
 
 			res.render(RENDER_HT_FILE_NAME, {
 				p: _process,

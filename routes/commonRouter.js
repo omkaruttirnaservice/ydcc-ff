@@ -6,7 +6,7 @@ const otpRouter = require("./otpRouter.js");
 
 router.get(
 	"/",
-	middleware.checkForPoolConnection,
+	// middleware.checkForPoolConnection,
 	middleware.setProcessData,
 	indexController.getHomeView,
 );

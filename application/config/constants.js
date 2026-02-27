@@ -41,3 +41,14 @@ exports.OTP_TYPE = {
 	FORGET_USER_ID_OTP: "FORGET_USER_ID_OTP",
 	FORGET_PASSWORD_OTP: "FORGET_PASSWORD_OTP",
 };
+
+// s3 url
+function removeTrailingSlashFromUrl(url) {
+	if (url?.trim().endsWith("/")) {
+		return url.slice(0, -1);
+	}
+	return url;
+}
+
+exports.s3URL = removeTrailingSlashFromUrl(process.env?.S3_BUCKET_URL) || "";
+exports.s3CdnUrl = removeTrailingSlashFromUrl(process.env?.S3_CDN_URL) || "";

@@ -6,8 +6,11 @@ var myConnection = require("express-myconnection"), // express-myconnection modu
 		password: process.env.DB_PASSWORD,
 		port: process.env.DB_PORT,
 		database: process.env.DB_DATABASE,
-		multipleStatements: true,
+		// multipleStatements: true,
+
+		waitForConnections: true,
 		connectionLimit: 10,
+		queueLimit: 0,
 	};
 
 exports.myConnection = myConnection;

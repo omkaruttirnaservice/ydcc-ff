@@ -11,4 +11,6 @@ const _pool = mysql.createPool({
 	queueLimit: 0,
 });
 
-module.exports = { _pool };
+const _promisePool = _pool.promise();
+
+module.exports = { _pool, _promisePool };
